@@ -1414,7 +1414,17 @@ async function loadGarminData() {
     } else {
       dynamics = data.latestDynamics;
     }
-    if (dynamics) renderGarminDynamics(dynamics);
+    if (dynamics) {
+      renderGarminDynamics(dynamics);
+      // Update max speed KPI with Garmin data (more accurate)
+      if (dynamics.maxSpeed && STATE.selectedActivity) {
+        const garminMax = (dynamics.maxSpeed * 3.6).toFixed(1);
+        const el = document.getElementById('kpi-speed');
+        if (el) el.innerHTML = garminMax + '<span class="card-unit">km/h</span>';
+        const elD = document.getElementById('kpi-speed-delta');
+        if (elD) elD.textContent = 'Garmin';
+      }
+    }
     setStatus('garmin', true);
     if (syncEl) syncEl.textContent = 'Sync: ' + new Date(data.lastSync).toLocaleString('es-CL');
   } catch(e) {
