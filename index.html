@@ -1242,14 +1242,14 @@ async function loadActivity(activityId) {
 
   const speed = activity.average_speed * 3.6;
   const stravaMaxSpeed = activity.max_speed * 3.6;
-  document.getElementById('kpi-speed').innerHTML = speed.toFixed(1) + '<span class="card-unit">km/h</span>';
   // Use Garmin max speed if available (more accurate than Strava)
   const garminMaxSpeed = STATE.garminData?.activities?.find(a => 
     a.startTimeLocal && new Date(a.startTimeLocal).toDateString() === new Date(activity.start_date_local).toDateString()
   )?.maxSpeed;
   const maxSpeed = garminMaxSpeed ? garminMaxSpeed * 3.6 : stravaMaxSpeed;
-  const maxSpeedSource = garminMaxSpeed ? '🔵 Garmin' : '🟠 Strava';
-  document.getElementById('kpi-speed-delta').textContent = 'máx: ' + maxSpeed.toFixed(1) + ' km/h · ' + maxSpeedSource;
+  const maxSpeedSource = garminMaxSpeed ? 'Garmin' : 'Strava';
+  document.getElementById('kpi-speed').innerHTML = maxSpeed.toFixed(1) + '<span class="card-unit">km/h</span>';
+  document.getElementById('kpi-speed-delta').textContent = maxSpeedSource;
 
   // Load segments
   await loadSegments(activityId);
