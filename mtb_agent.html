@@ -1200,13 +1200,16 @@ async function fetchStravaActivities() {
   select.innerHTML = '<option value="">Cargando...</option>';
   try {
     const token = await getStravaToken();
-    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=30&type=MountainBikeRide', {
+    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=30', {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const activities = await res.json();
     if (!Array.isArray(activities)) throw new Error('No activities returned');
 
-    const mtb = activities.filter(a => a.type === 'MountainBikeRide' || a.sport_type === 'MountainBikeRide');
+    const mtb = activities.filter(a => 
+      a.type === 'MountainBikeRide' || a.sport_type === 'MountainBikeRide' ||
+      a.type === 'EBikeRide' || a.sport_type === 'EBikeRide'
+    );
     STATE.activities = mtb.length ? mtb : activities;
 
     select.innerHTML = '<option value="">— Selecciona una actividad —</option>';
