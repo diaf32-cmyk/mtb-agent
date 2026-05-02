@@ -330,11 +330,19 @@
   .seg-table th {
     text-align: left; font-family: 'DM Mono', monospace; font-size: 0.75rem;
     text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
-    padding: 8px 10px; border-bottom: 1px solid var(--border);
+    padding: 8px 6px; border-bottom: 1px solid var(--border);
   }
   .seg-table td {
-    padding: 10px 10px; border-bottom: 1px solid #1a1a22;
-    font-size: 0.92rem;
+    padding: 8px 6px; border-bottom: 1px solid #1a1a22;
+    font-size: 0.88rem;
+  }
+  .seg-table tr:hover td { background: var(--surface2); }
+  .time-pr { color: var(--yellow); font-family: 'DM Mono', monospace; }
+  .time-good { color: var(--green); font-family: 'DM Mono', monospace; }
+  .time-normal { color: var(--text); font-family: 'DM Mono', monospace; }
+  /* Hide PR and Veces columns on mobile, show delta inline */
+  @media (max-width: 700px) {
+    .seg-col-pr, .seg-col-veces, .seg-col-pr-h, .seg-col-veces-h { display: none; }
   }
   .seg-table tr:hover td { background: var(--surface2); }
   .time-pr { color: var(--yellow); font-family: 'DM Mono', monospace; }
@@ -920,8 +928,9 @@ chmod 600 ~/.mtb_agent.env</pre>
         <div id="recs-tires">
           <div class="rec-card">
             <div class="rec-title">Referencia rápida</div>
-            <div class="rec-body">Butcher Grid Gravity T9 2Bliss (tubeless) · 27.5×2.6" · Roval 28mm internal<br><br>
-            Rango típico enduro: <strong>1.5–1.8 bar delantera · 1.6–1.9 bar trasera</strong><br>
+            <div class="rec-body">Delantera: <strong>Schwalbe Eddy Current 27.5×2.6"</strong> (tubeless)<br>
+            Trasera: <strong>Schwalbe Big Betty 27.5×2.4"</strong> · Tannus Armour instalado<br><br>
+            Rango típico enduro: <strong>1.4–1.6 bar delantera · 1.4–1.6 bar trasera</strong><br>
             Para terreno seco y duro: +0.1 bar. Para barro o raíces: −0.1 bar.</div>
             <div class="rec-source">📐 Geometría Kenevo S4 · Specs técnicas</div>
           </div>
@@ -1239,6 +1248,9 @@ async function loadActivity(activityId) {
   // Load segments
   await loadSegments(activityId);
 
+  // Load Garmin data matching this activity's date
+  await loadGarminDataForActivity(activity);
+
   // Populate session setup from current setup
   populateSessionSetup();
 }
@@ -1276,7 +1288,7 @@ async function loadSegments(activityId) {
       })
     );
 
-    let html = '<table class="seg-table"><thead><tr><th>Segmento</th><th>Tiempo</th><th>PR</th><th>Delta</th><th>Intentos</th></tr></thead><tbody>';
+    let html = '<table class="seg-table"><thead><tr><th>Segmento</th><th>Tiempo · Delta</th><th class="seg-col-pr-h">PR</th><th class="seg-col-veces-h">Veces</th></tr></thead><tbody>';
 
     enriched.forEach(e => {
       const time = formatTime(e.elapsed_time);
@@ -1284,7 +1296,6 @@ async function loadSegments(activityId) {
       const prTime = stats?.pr_elapsed_time ? formatTime(stats.pr_elapsed_time) : '—';
       const effortCount = stats?.effort_count ? stats.effort_count + 'x' : '—';
 
-      // Delta vs PR
       let delta = '';
       let timeClass = 'time-normal';
       if (stats?.pr_elapsed_time) {
@@ -1293,19 +1304,21 @@ async function loadSegments(activityId) {
           delta = '<span class="badge badge-yellow">🏆 PR</span>';
           timeClass = 'time-pr';
         } else if (diff < 30) {
-          delta = `<span style="color:var(--yellow);font-family:'DM Mono',monospace;font-size:0.72rem;">+${formatTime(diff)}</span>`;
+          delta = `<span style="color:var(--yellow);font-family:'DM Mono',monospace;font-size:0.78rem;">+${formatTime(diff)}</span>`;
           timeClass = 'time-good';
         } else {
-          delta = `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:0.72rem;">+${formatTime(diff)}</span>`;
+          delta = `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:0.78rem;">+${formatTime(diff)}</span>`;
         }
       }
 
       html += `<tr>
-        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.name}">${e.name}</td>
-        <td class="${timeClass}">${time}</td>
-        <td style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.72rem;">${prTime}</td>
-        <td>${delta}</td>
-        <td style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.72rem;">${effortCount}</td>
+        <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.name}">${e.name}</td>
+        <td>
+          <div class="${timeClass}" style="font-family:'DM Mono',monospace;">${time}</div>
+          <div style="margin-top:2px;">${delta}</div>
+        </td>
+        <td class="seg-col-pr" style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.78rem;white-space:nowrap;">${prTime}</td>
+        <td class="seg-col-veces" style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.78rem;">${effortCount}</td>
       </tr>`;
     });
 
@@ -1319,99 +1332,102 @@ async function loadSegments(activityId) {
 // ═══════════════════════════════════════════
 //  GARMIN DATA LOADER
 // ═══════════════════════════════════════════
-async function loadGarminData() {
-  const syncTime = document.getElementById('garmin-sync-time');
-  syncTime.textContent = 'Cargando...';
-  try {
-    const res = await fetch('garmin_data.json?t=' + Date.now());
-    if (!res.ok) throw new Error('garmin_data.json no encontrado');
-    const data = await res.json();
-    STATE.garminData = data;
+//  GARMIN DATA LOADER
+// ═══════════════════════════════════════════
+const GARMIN_GITHUB_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main/garmin_data.json';
 
-    // Find matching activity for selected Strava activity
+async function fetchGarminData() {
+  const urls = [
+    'garmin_data.json?t=' + Date.now(),
+    GARMIN_GITHUB_URL + '?t=' + Date.now()
+  ];
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        STATE.garminData = data;
+        return data;
+      }
+    } catch(e) {}
+  }
+  throw new Error('No se pudo cargar garmin_data.json');
+}
+
+async function loadGarminDataForActivity(stravaActivity) {
+  try {
+    const data = await fetchGarminData();
+    const stravaDate = new Date(stravaActivity.start_date_local).toDateString();
+    const matched = data.activities?.find(a => {
+      if (!a.startTimeLocal) return false;
+      return new Date(a.startTimeLocal).toDateString() === stravaDate;
+    });
+    const dynamics = matched?.mtbDynamics || null;
+    const syncEl = document.getElementById('garmin-sync-time');
+    if (dynamics && Object.keys(dynamics).length > 0) {
+      renderGarminDynamics(dynamics);
+      setStatus('garmin', true);
+      const actDate = new Date(stravaActivity.start_date_local).toLocaleDateString('es-CL');
+      if (syncEl) syncEl.textContent = 'Garmin · ' + actDate + (matched ? '' : ' · última salida');
+    } else {
+      ['dyn-jumps','dyn-battery','dyn-load','dyn-fx'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '—';
+      });
+      ['bar-flow','bar-grit'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.width = '0%';
+      });
+      ['val-flow','val-grit'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '—';
+      });
+      if (syncEl) syncEl.textContent = 'Sin datos Garmin para esta fecha';
+      setStatus('garmin', false);
+    }
+  } catch(e) {
+    console.log('Garmin not available:', e.message);
+  }
+}
+
+async function loadGarminData() {
+  const syncEl = document.getElementById('garmin-sync-time');
+  if (syncEl) syncEl.textContent = 'Cargando...';
+  try {
+    const data = await fetchGarminData();
     const act = STATE.selectedActivity;
     let dynamics = null;
-
     if (act) {
-      // Match by date
       const stravaDate = new Date(act.start_date_local).toDateString();
       const matched = data.activities?.find(a => {
-        const garminDate = new Date(a.startTimeLocal).toDateString();
-        return garminDate === stravaDate;
+        if (!a.startTimeLocal) return false;
+        return new Date(a.startTimeLocal).toDateString() === stravaDate;
       });
       dynamics = matched?.mtbDynamics || data.latestDynamics;
     } else {
       dynamics = data.latestDynamics;
     }
-
-    if (dynamics) {
-      renderGarminDynamics(dynamics);
-      setStatus('garmin', true);
-      const lastSync = new Date(data.lastSync).toLocaleString('es-CL');
-      syncTime.textContent = 'Sync: ' + lastSync;
-    } else {
-      syncTime.textContent = 'Sin datos MTB Dynamics';
-    }
+    if (dynamics) renderGarminDynamics(dynamics);
+    setStatus('garmin', true);
+    if (syncEl) syncEl.textContent = 'Sync: ' + new Date(data.lastSync).toLocaleString('es-CL');
   } catch(e) {
-    syncTime.textContent = '✗ ' + e.message + ' — ejecuta garmin_sync.py primero';
+    if (syncEl) syncEl.textContent = '✗ ' + e.message;
     setStatus('garmin', false);
-  }
-}
-
-function renderGarminDynamics(dyn) {
-  // Jumps
-  document.getElementById('dyn-jumps').textContent = dyn.jumpCount ?? '—';
-
-  // Battery
-  if (dyn.eBikeBatteryUsage != null) {
-    document.getElementById('dyn-battery').textContent = dyn.eBikeBatteryUsage + '% usada · ' + (dyn.eBikeBatteryRemaining ?? '—') + '% restante';
-  }
-
-  // Training load
-  if (dyn.activityTrainingLoad) {
-    document.getElementById('dyn-load').textContent = dyn.activityTrainingLoad.toFixed(1);
-  }
-
-  // Training effect label
-  if (dyn.trainingEffectLabel) {
-    const labels = {
-      'AEROBIC_BASE': 'Base Aeróbica',
-      'IMPROVING_AEROBIC_ENDURANCE': 'Mejorando Resistencia',
-      'MAINTAINING_AEROBIC_BASE': 'Manteniendo Base',
-      'OVERREACHING': 'Sobrecarga',
-      'RECOVERY': 'Recuperación'
-    };
-    document.getElementById('dyn-fx').textContent = labels[dyn.trainingEffectLabel] || dyn.trainingEffectLabel;
-  }
-
-  // Flow bar (0-10 scale)
-  if (dyn.avgFlow != null) {
-    const flowPct = Math.min((dyn.avgFlow / 10) * 100, 100);
-    document.getElementById('bar-flow').style.width = flowPct + '%';
-    document.getElementById('val-flow').textContent = dyn.avgFlow.toFixed(2);
-  }
-
-  // Grit bar (0-200 typical range)
-  if (dyn.grit != null) {
-    const gritPct = Math.min((dyn.grit / 200) * 100, 100);
-    document.getElementById('bar-grit').style.width = gritPct + '%';
-    document.getElementById('val-grit').textContent = dyn.grit.toFixed(1);
   }
 }
 
 function testGarmin() {
   const el = document.getElementById('garmin-test-result');
   el.textContent = 'Cargando garmin_data.json...';
-  loadGarminData().then(() => {
-    const d = STATE.garminData;
-    if (d) {
+  fetchGarminData()
+    .then(d => {
       el.textContent = `✓ ${d.activities?.length || 0} actividades · sync: ${new Date(d.lastSync).toLocaleString('es-CL')}`;
       el.style.color = 'var(--green)';
-    }
-  }).catch(e => {
-    el.textContent = '✗ ' + e.message;
-    el.style.color = 'var(--red)';
-  });
+      setStatus('garmin', true);
+    }).catch(e => {
+      el.textContent = '✗ ' + e.message;
+      el.style.color = 'var(--red)';
+    });
 }
 
 // ═══════════════════════════════════════════
