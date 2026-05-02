@@ -1417,8 +1417,12 @@ async function loadGarminData() {
     if (dynamics) {
       renderGarminDynamics(dynamics);
       // Update max speed KPI with Garmin data (more accurate)
-      if (dynamics.maxSpeed && STATE.selectedActivity) {
-        const garminMax = (dynamics.maxSpeed * 3.6).toFixed(1);
+      const garminAct = STATE.garminData?.activities?.find(a =>
+        a.startTimeLocal && STATE.selectedActivity &&
+        new Date(a.startTimeLocal).toDateString() === new Date(STATE.selectedActivity.start_date_local).toDateString()
+      );
+      if (garminAct?.maxSpeed) {
+        const garminMax = (garminAct.maxSpeed * 3.6).toFixed(1);
         const el = document.getElementById('kpi-speed');
         if (el) el.innerHTML = garminMax + '<span class="card-unit">km/h</span>';
         const elD = document.getElementById('kpi-speed-delta');
