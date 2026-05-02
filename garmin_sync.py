@@ -11,23 +11,67 @@ import os
 import sys
 from datetime import datetime
 
-OUTPUT_DIR = os.path.expanduser("~/Desktop/Garmin_Enduro")
+OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "garmin_data.json")
+
+# Credenciales desde variables de entorno o .env
+EMAIL = os.getenv("GARMIN_EMAIL")
+PASSWORD = os.getenv("GARMIN_PASSWORD")
+
+# Si no hay env vars, intentar leer desde .env local
+if not EMAIL or not PASSWORD:
+    env_file = os.path.expanduser("~/.mtb_agent.env")
+    if os.path.exists(env_file):
+        with open(env_file) as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith("GARMIN_EMAIL="):
+                    EMAIL = line.split("=", 1)[1]
+                elif line.startswith("GARMIN_PASSWORD="):
+                    PASSWORD = line.split("=", 1)[1]
 
 def run(cmd):
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     return result.stdout.strip()
 
+def get_client():
+    """Get authenticated Garmin client"""
+    try:
+        from garminconnect import Garmin
+        client = Garmin(EMAIL, PASSWORD)
+        client.login()
+        return client
+    except Exception as e:
+        print(f"  ✗ Error conectando a Garmin: {e}")
+        return None
+
 def get_activities(count=20):
     print(f"  → Obteniendo últimas {count} actividades...")
+    # Try garminconnect Python library first
+    client = get_client()
+    if client:
+        try:
+            activities = client.get_activities(0, count)
+            return activities, client
+        except Exception as e:
+            print(f"  ✗ Error obteniendo actividades: {e}")
+
+    # Fallback to CLI
     raw = run(f"garmin-connect activities list --limit {count} 2>/dev/null || garmin-connect activities list")
     if not raw:
-        return []
+        return [], None
     try:
         activities = json.loads(raw)
-        return activities if isinstance(activities, list) else []
+        return (activities if isinstance(activities, list) else []), None
     except:
-        return []
+        return [], None
+
+def get_activity_detail_api(client, activity_id):
+    """Get activity detail via Python API"""
+    try:
+        return client.get_activity(activity_id)
+    except:
+        return {}
 
 def get_activity_detail(activity_id):
     print(f"  → Detalle actividad {activity_id}...")
@@ -95,26 +139,36 @@ def main():
     print("  MTB Agent · Garmin Sync")
     print("══════════════════════════════════\n")
 
+    if not EMAIL or not PASSWORD:
+        print("  ✗ Credenciales no encontradas")
+        print("  Configura GARMIN_EMAIL y GARMIN_PASSWORD")
+        sys.exit(1)
+
+    print(f"  → Usuario: {EMAIL}")
+
     # Get activity list
-    activities = get_activities(20)
+    activities, client = get_activities(20)
     if not activities:
         print("  ✗ No se pudieron obtener actividades")
-        print("  Verifica que garmin-connect esté configurado")
         sys.exit(1)
 
     print(f"  ✓ {len(activities)} actividades encontradas\n")
 
-    # Get detail for last 5 activities (to have MTB dynamics)
+    # Get detail for last 5 activities
     enriched = []
     for act in activities[:5]:
         act_id = act.get('activityId')
         if not act_id:
             continue
-        detail = get_activity_detail(act_id)
+        print(f"  → Detalle actividad {act_id}...")
+        if client:
+            detail = get_activity_detail_api(client, act_id)
+        else:
+            detail = get_activity_detail(act_id)
+
         if detail:
             enriched.append(extract_summary(detail))
         else:
-            # Use basic info from list
             enriched.append({
                 'activityId': act_id,
                 'activityName': act.get('activityName'),
@@ -126,7 +180,7 @@ def main():
                 'mtbDynamics': {}
             })
 
-    # Add basic info for remaining activities
+    # Add basic info for remaining
     for act in activities[5:]:
         enriched.append({
             'activityId': act.get('activityId'),
@@ -139,20 +193,17 @@ def main():
             'mtbDynamics': {}
         })
 
-    # Build output
     output = {
         'lastSync': datetime.now().isoformat(),
         'activities': enriched,
         'latestDynamics': enriched[0].get('mtbDynamics', {}) if enriched else {}
     }
 
-    # Save JSON
     with open(OUTPUT_FILE, 'w') as f:
         json.dump(output, f, indent=2)
 
     print(f"\n  ✓ Datos guardados en garmin_data.json")
 
-    # Print latest MTB Dynamics
     dyn = output['latestDynamics']
     if dyn:
         print(f"\n  ═══ MTB DYNAMICS (última salida) ═══")
@@ -160,8 +211,6 @@ def main():
         print(f"  Flow:        {dyn.get('avgFlow', '—'):.2f}" if dyn.get('avgFlow') else "  Flow:        —")
         print(f"  Jumps:       {dyn.get('jumpCount', '—')}")
         print(f"  Batería uso: {dyn.get('eBikeBatteryUsage', '—')}%")
-        print(f"  Batería rest:{dyn.get('eBikeBatteryRemaining', '—')}%")
-        print(f"  Trail Load:  {dyn.get('activityTrainingLoad', '—'):.1f}" if dyn.get('activityTrainingLoad') else "  Trail Load:  —")
         print(f"  Training FX: {dyn.get('trainingEffectLabel', '—')}")
 
     print("\n══════════════════════════════════\n")
