@@ -342,7 +342,7 @@
   .time-normal { color: var(--text); font-family: 'DM Mono', monospace; }
   /* Hide PR and Veces columns on mobile, show delta inline */
   @media (max-width: 700px) {
-    .seg-col-pr, .seg-col-veces, .seg-col-pr-h, .seg-col-veces-h { display: none; }
+    .seg-col-pr, .seg-col-pr-h, .seg-col-veces, .seg-col-veces-h { display: none !important; }
   }
   .seg-table tr:hover td { background: var(--surface2); }
   .time-pr { color: var(--yellow); font-family: 'DM Mono', monospace; }
