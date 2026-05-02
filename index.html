@@ -1288,7 +1288,7 @@ async function loadSegments(activityId) {
       })
     );
 
-    let html = '<table class="seg-table"><thead><tr><th>Segmento</th><th>Tiempo · Delta</th><th class="seg-col-pr-h">PR</th><th class="seg-col-veces-h">Veces</th></tr></thead><tbody>';
+    let html = '<table class="seg-table"><thead><tr><th>Segmento</th><th style='width:80px;'>Tiempo</th><th style='width:90px;'>PR · Delta</th></tr></thead><tbody>';
 
     enriched.forEach(e => {
       const time = formatTime(e.elapsed_time);
