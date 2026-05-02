@@ -22,7 +22,7 @@
     --card-radius: 12px;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 14px; }
+  html { font-size: 16px; }
   body {
     background: var(--bg);
     color: var(--text);
@@ -82,7 +82,7 @@
     overflow-x: auto;
   }
   .tab-btn {
-    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    font-family: 'DM Mono', monospace; font-size: 0.82rem;
     text-transform: uppercase; letter-spacing: 0.1em;
     padding: 10px 18px;
     background: transparent; border: none; cursor: pointer;
@@ -118,20 +118,20 @@
   .card-green { border-left: 3px solid var(--green); }
   .card-blue { border-left: 3px solid var(--accent3); }
   .card-label {
-    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    font-family: 'DM Mono', monospace; font-size: 0.78rem;
     text-transform: uppercase; letter-spacing: 0.14em;
     color: var(--muted); margin-bottom: 8px;
   }
   .card-value {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.4rem; color: var(--text); line-height: 1;
+    font-size: 2.8rem; color: var(--text); line-height: 1;
   }
   .card-unit {
-    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    font-family: 'DM Mono', monospace; font-size: 0.85rem;
     color: var(--muted); margin-left: 4px;
   }
   .card-delta {
-    font-size: 0.72rem; font-weight: 500; margin-top: 6px;
+    font-size: 0.82rem; font-weight: 500; margin-top: 6px;
   }
   .delta-up { color: var(--green); }
   .delta-down { color: var(--red); }
@@ -251,15 +251,15 @@
     padding: 8px 0;
     border-bottom: 1px solid #1a1a22;
   }
-  .setup-param { font-size: 0.8rem; color: var(--muted); }
+  .setup-param { font-size: 0.9rem; color: var(--muted); }
   .setup-val {
-    font-family: 'DM Mono', monospace; font-size: 0.82rem;
+    font-family: 'DM Mono', monospace; font-size: 0.92rem;
     color: var(--text); font-weight: 500;
   }
   .setup-edit {
     background: none; border: 1px solid var(--border);
     color: var(--text); border-radius: 6px;
-    padding: 3px 8px; font-family: 'DM Mono', monospace; font-size: 0.78rem;
+    padding: 3px 8px; font-family: 'DM Mono', monospace; font-size: 0.88rem;
     width: 90px; outline: none; cursor: pointer;
   }
   .setup-edit:focus { border-color: var(--accent); }
@@ -272,10 +272,10 @@
   }
   .rec-card.positive { border-left-color: var(--green); }
   .rec-card.negative { border-left-color: var(--red); }
-  .rec-title { font-weight: 600; font-size: 0.82rem; margin-bottom: 6px; }
-  .rec-body { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+  .rec-title { font-weight: 600; font-size: 0.92rem; margin-bottom: 6px; }
+  .rec-body { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
   .rec-source {
-    font-family: 'DM Mono', monospace; font-size: 0.62rem;
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
     color: var(--accent3); margin-top: 8px;
   }
 
@@ -328,13 +328,13 @@
   /* SEGMENTS TABLE */
   .seg-table { width: 100%; border-collapse: collapse; }
   .seg-table th {
-    text-align: left; font-family: 'DM Mono', monospace; font-size: 0.62rem;
+    text-align: left; font-family: 'DM Mono', monospace; font-size: 0.75rem;
     text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
     padding: 8px 10px; border-bottom: 1px solid var(--border);
   }
   .seg-table td {
     padding: 10px 10px; border-bottom: 1px solid #1a1a22;
-    font-size: 0.8rem;
+    font-size: 0.92rem;
   }
   .seg-table tr:hover td { background: var(--surface2); }
   .time-pr { color: var(--yellow); font-family: 'DM Mono', monospace; }
@@ -416,18 +416,18 @@
 </header>
 
 <nav>
-  <button class="tab-btn active" onclick="switchTab('config')">⚙ Config</button>
-  <button class="tab-btn" onclick="switchTab('session')">📊 Sesión</button>
+  <button class="tab-btn active" onclick="switchTab('session')">📊 Sesión</button>
   <button class="tab-btn" onclick="switchTab('history')">📈 Histórico</button>
   <button class="tab-btn" onclick="switchTab('setup')">🔧 Setup Bici</button>
   <button class="tab-btn" onclick="switchTab('recommendations')">💡 Recomendaciones</button>
   <button class="tab-btn" onclick="switchTab('manuals')">📖 Manuales</button>
+  <button class="tab-btn" onclick="switchTab('config')">⚙ Config</button>
 </nav>
 
 <main>
 
 <!-- ═══════════════ TAB: CONFIG ═══════════════ -->
-<div class="tab-panel active" id="tab-config">
+<div class="tab-panel" id="tab-config">
 
   <div class="config-box">
     <div class="config-title"><span class="config-icon">🟠</span> Strava API</div>
@@ -514,7 +514,7 @@ chmod 600 ~/.mtb_agent.env</pre>
 </div>
 
 <!-- ═══════════════ TAB: SESIÓN ═══════════════ -->
-<div class="tab-panel" id="tab-session">
+<div class="tab-panel active" id="tab-session">
 
   <div style="display:flex; gap:12px; margin-bottom:20px; align-items:center;">
     <div class="form-group" style="flex:1;">
@@ -620,7 +620,7 @@ chmod 600 ~/.mtb_agent.env</pre>
     <div class="card">
       <div class="card-label">🟡 Amortiguador Öhlins TTX22M</div>
       <div class="setup-group" style="margin-top:12px;">
-        <div class="setup-row"><span class="setup-param">Spring rate</span><span class="setup-val" id="ss-shock-spring">—</span></div>
+        <div class="setup-row"><span class="setup-param">Libras Coil</span><span class="setup-val" id="ss-shock-spring">—</span></div>
         <div class="setup-row"><span class="setup-param">Preload</span><span class="setup-val" id="ss-shock-preload">—</span></div>
         <div class="setup-row"><span class="setup-param">Rebote</span><span class="setup-val" id="ss-shock-reb">— clics</span></div>
         <div class="setup-row"><span class="setup-param">LSC</span><span class="setup-val" id="ss-shock-lsc">— clics</span></div>
@@ -633,7 +633,6 @@ chmod 600 ~/.mtb_agent.env</pre>
       <div class="setup-group" style="margin-top:12px;">
         <div class="setup-row"><span class="setup-param">Presión llanta D</span><span class="setup-val" id="ss-tire-f">— bar</span></div>
         <div class="setup-row"><span class="setup-param">Presión llanta T</span><span class="setup-val" id="ss-tire-r">— bar</span></div>
-        <div class="setup-row"><span class="setup-param">Altura sillín</span><span class="setup-val" id="ss-saddle">— mm</span></div>
         <div class="setup-row"><span class="setup-param">Modo asistencia</span><span class="setup-val" id="ss-mode">—</span></div>
         <div class="setup-row"><span class="setup-param">Temperatura</span><span class="setup-val" id="ss-temp">— °C</span></div>
         <div class="setup-row"><span class="setup-param">Trail</span><span class="setup-val" id="ss-trail">—</span></div>
@@ -694,7 +693,7 @@ chmod 600 ~/.mtb_agent.env</pre>
         🌵 RockShox ZEB Ultimate · Charger 2.1 RC2 · 180mm
       </div>
       <div class="setup-group">
-        <div class="setup-group-title">Resorte neumático</div>
+        <div class="setup-group-title">Horquilla</div>
         <div class="setup-row">
           <span class="setup-param">Presión aire (PSI)</span>
           <input class="setup-edit" id="fork-psi" placeholder="—" onchange="markDirty()">
@@ -738,7 +737,7 @@ chmod 600 ~/.mtb_agent.env</pre>
       <div class="setup-group">
         <div class="setup-group-title">Resorte</div>
         <div class="setup-row">
-          <span class="setup-param">Spring rate (N/mm)</span>
+          <span class="setup-param">Libras Coil</span>
           <input class="setup-edit" id="shock-spring" placeholder="—" onchange="markDirty()">
         </div>
         <div class="setup-row">
@@ -784,7 +783,7 @@ chmod 600 ~/.mtb_agent.env</pre>
     <!-- LLANTAS -->
     <div class="card">
       <div class="setup-group-title" style="font-size:0.82rem; color:var(--accent3); font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em;">
-        🔵 Llantas · Butcher Grid Gravity T9 · 27.5×2.6"
+        🔵 Setup Neumáticos
       </div>
       <div class="setup-group">
         <div class="setup-group-title">Presiones (tubeless)</div>
@@ -822,28 +821,12 @@ chmod 600 ~/.mtb_agent.env</pre>
       </div>
     </div>
 
-    <!-- GENERAL -->
     <div class="card">
       <div class="setup-group-title" style="font-size:0.82rem; color:var(--accent2); font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em;">
-        ⚙ Setup General
+        ⚙ Motor & Asistencia
       </div>
       <div class="setup-group">
-        <div class="setup-group-title">Cockpit</div>
-        <div class="setup-row">
-          <span class="setup-param">Altura sillín (mm)</span>
-          <input class="setup-edit" id="saddle-height" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Drop sillín (mm)</span>
-          <input class="setup-edit" id="saddle-drop" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Ángulo manubrio</span>
-          <input class="setup-edit" id="bar-angle" placeholder="—" onchange="markDirty()">
-        </div>
-      </div>
-      <div class="setup-group">
-        <div class="setup-group-title">Motor / Batería</div>
+        <div class="setup-group-title">E-Bike</div>
         <div class="setup-row">
           <span class="setup-param">Motor</span>
           <span class="setup-val">Specialized 2.2 · 90Nm · 565W</span>
@@ -886,9 +869,19 @@ chmod 600 ~/.mtb_agent.env</pre>
 
   <div style="display:flex; gap:12px; margin-bottom:20px; align-items:center;">
     <button class="btn btn-primary" onclick="generateRecommendations()">⚡ Generar análisis</button>
-    <span style="font-family:'DM Mono',monospace; font-size:0.68rem; color:var(--muted);">
+    <span style="font-family:'DM Mono',monospace; font-size:0.78rem; color:var(--muted);">
       Requiere actividad cargada + setup configurado
     </span>
+  </div>
+
+  <!-- ANÁLISIS GENERAL DE LA VUELTA -->
+  <div id="ride-analysis-container" style="margin-bottom:24px; display:none;">
+    <div class="section-title">Análisis de la vuelta</div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <div class="card-label" style="margin-bottom:12px;">📊 Resumen ejecutivo</div>
+      <div id="ride-analysis-text" style="font-size:0.95rem; line-height:1.8; color:var(--text);"></div>
+      <div style="margin-top:16px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px;" id="ride-analysis-stats"></div>
+    </div>
   </div>
 
   <div id="recs-container">
@@ -1096,7 +1089,7 @@ function initState() {
         hsc: '3'
       },
       shock: {
-        spring: '500 lbs / ~89 N/mm',
+        spring: '500 lbs',
         preload: '—',
         sagPct: '30%',
         sagMm: '~19',
@@ -1110,9 +1103,6 @@ function initState() {
         sealant: '60'
       },
       cockpit: {
-        saddleHeight: '—',
-        saddleDrop: '—',
-        barAngle: '—',
         motorMode: 'Trail',
         battery: '500Wh'
       },
@@ -1120,11 +1110,6 @@ function initState() {
     };
   }
   populateSetupFields();
-  const savedCredentials = localStorage.getItem('mtb_credentials');
-  if (savedCredentials) {
-    const creds = JSON.parse(savedCredentials);
-    if (creds.garminUser) document.getElementById('garmin-user').value = creds.garminUser;
-  }
   updateConnectionStatuses();
 }
 
@@ -1369,9 +1354,6 @@ function saveSetupLocal() {
       sealant: document.getElementById('tire-sealant').value
     },
     cockpit: {
-      saddleHeight: document.getElementById('saddle-height').value,
-      saddleDrop: document.getElementById('saddle-drop').value,
-      barAngle: document.getElementById('bar-angle').value,
       motorMode: document.getElementById('motor-mode').value,
       battery: document.getElementById('battery-type').value
     },
@@ -1409,9 +1391,6 @@ function populateSetupFields() {
     setVal('tire-sealant', s.tires.sealant);
   }
   if (s.cockpit) {
-    setVal('saddle-height', s.cockpit.saddleHeight);
-    setVal('saddle-drop', s.cockpit.saddleDrop);
-    setVal('bar-angle', s.cockpit.barAngle);
     setVal('motor-mode', s.cockpit.motorMode);
     setVal('battery-type', s.cockpit.battery);
   }
@@ -1437,7 +1416,6 @@ function populateSessionSetup() {
   document.getElementById('ss-shock-sag').textContent = s.shock?.sagMm ? s.shock.sagMm + ' mm' : '— mm';
   document.getElementById('ss-tire-f').textContent = s.tires?.front ? s.tires.front + ' bar' : '— bar';
   document.getElementById('ss-tire-r').textContent = s.tires?.rear ? s.tires.rear + ' bar' : '— bar';
-  document.getElementById('ss-saddle').textContent = s.cockpit?.saddleHeight ? s.cockpit.saddleHeight + ' mm' : '— mm';
   document.getElementById('ss-mode').textContent = s.cockpit?.motorMode || '—';
 }
 
@@ -1514,8 +1492,93 @@ function generateRecommendations() {
   const setup = STATE.setup;
   if (!act) { alert('Carga una actividad primero desde la pestaña Sesión'); return; }
 
+  // Render ride analysis
+  renderRideAnalysis(act, setup);
+
   const recs = analyzePerformance(act, setup);
   renderRecommendations(recs);
+}
+
+function renderRideAnalysis(act, setup) {
+  const container = document.getElementById('ride-analysis-container');
+  const textEl = document.getElementById('ride-analysis-text');
+  const statsEl = document.getElementById('ride-analysis-stats');
+
+  const dist = (act.distance / 1000).toFixed(1);
+  const elev = Math.round(act.total_elevation_gain);
+  const movTime = formatTime(act.moving_time);
+  const totalTime = formatTime(act.elapsed_time);
+  const speed = (act.average_speed * 3.6).toFixed(1);
+  const maxSpeed = (act.max_speed * 3.6).toFixed(1);
+  const date = new Date(act.start_date_local).toLocaleDateString('es-CL', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  const pauseTime = act.elapsed_time - act.moving_time;
+  const elevPerKm = (elev / parseFloat(dist)).toFixed(0);
+  const name = act.name || 'Vuelta MTB';
+
+  // Build analysis paragraph
+  let analysis = `<strong>${name}</strong> — ${date}.<br><br>`;
+
+  // Effort level
+  if (elev > 1000) {
+    analysis += `Salida de alta exigencia con <strong>${elev}m de desnivel positivo</strong> en ${dist}km — un ratio de ${elevPerKm}m/km que indica terreno muy técnico y exigente. `;
+  } else if (elev > 600) {
+    analysis += `Salida de exigencia media-alta con <strong>${elev}m de desnivel</strong> en ${dist}km (${elevPerKm}m/km). `;
+  } else {
+    analysis += `Salida de exigencia moderada con <strong>${elev}m de desnivel</strong> en ${dist}km. `;
+  }
+
+  // Speed analysis
+  analysis += `La velocidad media de ${speed} km/h con peak de ${maxSpeed} km/h refleja el mix de subidas y bajadas técnicas. `;
+
+  // Pause analysis
+  if (pauseTime > 600) {
+    analysis += `Se registraron <strong>${formatTime(pauseTime)} de pausa</strong> entre tiempo total (${totalTime}) y tiempo en movimiento (${movTime}), lo que puede indicar descansos, ajustes de equipo o secciones en porteo. `;
+  } else {
+    analysis += `El tiempo de pausa fue mínimo (${formatTime(pauseTime)}), señal de una vuelta fluida y continua. `;
+  }
+
+  // Setup correlation
+  if (setup?.fork?.psi) {
+    analysis += `<br><br>El setup de horquilla a <strong>${setup.fork.psi} PSI</strong> con ${setup.fork.tokens || '—'} tokens `;
+    if (parseFloat(setup.fork.psi) >= 75) {
+      analysis += `es adecuado para tu peso de 94kg con equipo completo. `;
+    } else {
+      analysis += `podría estar algo bajo para tu peso de 94kg — considera subir 3-5 PSI. `;
+    }
+  }
+
+  if (setup?.tires?.front) {
+    analysis += `Las presiones de neumático (${setup.tires.front} bar D / ${setup.tires.rear || '—'} bar T) `;
+    if (parseFloat(setup.tires.front) <= 1.5) {
+      analysis += `son conservadoras para terreno técnico, priorizando tracción sobre velocidad de rodadura.`;
+    } else {
+      analysis += `son equilibradas para este tipo de terreno.`;
+    }
+  }
+
+  textEl.innerHTML = analysis;
+
+  // Stats mini grid
+  statsEl.innerHTML = `
+    <div style="text-align:center; background:var(--surface2); border-radius:8px; padding:12px;">
+      <div style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); margin-bottom:4px;">DISTANCIA</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--accent);">${dist}<span style="font-size:0.9rem; color:var(--muted);"> km</span></div>
+    </div>
+    <div style="text-align:center; background:var(--surface2); border-radius:8px; padding:12px;">
+      <div style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); margin-bottom:4px;">DESNIVEL</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--accent3);">${elev}<span style="font-size:0.9rem; color:var(--muted);"> m</span></div>
+    </div>
+    <div style="text-align:center; background:var(--surface2); border-radius:8px; padding:12px;">
+      <div style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); margin-bottom:4px;">TIEMPO MOV</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--yellow);">${movTime}</div>
+    </div>
+    <div style="text-align:center; background:var(--surface2); border-radius:8px; padding:12px;">
+      <div style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); margin-bottom:4px;">VEL MEDIA</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--green);">${speed}<span style="font-size:0.9rem; color:var(--muted);"> km/h</span></div>
+    </div>
+  `;
+
+  container.style.display = 'block';
 }
 
 function analyzePerformance(act, setup) {
