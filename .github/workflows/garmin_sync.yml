@@ -1,0 +1,35 @@
+name: Garmin Sync
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Cada día a las 9am Santiago (UTC-3)
+  workflow_dispatch:        # También permite ejecutar manualmente
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install garminconnect requests
+
+      - name: Run Garmin sync
+        env:
+          GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+        run: python garmin_sync.py
+
+      - name: Commit and push garmin_data.json
+        run: |
+          git config user.name "MTB Agent Bot"
+          git config user.email "bot@mtbagent.app"
+          git add garmin_data.json
+          git diff --staged --quiet || git commit -m "auto sync garmin $(date '+%Y-%m-%d')"
+          git push
