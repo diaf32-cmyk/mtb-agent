@@ -1915,3 +1915,24 @@ document.addEventListener('DOMContentLoaded', initState);
 </script>
 </body>
 </html>
+<script>
+function renderGarminDynamics(dyn) {
+  const j = document.getElementById('dyn-jumps');
+  const b = document.getElementById('dyn-battery');
+  const l = document.getElementById('dyn-load');
+  const f = document.getElementById('dyn-fx');
+  const bf = document.getElementById('bar-flow');
+  const vf = document.getElementById('val-flow');
+  const bg = document.getElementById('bar-grit');
+  const vg = document.getElementById('val-grit');
+  if (j) j.textContent = dyn.jumpCount ?? '—';
+  if (b && dyn.eBikeBatteryUsage != null) b.textContent = dyn.eBikeBatteryUsage + '% usada · ' + (dyn.eBikeBatteryRemaining ?? '—') + '% restante';
+  if (l && dyn.activityTrainingLoad) l.textContent = dyn.activityTrainingLoad.toFixed(1);
+  if (f && dyn.trainingEffectLabel) {
+    const labels = {'AEROBIC_BASE':'Base Aeróbica','IMPROVING_AEROBIC_ENDURANCE':'Mejorando Resistencia','MAINTAINING_AEROBIC_BASE':'Manteniendo Base','OVERREACHING':'Sobrecarga','RECOVERY':'Recuperación'};
+    f.textContent = labels[dyn.trainingEffectLabel] || dyn.trainingEffectLabel;
+  }
+  if (bf && dyn.avgFlow != null) { bf.style.width = Math.min((dyn.avgFlow/10)*100,100)+'%'; vf.textContent = dyn.avgFlow.toFixed(2); }
+  if (bg && dyn.grit != null) { bg.style.width = Math.min((dyn.grit/200)*100,100)+'%'; vg.textContent = dyn.grit.toFixed(1); }
+}
+</script>
