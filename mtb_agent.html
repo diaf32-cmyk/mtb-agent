@@ -1635,7 +1635,12 @@ function renderRideAnalysis(act, setup) {
   const movTime = formatTime(act.moving_time);
   const totalTime = formatTime(act.elapsed_time);
   const speed = (act.average_speed * 3.6).toFixed(1);
-  const maxSpeed = (act.max_speed * 3.6).toFixed(1);
+  // Use Garmin max speed if available
+  const garminAct = STATE.garminData?.activities?.find(a =>
+    a.startTimeLocal && new Date(a.startTimeLocal).toDateString() === new Date(act.start_date_local).toDateString()
+  );
+  const maxSpeed = garminAct?.maxSpeed ? (garminAct.maxSpeed * 3.6).toFixed(1) : (act.max_speed * 3.6).toFixed(1);
+  const maxSpeedSource = garminAct?.maxSpeed ? 'Garmin' : 'Strava';
   const date = new Date(act.start_date_local).toLocaleDateString('es-CL', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
   const pauseTime = act.elapsed_time - act.moving_time;
   const elevPerKm = (elev / parseFloat(dist)).toFixed(0);
