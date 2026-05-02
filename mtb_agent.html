@@ -569,12 +569,20 @@ chmod 600 ~/.mtb_agent.env</pre>
       <div style="margin-top:16px;" id="dynamics-container">
         <div style="margin-bottom:16px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-            <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted);">JUMPS</span>
-            <span style="font-family:'Bebas Neue',sans-serif; font-size:1.4rem;" id="dyn-jumps">—</span>
+            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--muted);">JUMPS</span>
+            <span style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem;" id="dyn-jumps">—</span>
           </div>
           <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted);">AIR TIME</span>
-            <span style="font-family:'DM Mono',monospace; font-size:0.82rem;" id="dyn-airtime">—</span>
+            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--muted);">BATERÍA USADA</span>
+            <span style="font-family:'DM Mono',monospace; font-size:0.92rem;" id="dyn-battery">—</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--muted);">TRAINING LOAD</span>
+            <span style="font-family:'DM Mono',monospace; font-size:0.92rem;" id="dyn-load">—</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--muted);">TRAINING FX</span>
+            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--accent3);" id="dyn-fx">—</span>
           </div>
         </div>
         <div style="margin-top:12px;">
@@ -588,16 +596,12 @@ chmod 600 ~/.mtb_agent.env</pre>
             <div class="jump-bar-track"><div class="jump-bar-fill" id="bar-grit" style="width:0%; background:linear-gradient(90deg,var(--accent2),var(--red))"></div></div>
             <div class="jump-bar-val" id="val-grit">—</div>
           </div>
-          <div class="jump-bar">
-            <div class="jump-bar-label">Dificultad</div>
-            <div class="jump-bar-track"><div class="jump-bar-fill" id="bar-diff" style="width:0%; background:linear-gradient(90deg,var(--yellow),var(--accent2))"></div></div>
-            <div class="jump-bar-val" id="val-diff">—</div>
-          </div>
         </div>
         <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
-          <span style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted);">
-            Flow & Grit disponibles vía archivo .FIT del Edge 530 · índices [8] y [9]
-          </span>
+          <button class="btn btn-secondary" style="width:100%; font-size:0.78rem;" onclick="loadGarminData()">↻ Cargar datos Garmin</button>
+          <div style="font-family:'DM Mono',monospace; font-size:0.68rem; color:var(--muted); margin-top:8px;" id="garmin-sync-time">
+            Ejecuta garmin_sync.py para actualizar
+          </div>
         </div>
       </div>
     </div>
@@ -1313,12 +1317,101 @@ async function loadSegments(activityId) {
 }
 
 // ═══════════════════════════════════════════
-//  GARMIN (placeholder - requires Python backend)
+//  GARMIN DATA LOADER
 // ═══════════════════════════════════════════
+async function loadGarminData() {
+  const syncTime = document.getElementById('garmin-sync-time');
+  syncTime.textContent = 'Cargando...';
+  try {
+    const res = await fetch('garmin_data.json?t=' + Date.now());
+    if (!res.ok) throw new Error('garmin_data.json no encontrado');
+    const data = await res.json();
+    STATE.garminData = data;
+
+    // Find matching activity for selected Strava activity
+    const act = STATE.selectedActivity;
+    let dynamics = null;
+
+    if (act) {
+      // Match by date
+      const stravaDate = new Date(act.start_date_local).toDateString();
+      const matched = data.activities?.find(a => {
+        const garminDate = new Date(a.startTimeLocal).toDateString();
+        return garminDate === stravaDate;
+      });
+      dynamics = matched?.mtbDynamics || data.latestDynamics;
+    } else {
+      dynamics = data.latestDynamics;
+    }
+
+    if (dynamics) {
+      renderGarminDynamics(dynamics);
+      setStatus('garmin', true);
+      const lastSync = new Date(data.lastSync).toLocaleString('es-CL');
+      syncTime.textContent = 'Sync: ' + lastSync;
+    } else {
+      syncTime.textContent = 'Sin datos MTB Dynamics';
+    }
+  } catch(e) {
+    syncTime.textContent = '✗ ' + e.message + ' — ejecuta garmin_sync.py primero';
+    setStatus('garmin', false);
+  }
+}
+
+function renderGarminDynamics(dyn) {
+  // Jumps
+  document.getElementById('dyn-jumps').textContent = dyn.jumpCount ?? '—';
+
+  // Battery
+  if (dyn.eBikeBatteryUsage != null) {
+    document.getElementById('dyn-battery').textContent = dyn.eBikeBatteryUsage + '% usada · ' + (dyn.eBikeBatteryRemaining ?? '—') + '% restante';
+  }
+
+  // Training load
+  if (dyn.activityTrainingLoad) {
+    document.getElementById('dyn-load').textContent = dyn.activityTrainingLoad.toFixed(1);
+  }
+
+  // Training effect label
+  if (dyn.trainingEffectLabel) {
+    const labels = {
+      'AEROBIC_BASE': 'Base Aeróbica',
+      'IMPROVING_AEROBIC_ENDURANCE': 'Mejorando Resistencia',
+      'MAINTAINING_AEROBIC_BASE': 'Manteniendo Base',
+      'OVERREACHING': 'Sobrecarga',
+      'RECOVERY': 'Recuperación'
+    };
+    document.getElementById('dyn-fx').textContent = labels[dyn.trainingEffectLabel] || dyn.trainingEffectLabel;
+  }
+
+  // Flow bar (0-10 scale)
+  if (dyn.avgFlow != null) {
+    const flowPct = Math.min((dyn.avgFlow / 10) * 100, 100);
+    document.getElementById('bar-flow').style.width = flowPct + '%';
+    document.getElementById('val-flow').textContent = dyn.avgFlow.toFixed(2);
+  }
+
+  // Grit bar (0-200 typical range)
+  if (dyn.grit != null) {
+    const gritPct = Math.min((dyn.grit / 200) * 100, 100);
+    document.getElementById('bar-grit').style.width = gritPct + '%';
+    document.getElementById('val-grit').textContent = dyn.grit.toFixed(1);
+  }
+}
+
 function testGarmin() {
   const el = document.getElementById('garmin-test-result');
-  el.textContent = 'Garmin requiere el script Python local. Ver pestaña Config.';
-  el.style.color = 'var(--yellow)';
+  el.textContent = 'Cargando garmin_data.json...';
+  loadGarminData().then(() => {
+    const d = STATE.garminData;
+    if (d) {
+      el.textContent = `✓ ${d.activities?.length || 0} actividades · sync: ${new Date(d.lastSync).toLocaleString('es-CL')}`;
+      el.style.color = 'var(--green)';
+    }
+  }).catch(e => {
+    el.textContent = '✗ ' + e.message;
+    el.style.color = 'var(--red)';
+  });
 }
 
 // ═══════════════════════════════════════════
@@ -1787,6 +1880,7 @@ function updateConnectionStatuses() {
 
 function fetchAll() {
   fetchStravaActivities();
+  loadGarminData();
 }
 
 function exportSetupPDF() {
