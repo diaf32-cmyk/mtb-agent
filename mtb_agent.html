@@ -1314,11 +1314,12 @@ async function loadSegments(activityId) {
       html += `<tr>
         <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.name}">${e.name}</td>
         <td>
-          <div class="${timeClass}" style="font-family:'DM Mono',monospace;">${time}</div>
-          <div style="margin-top:2px;">${delta}</div>
+          <span class="${timeClass}" style="font-family:'DM Mono',monospace;">${time}</span>
         </td>
-        <td class="seg-col-pr" style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.78rem;white-space:nowrap;">${prTime}</td>
-        <td class="seg-col-veces" style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.78rem;">${effortCount}</td>
+        <td style="font-family:'DM Mono',monospace;white-space:nowrap;">
+          <div style="color:var(--muted);font-size:0.82rem;">${prTime}</div>
+          <div style="margin-top:3px;">${delta}</div>
+        </td>
       </tr>`;
     });
 
