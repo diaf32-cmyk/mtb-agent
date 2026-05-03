@@ -1420,7 +1420,7 @@ async function loadGarminData() {
     if (dynamics) {
       renderGarminDynamics(dynamics);
       // Update max speed KPI with Garmin data (more accurate)
-      const garminAct = STATE.garminData?.activities?.find(a =>
+      const garminAct = data.activities?.find(a =>
         a.startTimeLocal && STATE.selectedActivity &&
         new Date(a.startTimeLocal).toDateString() === new Date(STATE.selectedActivity.start_date_local).toDateString()
       );
