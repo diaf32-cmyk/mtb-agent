@@ -20,22 +20,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install garminconnect requests garth
-
-      - name: Setup Garmin tokens
-        env:
-          GARMIN_TOKENS: ${{ secrets.GARMIN_TOKENS }}
-        run: |
-          mkdir -p ~/.garth
-          python3 << 'PYEOF'
-          import json, os
-          tokens = json.loads(os.environ['GARMIN_TOKENS'])
-          for fname, content in tokens.items():
-              path = os.path.expanduser(f'~/.garth/{fname}')
-              with open(path, 'w') as f:
-                  f.write(content)
-          print('Tokens guardados')
-          PYEOF
+        run: pip install garminconnect==0.2.8 requests
 
       - name: Run Garmin sync
         env:
