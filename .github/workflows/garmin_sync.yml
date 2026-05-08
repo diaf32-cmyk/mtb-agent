@@ -20,7 +20,16 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install garminconnect==0.2.8 requests
+        run: |
+          pip install requests
+          npm install -g garmin-connect
+
+      - name: Configure garmin-connect CLI
+        env:
+          GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+        run: |
+          echo '{"username":"'$GARMIN_EMAIL'","password":"'$GARMIN_PASSWORD'"}' > ~/.garmin-connect.json
 
       - name: Run Garmin sync
         env:
