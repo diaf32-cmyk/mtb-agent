@@ -2,9 +2,9 @@ name: Garmin Sync
 
 on:
   schedule:
-    - cron: '0 12 * * *'  # 9am Santiago (UTC-3)
-    - cron: '0 17 * * *'  # 2pm Santiago (UTC-3)
-    - cron: '0 23 * * *'  # 8pm Santiago (UTC-3)
+    - cron: '0 12 * * *'  # 9am Santiago
+    - cron: '0 17 * * *'  # 2pm Santiago
+    - cron: '0 23 * * *'  # 8pm Santiago
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,21 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install garminconnect requests
+        run: pip install garminconnect requests garth
+
+      - name: Setup Garmin tokens
+        env:
+          GARMIN_TOKENS: ${{ secrets.GARMIN_TOKENS }}
+        run: |
+          mkdir -p ~/.garth
+          python3 -c "
+import json, os
+tokens = json.loads(os.environ['GARMIN_TOKENS'])
+for fname, content in tokens.items():
+    with open(os.path.expanduser(f'~/.garth/{fname}'), 'w') as f:
+        f.write(content)
+print('Tokens guardados')
+"
 
       - name: Run Garmin sync
         env:
