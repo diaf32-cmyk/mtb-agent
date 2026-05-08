@@ -2,8 +2,10 @@ name: Garmin Sync
 
 on:
   schedule:
-    - cron: '0 12 * * *'  # Cada día a las 9am Santiago (UTC-3)
-  workflow_dispatch:        # También permite ejecutar manualmente
+    - cron: '0 12 * * *'  # 9am Santiago (UTC-3)
+    - cron: '0 17 * * *'  # 2pm Santiago (UTC-3)
+    - cron: '0 23 * * *'  # 8pm Santiago (UTC-3)
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -31,5 +33,5 @@ jobs:
           git config user.name "MTB Agent Bot"
           git config user.email "bot@mtbagent.app"
           git add garmin_data.json
-          git diff --staged --quiet || git commit -m "auto sync garmin $(date '+%Y-%m-%d')"
+          git diff --staged --quiet || git commit -m "auto sync garmin $(date '+%Y-%m-%d %H:%M')"
           git push
