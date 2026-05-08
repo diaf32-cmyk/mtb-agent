@@ -2,9 +2,9 @@ name: Garmin Sync
 
 on:
   schedule:
-    - cron: '0 12 * * *'  # 9am Santiago
-    - cron: '0 17 * * *'  # 2pm Santiago
-    - cron: '0 23 * * *'  # 8pm Santiago
+    - cron: '0 12 * * *'
+    - cron: '0 17 * * *'
+    - cron: '0 23 * * *'
   workflow_dispatch:
 
 jobs:
@@ -27,14 +27,15 @@ jobs:
           GARMIN_TOKENS: ${{ secrets.GARMIN_TOKENS }}
         run: |
           mkdir -p ~/.garth
-          python3 -c "
-import json, os
-tokens = json.loads(os.environ['GARMIN_TOKENS'])
-for fname, content in tokens.items():
-    with open(os.path.expanduser(f'~/.garth/{fname}'), 'w') as f:
-        f.write(content)
-print('Tokens guardados')
-"
+          python3 << 'PYEOF'
+          import json, os
+          tokens = json.loads(os.environ['GARMIN_TOKENS'])
+          for fname, content in tokens.items():
+              path = os.path.expanduser(f'~/.garth/{fname}')
+              with open(path, 'w') as f:
+                  f.write(content)
+          print('Tokens guardados')
+          PYEOF
 
       - name: Run Garmin sync
         env:
@@ -42,7 +43,7 @@ print('Tokens guardados')
           GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
         run: python garmin_sync.py
 
-      - name: Commit and push garmin_data.json
+      - name: Commit and push
         run: |
           git config user.name "MTB Agent Bot"
           git config user.email "bot@mtbagent.app"
