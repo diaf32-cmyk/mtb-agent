@@ -7,10 +7,14 @@ cd "$AGENT_DIR"
 echo "↻ Sincronizando Garmin..."
 python3 "$AGENT_DIR/garmin_sync.py"
 
-echo "↗ Iniciando servidor..."
+echo "☁ Subiendo a GitHub..."
+git add garmin_data.json
+git diff --staged --quiet || (git commit -m "sync $(date '+%Y-%m-%d %H:%M')" && git push) || git pull --rebase && git push
+
+echo "↗ Abriendo MTB Agent..."
 python3 -m http.server $PORT &
 sleep 1
 open -a "Google Chrome" "http://localhost:$PORT/mtb_agent.html"
-echo "MTB Agent corriendo. Cierra esta ventana para detener."
+echo "Listo. Cierra esta ventana para detener."
 trap "kill %1 2>/dev/null; exit 0" INT
 wait
