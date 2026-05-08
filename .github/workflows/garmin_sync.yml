@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests
+          pip install garminconnect requests
           npm install -g garmin-connect
 
       - name: Configure garmin-connect CLI
