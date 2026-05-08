@@ -111,7 +111,12 @@ def main():
             continue
         print(f"  → Detalle {act_id}...")
         try:
-            detail = client.get_activity(act_id)
+            import subprocess as sp2
+            r2 = sp2.run(f"garmin-connect activities get {act_id}", shell=True, capture_output=True, text=True)
+            try:
+                detail = __import__("json").loads(r2.stdout)
+            except:
+                detail = {}
             enriched.append(extract_summary(detail))
         except Exception as e:
             print(f"  ⚠ Error: {e}")
