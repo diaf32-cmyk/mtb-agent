@@ -551,8 +551,8 @@ function updateRecords() {
   const axJmp=bestAll(all,a=>a.mtbDynamics?.jumpCount||0);
   if(mxJmp.val>0){document.getElementById('rec-jump').innerHTML=mxJmp.val+'<span class="record-unit"> saltos</span>';document.getElementById('rec-jump-date').textContent=new Date(mxJmp.date).toLocaleDateString('es-CL');document.getElementById('rec-jump-pr').textContent='PR histórico: '+axJmp+' saltos';}
 
-  const mxFlw=best(thisMonth,a=>a.mtbDynamics?.avgFlow||0);
-  const axFlw=bestAll(all,a=>a.mtbDynamics?.avgFlow||0);
+  const mxFlw=thisMonth.filter(a=>a.mtbDynamics?.avgFlow>0).reduce((b,a)=>{const v=a.mtbDynamics.avgFlow;return v<b.val?{val:v,date:a.startTimeLocal}:b},{val:Infinity,date:null});
+  const axFlw=all.filter(a=>a.mtbDynamics?.avgFlow>0).reduce((b,a)=>a.mtbDynamics.avgFlow<b?a.mtbDynamics.avgFlow:b,Infinity);
   if(mxFlw.val>0){document.getElementById('rec-flow').innerHTML=mxFlw.val.toFixed(2);document.getElementById('rec-flow-date').textContent=new Date(mxFlw.date).toLocaleDateString('es-CL');document.getElementById('rec-flow-pr').textContent='PR histórico: '+axFlw.toFixed(2);}
 
   if(thisMonth.length>0){
