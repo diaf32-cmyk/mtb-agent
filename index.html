@@ -538,7 +538,7 @@ function updateRecords() {
   if(!STATE.garminData?.activities) return;
   updateRecordsMonth();
   const now=new Date();
-  const thisMonth=STATE.garminData.activities.filter(a=>{if(!a.startTimeLocal)return false;const d=new Date(a.startTimeLocal);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+  const nowY=new Date().getFullYear();const nowM=new Date().getMonth();const thisMonth=STATE.garminData.activities.filter(a=>{if(!a.startTimeLocal)return false;const d=new Date(a.startTimeLocal);return d.getMonth()===nowM&&d.getFullYear()===nowY;});
   const all=STATE.garminData.activities;
   const best=(arr,fn)=>arr.reduce((b,a)=>{const v=fn(a);return v>b.val?{val:v,date:a.startTimeLocal}:b},{val:0,date:null});
   const bestAll=(arr,fn)=>arr.reduce((b,a)=>{const v=fn(a);return v>b?v:b},0);
