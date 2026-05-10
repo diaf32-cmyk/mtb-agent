@@ -501,7 +501,9 @@ async function loadGarminData() {
 }
 
 async function loadGarminDataForActivity(act) {
-  if (!STATE.garminData) return;
+  if (!STATE.garminData) {
+    try { await fetchGarminData(); } catch(e) { return; }
+  }
   const sd = new Date(act.start_date_local).toDateString();
   const ga = STATE.garminData.activities?.find(a => a.startTimeLocal && new Date(a.startTimeLocal).toDateString()===sd);
   const dyn = ga?.mtbDynamics||null;
