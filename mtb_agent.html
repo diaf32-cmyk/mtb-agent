@@ -2,1065 +2,374 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>MTB Agent · Kenevo S4</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0c;
-    --surface: #111114;
-    --surface2: #18181d;
-    --border: #252530;
-    --accent: #e8ff3a;
-    --accent2: #ff5c2b;
-    --accent3: #3affd4;
-    --text: #f0f0f5;
-    --muted: #6b6b7a;
-    --red: #ff3b3b;
-    --green: #3affb4;
-    --yellow: #ffd93a;
-    --card-radius: 12px;
+    --bg: #f5f0e8;
+    --bg2: #ede8de;
+    --bg3: #e4ddd2;
+    --surface: #faf8f4;
+    --border: #d4c9b5;
+    --text: #2c2416;
+    --text2: #5c4f3a;
+    --muted: #8c7d65;
+    --accent: #8b5e3c;
+    --accent2: #c4813a;
+    --accent3: #5a7a5a;
+    --red: #c04040;
+    --green: #4a7a4a;
+    --yellow: #b07a20;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 2px 12px rgba(44,36,22,0.08);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* NOISE TEXTURE */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 999; opacity: 0.6;
-  }
+  html { font-size: 15px; -webkit-text-size-adjust: 100%; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
   /* HEADER */
-  header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 32px;
-    border-bottom: 1px solid var(--border);
-    background: linear-gradient(180deg, #111117 0%, transparent 100%);
-    position: sticky; top: 0; z-index: 100;
-    backdrop-filter: blur(12px);
-  }
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem; letter-spacing: 0.08em;
-    color: var(--accent);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .logo-dot { width: 8px; height: 8px; background: var(--accent2); border-radius: 50%; }
-  .bike-id {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.12em;
-  }
-  .header-status {
-    display: flex; align-items: center; gap: 20px;
-  }
-  .status-pill {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 100px; padding: 5px 12px;
-    font-family: 'DM Mono', monospace; font-size: 0.7rem;
-    color: var(--muted);
-  }
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 20px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+  .logo-sub { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+  .header-right { display: flex; align-items: center; gap: 8px; }
+  .status-pill { display: flex; align-items: center; gap: 5px; background: var(--bg2); border: 1px solid var(--border); border-radius: 100px; padding: 4px 10px; font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); cursor: pointer; }
   .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
-  .status-dot.connected { background: var(--green); animation: pulse 2s infinite; }
+  .status-dot.on { background: var(--green); animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .btn-sync { background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 8px 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; }
+  .btn-sync:hover { background: var(--accent2); }
 
-  /* TABS NAV */
-  nav {
-    display: flex; gap: 2px;
-    padding: 16px 32px 0;
-    border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-  }
-  .tab-btn {
-    font-family: 'DM Mono', monospace; font-size: 0.82rem;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    padding: 10px 18px;
-    background: transparent; border: none; cursor: pointer;
-    color: var(--muted);
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s; white-space: nowrap;
-  }
-  .tab-btn:hover { color: var(--text); }
-  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  /* NAV */
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tab-btn { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 13px 16px; background: none; border: none; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--text2); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
 
-  /* MAIN LAYOUT */
-  main { padding: 28px 32px; }
+  /* MAIN */
+  main { max-width: 1200px; margin: 0 auto; padding: 18px; }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
-  /* GRID */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .col-span-2 { grid-column: span 2; }
-  .col-span-3 { grid-column: span 3; }
+  /* ACTIVITY BAR */
+  .activity-bar { display: flex; gap: 10px; margin-bottom: 18px; }
+  .activity-select { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--text); outline: none; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238c7d65' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+  .btn-primary { background: var(--accent2); color: #fff; border: none; border-radius: var(--radius-sm); padding: 10px 16px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .btn-primary:hover { background: var(--accent); }
 
-  /* CARDS */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--card-radius);
-    padding: 20px;
-    position: relative; overflow: hidden;
-  }
-  .card-accent { border-left: 3px solid var(--accent); }
-  .card-red { border-left: 3px solid var(--red); }
-  .card-green { border-left: 3px solid var(--green); }
-  .card-blue { border-left: 3px solid var(--accent3); }
-  .card-label {
-    font-family: 'DM Mono', monospace; font-size: 0.78rem;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    color: var(--muted); margin-bottom: 8px;
-  }
-  .card-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.8rem; color: var(--text); line-height: 1;
-  }
-  .card-unit {
-    font-family: 'DM Mono', monospace; font-size: 0.85rem;
-    color: var(--muted); margin-left: 4px;
-  }
-  .card-delta {
-    font-size: 0.82rem; font-weight: 500; margin-top: 6px;
-  }
-  .delta-up { color: var(--green); }
-  .delta-down { color: var(--red); }
-  .delta-neutral { color: var(--muted); }
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
-    letter-spacing: 0.08em; color: var(--muted);
-    text-transform: uppercase; margin: 24px 0 12px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .section-title::after {
-    content: ''; flex: 1; height: 1px; background: var(--border);
-  }
+  /* KPI */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 16px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); border-left: 3px solid var(--accent2); }
+  .kpi-card.c1 { border-left-color: var(--accent); }
+  .kpi-card.c2 { border-left-color: var(--accent2); }
+  .kpi-card.c3 { border-left-color: var(--accent3); }
+  .kpi-card.c4 { border-left-color: #7a5a8a; }
+  .kpi-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 6px; }
+  .kpi-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--text); line-height: 1; }
+  .kpi-unit { font-size: 0.85rem; color: var(--muted); font-family: 'DM Sans', sans-serif; }
+  .kpi-sub { font-size: 0.7rem; color: var(--muted); margin-top: 4px; }
 
-  /* STRAVA CONFIG */
-  .config-box {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--card-radius);
-    padding: 24px; margin-bottom: 24px;
-  }
-  .config-title {
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
-    letter-spacing: 0.08em; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .config-icon { font-size: 1rem; }
-  .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-label {
-    font-family: 'DM Mono', monospace; font-size: 0.68rem;
-    color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em;
-  }
-  .form-input {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; padding: 8px 12px;
-    color: var(--text); font-family: 'DM Mono', monospace; font-size: 0.8rem;
-    outline: none; transition: border-color 0.2s;
-    width: 100%;
-  }
-  .form-input:focus { border-color: var(--accent); }
-  .btn {
-    padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer;
-    font-family: 'DM Mono', monospace; font-size: 0.75rem;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    transition: all 0.2s; font-weight: 500;
-  }
-  .btn-primary {
-    background: var(--accent); color: #000;
-  }
-  .btn-primary:hover { background: #d4e832; transform: translateY(-1px); }
-  .btn-secondary {
-    background: var(--surface2); color: var(--text);
-    border: 1px solid var(--border);
-  }
-  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-  .btn-danger {
-    background: transparent; color: var(--red);
-    border: 1px solid var(--red);
-  }
+  /* SESSION GRID */
+  .session-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-  /* ACTIVITY LIST */
-  .activity-list { display: flex; flex-direction: column; gap: 8px; }
-  .activity-row {
-    display: grid; grid-template-columns: auto 1fr auto auto auto;
-    align-items: center; gap: 16px;
-    padding: 14px 18px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; cursor: pointer;
-    transition: all 0.15s;
-  }
-  .activity-row:hover { border-color: var(--accent); transform: translateX(4px); }
-  .activity-row.selected { border-color: var(--accent); background: #1a1a12; }
-  .act-type {
-    width: 32px; height: 32px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem; background: var(--surface2);
-  }
-  .act-name {
-    font-weight: 500; font-size: 0.85rem;
-  }
-  .act-sub {
-    font-family: 'DM Mono', monospace; font-size: 0.65rem;
-    color: var(--muted); margin-top: 2px;
-  }
-  .act-stat {
-    text-align: right;
-    font-family: 'DM Mono', monospace; font-size: 0.75rem;
-  }
-  .act-stat-label { color: var(--muted); font-size: 0.6rem; }
+  /* CARD */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+  .card-title { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 
-  /* CHART PLACEHOLDER */
-  .chart-container {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--card-radius);
-    height: 200px; display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-  }
-  .chart-placeholder {
-    color: var(--muted); font-family: 'DM Mono', monospace;
-    font-size: 0.72rem; text-align: center;
-  }
+  /* SEGMENTS */
+  .seg-table { width: 100%; border-collapse: collapse; }
+  .seg-table th { text-align: left; font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  .seg-table td { padding: 9px 8px; border-bottom: 1px solid var(--bg2); font-size: 0.83rem; }
+  .seg-table tr:last-child td { border-bottom: none; }
+  .seg-table tr:hover td { background: var(--bg2); }
+  .t-pr { color: var(--yellow); font-family: 'DM Mono', monospace; font-weight: 500; }
+  .t-good { color: var(--green); font-family: 'DM Mono', monospace; }
+  .t-normal { font-family: 'DM Mono', monospace; }
+  .best-seg td { background: rgba(90,122,90,0.06); }
+  .badge-pr { background: rgba(176,122,32,0.15); color: var(--yellow); padding: 1px 6px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.58rem; }
+  .badge-best { background: rgba(74,122,74,0.12); color: var(--green); padding: 1px 6px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.58rem; }
 
-  /* MINI SPARKLINE */
-  .sparkline-container { height: 60px; padding: 8px 0 0; }
+  /* DYNAMICS */
+  .dyn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .dyn-item { background: var(--bg2); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .dyn-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 3px; }
+  .dyn-value { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--text); }
+  .dyn-sub { font-size: 0.62rem; color: var(--muted); margin-top: 2px; }
+  .bar-row { margin-bottom: 8px; }
+  .bar-label-row { display: flex; justify-content: space-between; margin-bottom: 3px; }
+  .bar-label { font-size: 0.72rem; color: var(--text2); }
+  .bar-val { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--text); }
+  .bar-track { height: 5px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+  .bar-flow { background: linear-gradient(90deg, var(--accent3), #7aaa7a); }
+  .bar-grit { background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+  .best-jump { background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: var(--radius-sm); padding: 12px; color: #fff; margin-top: 10px; display: none; }
+  .best-jump-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; margin-bottom: 3px; }
+  .best-jump-val { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; }
 
-  /* SETUP TABLES */
-  .setup-group { margin-bottom: 20px; }
-  .setup-group-title {
-    font-family: 'DM Mono', monospace; font-size: 0.68rem;
-    text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--accent); margin-bottom: 10px;
-    padding-bottom: 6px; border-bottom: 1px solid var(--border);
-  }
-  .setup-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #1a1a22;
-  }
-  .setup-param { font-size: 0.9rem; color: var(--muted); }
-  .setup-val {
-    font-family: 'DM Mono', monospace; font-size: 0.92rem;
-    color: var(--text); font-weight: 500;
-  }
-  .setup-edit {
-    background: none; border: 1px solid var(--border);
-    color: var(--text); border-radius: 6px;
-    padding: 3px 8px; font-family: 'DM Mono', monospace; font-size: 0.88rem;
-    width: 90px; outline: none; cursor: pointer;
-  }
-  .setup-edit:focus { border-color: var(--accent); }
+  /* RECORDS */
+  .records-period { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+  .records-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+  .record-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); text-align: center; }
+  .record-icon { font-size: 1.6rem; margin-bottom: 6px; }
+  .record-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 6px; }
+  .record-value { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; color: var(--accent); }
+  .record-unit { font-size: 0.82rem; color: var(--muted); }
+  .record-date { font-size: 0.62rem; color: var(--muted); margin-top: 3px; }
+  .record-pr { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--accent3); margin-top: 3px; }
+  .section-title { font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--text2); margin: 18px 0 10px; display: flex; align-items: center; gap: 8px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .records-table { width: 100%; border-collapse: collapse; }
+  .records-table th { text-align: left; font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .records-table td { padding: 9px 10px; border-bottom: 1px solid var(--bg2); font-size: 0.82rem; }
+  .records-table tr:hover td { background: var(--bg2); }
 
-  /* RECOMMENDATION CARDS */
-  .rec-card {
-    background: var(--surface2); border-radius: 10px;
-    padding: 16px; border-left: 3px solid var(--yellow);
-    margin-bottom: 10px;
-  }
-  .rec-card.positive { border-left-color: var(--green); }
-  .rec-card.negative { border-left-color: var(--red); }
-  .rec-title { font-weight: 600; font-size: 0.92rem; margin-bottom: 6px; }
-  .rec-body { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
-  .rec-source {
-    font-family: 'DM Mono', monospace; font-size: 0.72rem;
-    color: var(--accent3); margin-top: 8px;
-  }
+  /* SETUP */
+  .setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .setup-section-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; color: var(--accent); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .setup-group-title { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 10px 0 6px; }
+  .setup-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--bg2); }
+  .setup-row:last-child { border-bottom: none; }
+  .setup-param { font-size: 0.82rem; color: var(--text2); }
+  .setup-val { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--text); }
+  .setup-input { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--text); width: 90px; outline: none; }
+  .setup-input:focus { border-color: var(--accent); }
+  .setup-select { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--text); outline: none; cursor: pointer; }
+  .btn-save { background: var(--accent3); color: #fff; border: none; border-radius: var(--radius-sm); padding: 10px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-save:hover { opacity: 0.9; }
 
-  /* JUMP METRICS */
-  .jump-bar {
-    display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
-  }
-  .jump-bar-label { font-size: 0.75rem; color: var(--muted); width: 80px; }
-  .jump-bar-track {
-    flex: 1; height: 6px; background: var(--surface2);
-    border-radius: 3px; overflow: hidden;
-  }
-  .jump-bar-fill {
-    height: 100%; border-radius: 3px;
-    background: linear-gradient(90deg, var(--accent3), var(--accent));
-    transition: width 0.8s ease;
-  }
-  .jump-bar-val {
-    font-family: 'DM Mono', monospace; font-size: 0.72rem;
-    color: var(--text); width: 40px; text-align: right;
-  }
+  /* RECS */
+  .rec-analysis { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); margin-bottom: 14px; }
+  .rec-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .rec-text { font-size: 0.86rem; color: var(--text2); line-height: 1.75; }
+  .rec-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-top: 14px; }
+  .rec-stat { background: var(--bg2); border-radius: var(--radius-sm); padding: 8px; text-align: center; }
+  .rec-stat-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .rec-stat-val { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+  .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .tech-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); border-left: 3px solid var(--accent2); }
+  .tech-card.alert { border-left-color: var(--red); }
+  .tech-card.ok { border-left-color: var(--green); }
+  .tech-title { font-weight: 600; font-size: 0.86rem; margin-bottom: 5px; color: var(--text); }
+  .tech-body { font-size: 0.78rem; color: var(--text2); line-height: 1.6; }
+  .tech-source { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--accent3); margin-top: 6px; }
+
+  /* AI CHAT */
+  .ai-chat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+  .ai-chat-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+  .quick-qs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .quick-q { background: var(--bg2); border: 1px solid var(--border); border-radius: 100px; padding: 4px 12px; font-size: 0.72rem; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .quick-q:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .ai-messages { min-height: 80px; max-height: 280px; overflow-y: auto; margin-bottom: 12px; }
+  .ai-msg { margin-bottom: 10px; overflow: hidden; }
+  .ai-msg-user { background: var(--accent); color: #fff; border-radius: 10px 10px 2px 10px; padding: 8px 12px; font-size: 0.82rem; float: right; clear: both; max-width: 80%; }
+  .ai-msg-bot { background: var(--bg2); border: 1px solid var(--border); border-radius: 2px 10px 10px 10px; padding: 10px 12px; font-size: 0.82rem; color: var(--text2); line-height: 1.6; float: left; clear: both; max-width: 90%; }
+  .ai-input-row { display: flex; gap: 8px; clear: both; padding-top: 4px; }
+  .ai-input { flex: 1; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--text); outline: none; }
+  .ai-input:focus { border-color: var(--accent); }
+  .ai-send { background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 10px 16px; cursor: pointer; font-size: 0.82rem; font-weight: 600; transition: all 0.2s; }
+  .ai-send:hover { background: var(--accent2); }
+  .ai-send:disabled { opacity: 0.5; cursor: not-allowed; }
 
   /* LOADING */
-  .loading-state {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 12px; padding: 40px;
-    color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.75rem;
-  }
-  .spinner {
-    width: 28px; height: 28px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
+  .loading { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 24px; color: var(--muted); font-size: 0.82rem; }
+  .spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* BADGE */
-  .badge {
-    display: inline-flex; align-items: center;
-    padding: 2px 8px; border-radius: 4px;
-    font-family: 'DM Mono', monospace; font-size: 0.62rem;
-    font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
-  }
-  .badge-yellow { background: rgba(255,217,58,0.15); color: var(--yellow); }
-  .badge-green { background: rgba(58,255,180,0.12); color: var(--green); }
-  .badge-red { background: rgba(255,59,59,0.12); color: var(--red); }
-  .badge-blue { background: rgba(58,255,212,0.12); color: var(--accent3); }
-
-  /* SEGMENTS TABLE */
-  .seg-table { width: 100%; border-collapse: collapse; }
-  .seg-table th {
-    text-align: left; font-family: 'DM Mono', monospace; font-size: 0.75rem;
-    text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
-    padding: 8px 6px; border-bottom: 1px solid var(--border);
-  }
-  .seg-table td {
-    padding: 8px 6px; border-bottom: 1px solid #1a1a22;
-    font-size: 0.88rem;
-  }
-  .seg-table tr:hover td { background: var(--surface2); }
-  .time-pr { color: var(--yellow); font-family: 'DM Mono', monospace; }
-  .time-good { color: var(--green); font-family: 'DM Mono', monospace; }
-  .time-normal { color: var(--text); font-family: 'DM Mono', monospace; }
-  /* Hide PR and Veces columns on mobile, show delta inline */
-  @media (max-width: 700px) {
-    .seg-col-pr, .seg-col-pr-h, .seg-col-veces, .seg-col-veces-h { display: none !important; }
-  }
-  .seg-table tr:hover td { background: var(--surface2); }
-  .time-pr { color: var(--yellow); font-family: 'DM Mono', monospace; }
-  .time-good { color: var(--green); font-family: 'DM Mono', monospace; }
-  .time-normal { color: var(--text); font-family: 'DM Mono', monospace; }
-
-  /* PROGRESS RING */
-  .ring-container { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-  .ring-label { font-size: 0.68rem; color: var(--muted); font-family: 'DM Mono', monospace; }
-
-  /* TOOLTIP */
-  .tooltip { position: relative; }
-  .tooltip::after {
-    content: attr(data-tip);
-    position: absolute; bottom: calc(100% + 8px); left: 50%;
-    transform: translateX(-50%);
-    background: #222; color: var(--text); padding: 5px 10px;
-    border-radius: 6px; font-size: 0.68rem; white-space: nowrap;
-    pointer-events: none; opacity: 0; transition: opacity 0.2s;
-    font-family: 'DM Mono', monospace;
-  }
-  .tooltip:hover::after { opacity: 1; }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
-
-  /* GOOGLE DOC SETUP VIEWER */
-  .doc-iframe-container {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: var(--card-radius); overflow: hidden;
-    height: 500px; position: relative;
-  }
-  .doc-overlay {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column; gap: 12px;
-    background: var(--surface2);
-    font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted);
-  }
-
   /* RESPONSIVE */
-  @media (max-width: 900px) {
-    .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
-    .col-span-2, .col-span-3 { grid-column: span 1; }
-    main { padding: 16px; }
-    header { padding: 14px 16px; }
-    nav { padding: 12px 16px 0; }
+  @media (max-width: 768px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .session-grid, .setup-grid, .tech-grid { grid-template-columns: 1fr; }
+    .records-grid { grid-template-columns: 1fr; }
+    .rec-stats { grid-template-columns: repeat(2,1fr); }
+    .dyn-grid { grid-template-columns: 1fr 1fr; }
+    .kpi-value { font-size: 1.6rem; }
+    main { padding: 12px; }
   }
-  @media (max-width: 600px) {
-    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-    .config-grid { grid-template-columns: 1fr; }
-  }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <div class="logo">
-      <div class="logo-dot"></div>
-      MTB Agent
+  <div class="header-inner">
+    <div>
+      <div class="logo">🏔 MTB Agent</div>
+      <div class="logo-sub">Kenevo S4 · 2021 · Santiago</div>
     </div>
-    <div class="bike-id">Specialized Kenevo S4 · 2021 · Santiago, CL</div>
-  </div>
-  <div class="header-status">
-    <div class="status-pill" id="strava-status">
-      <div class="status-dot" id="strava-dot"></div>
-      <span id="strava-label">Strava</span>
+    <div class="header-right">
+      <div class="status-pill"><div class="status-dot" id="strava-dot"></div><span>Strava</span></div>
+      <div class="status-pill"><div class="status-dot" id="garmin-dot"></div><span>Garmin</span></div>
+      <button class="btn-sync" onclick="syncAll()">↻ Sync</button>
     </div>
-    <div class="status-pill" id="garmin-status">
-      <div class="status-dot" id="garmin-dot"></div>
-      <span id="garmin-label">Garmin</span>
-    </div>
-    <button class="btn btn-primary" onclick="fetchAll()">↻ Sync</button>
   </div>
 </header>
 
 <nav>
-  <button class="tab-btn active" onclick="switchTab('session')">📊 Sesión</button>
-  <button class="tab-btn" onclick="switchTab('history')">📈 Histórico</button>
-  <button class="tab-btn" onclick="switchTab('setup')">🔧 Setup Bici</button>
-  <button class="tab-btn" onclick="switchTab('recommendations')">💡 Recomendaciones</button>
-  <button class="tab-btn" onclick="switchTab('manuals')">📖 Manuales</button>
-  <button class="tab-btn" onclick="switchTab('config')">⚙ Config</button>
+  <button class="tab-btn active" onclick="switchTab('session',this)">📊 Sesión</button>
+  <button class="tab-btn" onclick="switchTab('records',this)">🏆 Records</button>
+  <button class="tab-btn" onclick="switchTab('setup',this)">🔧 Setup Bici</button>
+  <button class="tab-btn" onclick="switchTab('recs',this)">💡 Recomendaciones</button>
 </nav>
 
 <main>
 
-<!-- ═══════════════ TAB: CONFIG ═══════════════ -->
-<div class="tab-panel" id="tab-config">
-
-  <div class="config-box">
-    <div class="config-title"><span class="config-icon">🟠</span> Strava API</div>
-    <div class="config-grid">
-      <div class="form-group">
-        <label class="form-label">Client ID</label>
-        <input class="form-input" id="strava-client-id" placeholder="233784" value="233784">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Client Secret</label>
-        <input class="form-input" id="strava-client-secret" type="password" placeholder="••••••••••" value="0eb0218f66305ae68c0623128ee7c75d520d46b8">
-      </div>
-      <div class="form-group col-span-2">
-        <label class="form-label">Refresh Token</label>
-        <input class="form-input" id="strava-refresh-token" type="password" placeholder="••••••••••" value="ba290bd4d3ae4c0ab51d9ec4223d7125efd0d816">
-      </div>
-    </div>
-    <div style="margin-top:14px; display:flex; gap:10px; align-items:center;">
-      <button class="btn btn-primary" onclick="testStrava()">Probar conexión Strava</button>
-      <span id="strava-test-result" style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted);"></span>
-    </div>
-  </div>
-
-  <div class="config-box">
-    <div class="config-title"><span class="config-icon">🔵</span> Garmin Connect</div>
-    <div class="config-grid">
-      <div class="form-group">
-        <label class="form-label">Email / Username</label>
-        <input class="form-input" id="garmin-user" placeholder="tu@email.com">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input class="form-input" id="garmin-pass" type="password" placeholder="••••••••••">
-      </div>
-    </div>
-    <div style="margin-top:8px;">
-      <p style="font-family:'DM Mono',monospace; font-size:0.68rem; color:var(--muted); line-height:1.6;">
-        Se usa la librería <code style="color:var(--accent3)">garminconnect</code> (Python). Las credenciales solo se usan localmente 
-        para autenticar contra Garmin Connect — no se almacenan ni envían a ningún servidor externo.<br><br>
-        Para extraer MTB Dynamics (flow, grit, jumps) el agente descarga los archivos .FIT y los parsea localmente.
-      </p>
-    </div>
-    <div style="margin-top:14px; display:flex; gap:10px; align-items:center;">
-      <button class="btn btn-primary" onclick="testGarmin()">Probar conexión Garmin</button>
-      <span id="garmin-test-result" style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted);"></span>
-    </div>
-  </div>
-
-  <div class="config-box">
-    <div class="config-title"><span class="config-icon">📄</span> Google Doc · Setup Sheet</div>
-    <div class="form-group" style="margin-bottom:12px;">
-      <label class="form-label">URL del documento</label>
-      <input class="form-input" id="gdoc-url" value="https://docs.google.com/document/d/1TCh7pFq2gLvLADS4kDTI7-M_WzizU-6setX0e9tuJzo/edit">
-    </div>
-    <div style="display:flex; gap:10px;">
-      <button class="btn btn-primary" onclick="openGDoc()">Abrir documento</button>
-      <button class="btn btn-secondary" onclick="loadSetupFromDoc()">Cargar setup desde Doc</button>
-    </div>
-    <p style="font-family:'DM Mono',monospace; font-size:0.68rem; color:var(--muted); margin-top:10px; line-height:1.6;">
-      El documento debe estar compartido como "Cualquiera con el enlace puede ver". El agente extrae los valores de setup 
-      actuales para correlacionarlos con el rendimiento de cada salida.
-    </p>
-  </div>
-
-  <div class="config-box">
-    <div class="config-title"><span class="config-icon">⚙</span> Script de instalación Python</div>
-    <p style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); margin-bottom:12px; line-height:1.8;">
-      Ejecuta esto en tu terminal Mac para instalar las dependencias del agente:
-    </p>
-    <pre style="background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:16px; font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--accent3); overflow-x:auto; line-height:1.8;">pip3 install garminconnect requests python-dotenv fitparse
-
-# Crear archivo .env con tus credenciales:
-cat > ~/.mtb_agent.env << 'EOF'
-STRAVA_CLIENT_ID=233784
-STRAVA_CLIENT_SECRET=0eb0218f66305ae68c0623128ee7c75d520d46b8
-STRAVA_REFRESH_TOKEN=ba290bd4d3ae4c0ab51d9ec4223d7125efd0d816
-GARMIN_EMAIL=tu@email.com
-GARMIN_PASSWORD=tupassword
-EOF
-chmod 600 ~/.mtb_agent.env</pre>
-    <button class="btn btn-secondary" style="margin-top:12px;" onclick="copyInstall()">Copiar al portapapeles</button>
-  </div>
-
-</div>
-
-<!-- ═══════════════ TAB: SESIÓN ═══════════════ -->
+<!-- SESIÓN -->
 <div class="tab-panel active" id="tab-session">
+  <div class="activity-bar">
+    <select class="activity-select" id="activity-select" onchange="loadActivity(this.value)">
+      <option value="">— Selecciona una actividad —</option>
+    </select>
+    <button class="btn-primary" onclick="fetchStravaActivities()">Cargar actividades</button>
+  </div>
 
-  <div style="display:flex; gap:12px; margin-bottom:20px; align-items:center;">
-    <div class="form-group" style="flex:1;">
-      <label class="form-label">Actividad</label>
-      <select class="form-input" id="activity-select" onchange="loadActivity(this.value)">
-        <option value="">— Selecciona una actividad —</option>
-      </select>
+  <div class="kpi-grid">
+    <div class="kpi-card c1">
+      <div class="kpi-label">Distancia</div>
+      <div class="kpi-value" id="kpi-dist">—<span class="kpi-unit"> km</span></div>
+      <div class="kpi-sub" id="kpi-dist-sub">vel media: —</div>
     </div>
-    <div style="margin-top:18px;">
-      <button class="btn btn-primary" onclick="fetchStravaActivities()">Cargar actividades</button>
+    <div class="kpi-card c2">
+      <div class="kpi-label">Vel. Máxima</div>
+      <div class="kpi-value" id="kpi-speed">—<span class="kpi-unit"> km/h</span></div>
+      <div class="kpi-sub" id="kpi-speed-sub">fuente: —</div>
+    </div>
+    <div class="kpi-card c3">
+      <div class="kpi-label">Tiempo movimiento</div>
+      <div class="kpi-value" id="kpi-time">—</div>
+      <div class="kpi-sub" id="kpi-time-sub">total: —</div>
+    </div>
+    <div class="kpi-card c4">
+      <div class="kpi-label">Desnivel +</div>
+      <div class="kpi-value" id="kpi-elev">—<span class="kpi-unit"> m</span></div>
+      <div class="kpi-sub" id="kpi-elev-sub">descenso: —</div>
     </div>
   </div>
 
-  <!-- KPI ROW -->
-  <div class="grid-4" id="kpi-row">
-    <div class="card card-accent">
-      <div class="card-label">Distancia</div>
-      <div class="card-value" id="kpi-dist">—<span class="card-unit">km</span></div>
-      <div class="card-delta delta-neutral" id="kpi-dist-delta">vel media: —</div>
+  <div class="session-grid">
+    <div class="card">
+      <div class="card-title">Segmentos Strava</div>
+      <div id="segments-container"><div class="loading"><div class="spinner"></div>Carga una actividad</div></div>
     </div>
-    <div class="card card-red">
-      <div class="card-label">Vel. Máxima</div>
-      <div class="card-value" id="kpi-speed">—<span class="card-unit">km/h</span></div>
-      <div class="card-delta delta-neutral" id="kpi-speed-delta">fuente: —</div>
-    </div>
-    <div class="card card-blue">
-      <div class="card-label">Tiempo movimiento</div>
-      <div class="card-value" id="kpi-time">—</div>
-      <div class="card-delta delta-neutral" id="kpi-time-delta">total: —</div>
-    </div>
-    <div class="card card-green">
-      <div class="card-label">Desnivel +</div>
-      <div class="card-value" id="kpi-elev">—<span class="card-unit">m</span></div>
-      <div class="card-delta delta-neutral" id="kpi-elev-delta">descenso: —</div>
+    <div class="card">
+      <div class="card-title">MTB Dynamics · Garmin</div>
+      <div class="dyn-grid">
+        <div class="dyn-item"><div class="dyn-label">Jumps</div><div class="dyn-value" id="dyn-jumps">—</div><div class="dyn-sub">saltos totales</div></div>
+        <div class="dyn-item"><div class="dyn-label">Batería usada</div><div class="dyn-value" id="dyn-battery">—</div><div class="dyn-sub" id="dyn-battery-rem">restante: —</div></div>
+        <div class="dyn-item"><div class="dyn-label">Training Load</div><div class="dyn-value" id="dyn-load">—</div><div class="dyn-sub" id="dyn-fx">—</div></div>
+        <div class="dyn-item"><div class="dyn-label">FC media</div><div class="dyn-value" id="dyn-hr">—<span style="font-size:0.8rem"> ppm</span></div><div class="dyn-sub" id="dyn-temp">temp: —°C</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-label-row"><span class="bar-label">Flow</span><span class="bar-val" id="val-flow">—</span></div><div class="bar-track"><div class="bar-fill bar-flow" id="bar-flow" style="width:0%"></div></div></div>
+      <div class="bar-row"><div class="bar-label-row"><span class="bar-label">Grit</span><span class="bar-val" id="val-grit">—</span></div><div class="bar-track"><div class="bar-fill bar-grit" id="bar-grit" style="width:0%"></div></div></div>
+      <div class="best-jump" id="best-jump-card">
+        <div class="best-jump-label">🏆 Mejor salto de la sesión</div>
+        <div class="best-jump-val" id="best-jump-val">—</div>
+        <div style="font-size:0.7rem;opacity:0.85;margin-top:2px;" id="best-jump-sub">—</div>
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);margin-top:10px;" id="garmin-sync-time">Sin datos Garmin</div>
     </div>
   </div>
-
-  <div class="grid-2" style="margin-top:16px;">
-    <!-- STRAVA SEGMENTS -->
-    <div class="card">
-      <div class="card-label">Segmentos Strava</div>
-      <div style="margin-top:12px;" id="segments-container">
-        <div class="loading-state">
-          <div style="color:var(--muted); font-size:0.72rem;">Carga una actividad para ver segmentos</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MTB DYNAMICS (GARMIN) -->
-    <div class="card">
-      <div class="card-label">MTB Dynamics · Garmin</div>
-      <div style="margin-top:16px;" id="dynamics-container">
-        <div style="margin-bottom:16px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--muted);">JUMPS</span>
-            <span style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem;" id="dyn-jumps">—</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--muted);">BATERÍA USADA</span>
-            <span style="font-family:'DM Mono',monospace; font-size:0.92rem;" id="dyn-battery">—</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--muted);">TRAINING LOAD</span>
-            <span style="font-family:'DM Mono',monospace; font-size:0.92rem;" id="dyn-load">—</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--muted);">TRAINING FX</span>
-            <span style="font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--accent3);" id="dyn-fx">—</span>
-          </div>
-        </div>
-        <div style="margin-top:12px;">
-          <div class="jump-bar">
-            <div class="jump-bar-label">Flow</div>
-            <div class="jump-bar-track"><div class="jump-bar-fill" id="bar-flow" style="width:0%"></div></div>
-            <div class="jump-bar-val" id="val-flow">—</div>
-          </div>
-          <div class="jump-bar">
-            <div class="jump-bar-label">Grit</div>
-            <div class="jump-bar-track"><div class="jump-bar-fill" id="bar-grit" style="width:0%; background:linear-gradient(90deg,var(--accent2),var(--red))"></div></div>
-            <div class="jump-bar-val" id="val-grit">—</div>
-          </div>
-        </div>
-        <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
-          <button class="btn btn-secondary" style="width:100%; font-size:0.78rem;" onclick="loadGarminData()">↻ Cargar datos Garmin</button>
-          <div style="font-family:'DM Mono',monospace; font-size:0.68rem; color:var(--muted); margin-top:8px;" id="garmin-sync-time">
-            Ejecuta garmin_sync.py para actualizar
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SETUP CORRELACIÓN -->
-  <div class="section-title">Setup activo durante esta salida</div>
-  <div class="grid-3" id="session-setup-grid">
-    <div class="card">
-      <div class="card-label">🌵 Horquilla ZEB Ultimate</div>
-      <div class="setup-group" style="margin-top:12px;">
-        <div class="setup-row"><span class="setup-param">Presión aire</span><span class="setup-val" id="ss-fork-psi">— PSI</span></div>
-        <div class="setup-row"><span class="setup-param">Tokens</span><span class="setup-val" id="ss-fork-tokens">—</span></div>
-        <div class="setup-row"><span class="setup-param">Rebote</span><span class="setup-val" id="ss-fork-reb">— clics</span></div>
-        <div class="setup-row"><span class="setup-param">LSC</span><span class="setup-val" id="ss-fork-lsc">— clics</span></div>
-        <div class="setup-row"><span class="setup-param">HSC</span><span class="setup-val" id="ss-fork-hsc">—</span></div>
-        <div class="setup-row"><span class="setup-param">Sag</span><span class="setup-val" id="ss-fork-sag">— mm</span></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-label">🟡 Amortiguador Öhlins TTX22M</div>
-      <div class="setup-group" style="margin-top:12px;">
-        <div class="setup-row"><span class="setup-param">Libras Coil</span><span class="setup-val" id="ss-shock-spring">—</span></div>
-        <div class="setup-row"><span class="setup-param">Preload</span><span class="setup-val" id="ss-shock-preload">—</span></div>
-        <div class="setup-row"><span class="setup-param">Rebote</span><span class="setup-val" id="ss-shock-reb">— clics</span></div>
-        <div class="setup-row"><span class="setup-param">LSC</span><span class="setup-val" id="ss-shock-lsc">— clics</span></div>
-        <div class="setup-row"><span class="setup-param">HSC</span><span class="setup-val" id="ss-shock-hsc">—</span></div>
-        <div class="setup-row"><span class="setup-param">Sag</span><span class="setup-val" id="ss-shock-sag">— mm</span></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-label">⚙ General</div>
-      <div class="setup-group" style="margin-top:12px;">
-        <div class="setup-row"><span class="setup-param">Presión llanta D</span><span class="setup-val" id="ss-tire-f">— bar</span></div>
-        <div class="setup-row"><span class="setup-param">Presión llanta T</span><span class="setup-val" id="ss-tire-r">— bar</span></div>
-        <div class="setup-row"><span class="setup-param">Modo asistencia</span><span class="setup-val" id="ss-mode">—</span></div>
-        <div class="setup-row"><span class="setup-param">Temperatura</span><span class="setup-val" id="ss-temp">— °C</span></div>
-        <div class="setup-row"><span class="setup-param">Trail</span><span class="setup-val" id="ss-trail">—</span></div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
-<!-- ═══════════════ TAB: HISTÓRICO ═══════════════ -->
-<div class="tab-panel" id="tab-history">
-
-  <div class="grid-4" style="margin-bottom:20px;">
-    <div class="card card-accent">
-      <div class="card-label">Actividades totales</div>
-      <div class="card-value" id="hist-total">—</div>
-      <div class="card-delta delta-neutral">cargadas de Strava</div>
-    </div>
-    <div class="card card-blue">
-      <div class="card-label">Km acumulados</div>
-      <div class="card-value" id="hist-km">—<span class="card-unit">km</span></div>
-    </div>
-    <div class="card card-green">
-      <div class="card-label">Desnivel total</div>
-      <div class="card-value" id="hist-elev">—<span class="card-unit">m</span></div>
-    </div>
-    <div class="card card-red">
-      <div class="card-label">Horas rodadas</div>
-      <div class="card-value" id="hist-hrs">—<span class="card-unit">h</span></div>
-    </div>
+<!-- RECORDS -->
+<div class="tab-panel" id="tab-records">
+  <div class="records-period">📅 <span id="records-month-label">—</span></div>
+  <div class="records-grid">
+    <div class="record-card"><div class="record-icon">⚡</div><div class="record-label">Vel. Máxima del mes</div><div class="record-value" id="rec-maxspeed">—<span class="record-unit"> km/h</span></div><div class="record-date" id="rec-maxspeed-date">—</div><div class="record-pr" id="rec-maxspeed-pr">PR histórico: —</div></div>
+    <div class="record-card"><div class="record-icon">🦅</div><div class="record-label">Más saltos del mes</div><div class="record-value" id="rec-jump">—<span class="record-unit"> saltos</span></div><div class="record-date" id="rec-jump-date">—</div><div class="record-pr" id="rec-jump-pr">PR histórico: —</div></div>
+    <div class="record-card"><div class="record-icon">🌊</div><div class="record-label">Mejor Flow del mes</div><div class="record-value" id="rec-flow">—</div><div class="record-date" id="rec-flow-date">—</div><div class="record-pr" id="rec-flow-pr">PR histórico: —</div></div>
   </div>
-
-  <div class="section-title">Actividades recientes</div>
-  <div class="activity-list" id="activity-list">
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <span>Carga las actividades desde la pestaña Sesión</span>
-    </div>
-  </div>
-
+  <div class="section-title">Salidas del mes</div>
+  <div id="records-table-container"><div class="loading"><div class="spinner"></div>Carga actividades para ver records</div></div>
 </div>
 
-<!-- ═══════════════ TAB: SETUP BICI ═══════════════ -->
+<!-- SETUP BICI -->
 <div class="tab-panel" id="tab-setup">
-
-  <div style="display:flex; gap:12px; margin-bottom:20px; align-items:center; flex-wrap:wrap;">
-    <button class="btn btn-primary" onclick="loadSetupFromDoc()">↻ Cargar desde Google Doc</button>
-    <button class="btn btn-secondary" onclick="saveSetupLocal()">💾 Guardar localmente</button>
-    <button class="btn btn-secondary" onclick="exportSetupPDF()">📄 Exportar setup</button>
-    <span style="font-family:'DM Mono',monospace; font-size:0.68rem; color:var(--muted);" id="setup-last-updated">Última actualización: —</span>
+  <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+    <button class="btn-save" onclick="saveSetup()">💾 Guardar setup</button>
+    <span style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);" id="setup-saved-time">—</span>
   </div>
-
-  <div class="grid-2">
-
-    <!-- HORQUILLA ZEB -->
+  <div class="setup-grid">
     <div class="card">
-      <div class="setup-group-title" style="font-size:0.82rem; color:var(--accent); font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em;">
-        🌵 RockShox ZEB Ultimate · Charger 2.1 RC2 · 180mm
-      </div>
-      <div class="setup-group">
-        <div class="setup-group-title">Horquilla</div>
-        <div class="setup-row">
-          <span class="setup-param">Presión aire (PSI)</span>
-          <input class="setup-edit" id="fork-psi" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Tokens instalados</span>
-          <input class="setup-edit" id="fork-tokens" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Sag objetivo (mm)</span>
-          <input class="setup-edit" id="fork-sag" placeholder="~45mm (25%)" onchange="markDirty()">
-        </div>
-      </div>
-      <div class="setup-group">
-        <div class="setup-group-title">Amortiguación</div>
-        <div class="setup-row">
-          <span class="setup-param">Rebote (clics desde cerrado)</span>
-          <input class="setup-edit" id="fork-reb" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">LSC — Low Speed Comp</span>
-          <input class="setup-edit" id="fork-lsc" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">HSC — High Speed Comp (clics)</span>
-          <input class="setup-edit" id="fork-hsc" placeholder="— clics" onchange="markDirty()">
-        </div>
-      </div>
-      <div style="padding:10px 0; border-top:1px solid var(--border); margin-top:4px;">
-        <span style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted);">
-          Referencia: ZEB Ultimate A1 · DebonAir · 44mm offset · 27.5"
-        </span>
-      </div>
+      <div class="setup-section-title">🌵 Horquilla · RockShox ZEB Ultimate</div>
+      <div class="setup-group-title">Resorte neumático</div>
+      <div class="setup-row"><span class="setup-param">Presión aire (PSI)</span><input class="setup-input" id="fork-psi" placeholder="81"></div>
+      <div class="setup-row"><span class="setup-param">Tokens</span><input class="setup-input" id="fork-tokens" placeholder="2"></div>
+      <div class="setup-row"><span class="setup-param">Sag objetivo (mm)</span><input class="setup-input" id="fork-sag" placeholder="45"></div>
+      <div class="setup-group-title">Amortiguación</div>
+      <div class="setup-row"><span class="setup-param">Rebote (clics)</span><input class="setup-input" id="fork-reb" placeholder="8"></div>
+      <div class="setup-row"><span class="setup-param">LSC (clics)</span><input class="setup-input" id="fork-lsc" placeholder="7"></div>
+      <div class="setup-row"><span class="setup-param">HSC (clics)</span><input class="setup-input" id="fork-hsc" placeholder="3"></div>
     </div>
-
-    <!-- AMORTIGUADOR ÖHLINS -->
     <div class="card">
-      <div class="setup-group-title" style="font-size:0.82rem; color:var(--yellow); font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em;">
-        🟡 Öhlins TTX22M · 230×62.5mm · Coil
-      </div>
-      <div class="setup-group">
-        <div class="setup-group-title">Resorte</div>
-        <div class="setup-row">
-          <span class="setup-param">Libras Coil</span>
-          <input class="setup-edit" id="shock-spring" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Preload (vueltas)</span>
-          <input class="setup-edit" id="shock-preload" placeholder="1-2 vueltas" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Sag objetivo (%)</span>
-          <input class="setup-edit" id="shock-sag-pct" placeholder="25-30%" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Sag medido (mm)</span>
-          <input class="setup-edit" id="shock-sag-mm" placeholder="—" onchange="markDirty()">
-        </div>
-      </div>
-      <div class="setup-group">
-        <div class="setup-group-title">Amortiguación</div>
-        <div class="setup-row">
-          <span class="setup-param">Rebote (clics desde cerrado)</span>
-          <input class="setup-edit" id="shock-reb" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">LSC — Low Speed (azul)</span>
-          <input class="setup-edit" id="shock-lsc" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">HSC — High Speed (negro)</span>
-          <select class="setup-edit" id="shock-hsc" onchange="markDirty()">
-            <option value="">—</option>
-            <option value="I - Soft">I - Soft</option>
-            <option value="II - Medium">II - Medium (default)</option>
-            <option value="III - Hard">III - Hard</option>
-          </select>
-        </div>
-      </div>
-      <div style="padding:10px 0; border-top:1px solid var(--border); margin-top:4px;">
-        <span style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted);">
-          Ref: Rebote=dorado (bracket) · LSC=azul (cylinder head) · HSC=negro (cylinder head)
-        </span>
-      </div>
+      <div class="setup-section-title">🟡 Amortiguador · Öhlins TTX22M</div>
+      <div class="setup-group-title">Resorte Coil</div>
+      <div class="setup-row"><span class="setup-param">Libras Coil</span><input class="setup-input" id="shock-spring" placeholder="500 lbs"></div>
+      <div class="setup-row"><span class="setup-param">Preload (vueltas)</span><input class="setup-input" id="shock-preload" placeholder="1-2"></div>
+      <div class="setup-row"><span class="setup-param">Sag medido (mm)</span><input class="setup-input" id="shock-sag" placeholder="~19"></div>
+      <div class="setup-group-title">Amortiguación</div>
+      <div class="setup-row"><span class="setup-param">Rebote (clics)</span><input class="setup-input" id="shock-reb" placeholder="4"></div>
+      <div class="setup-row"><span class="setup-param">LSC (clics)</span><input class="setup-input" id="shock-lsc" placeholder="8"></div>
+      <div class="setup-row"><span class="setup-param">HSC</span><select class="setup-select" id="shock-hsc"><option value="I">I — Soft</option><option value="II" selected>II — Medium</option><option value="III">III — Hard</option></select></div>
     </div>
-
-    <!-- LLANTAS -->
     <div class="card">
-      <div class="setup-group-title" style="font-size:0.82rem; color:var(--accent3); font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em;">
-        🔵 Setup Neumáticos
-      </div>
-      <div class="setup-group">
-        <div class="setup-group-title">Presiones (tubeless)</div>
-        <div class="setup-row">
-          <span class="setup-param">Delantera (bar)</span>
-          <input class="setup-edit" id="tire-front" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Trasera (bar)</span>
-          <input class="setup-edit" id="tire-rear" placeholder="—" onchange="markDirty()">
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Sellante (ml/llanta)</span>
-          <input class="setup-edit" id="tire-sealant" placeholder="~60ml" onchange="markDirty()">
-        </div>
-      </div>
-      <div class="setup-group">
-        <div class="setup-group-title">Neumáticos</div>
-        <div class="setup-row">
-          <span class="setup-param">Delantero</span>
-          <span class="setup-val">Schwalbe Eddy Current 27.5×2.6"</span>
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Trasero</span>
-          <span class="setup-val">Schwalbe Big Betty 27.5×2.4"</span>
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Inserto trasero</span>
-          <span class="setup-val">Tannus Armour · tubeless</span>
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Llanta</span>
-          <span class="setup-val">Roval 27.5" Alloy DH · 28mm</span>
-        </div>
-      </div>
+      <div class="setup-section-title">🔵 Setup Neumáticos</div>
+      <div class="setup-group-title">Presiones tubeless</div>
+      <div class="setup-row"><span class="setup-param">Delantera (bar)</span><input class="setup-input" id="tire-front" placeholder="1.4"></div>
+      <div class="setup-row"><span class="setup-param">Trasera (bar)</span><input class="setup-input" id="tire-rear" placeholder="1.4"></div>
+      <div class="setup-row"><span class="setup-param">Sellante (ml)</span><input class="setup-input" id="tire-sealant" placeholder="60"></div>
+      <div class="setup-group-title">Neumáticos</div>
+      <div class="setup-row"><span class="setup-param">Delantera</span><span class="setup-val" style="font-size:0.7rem;">Schwalbe Eddy Current 27.5×2.6"</span></div>
+      <div class="setup-row"><span class="setup-param">Trasera</span><span class="setup-val" style="font-size:0.7rem;">Big Betty 27.5×2.4" · Tannus</span></div>
     </div>
-
     <div class="card">
-      <div class="setup-group-title" style="font-size:0.82rem; color:var(--accent2); font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em;">
-        ⚙ Motor & Asistencia
-      </div>
-      <div class="setup-group">
-        <div class="setup-group-title">E-Bike</div>
-        <div class="setup-row">
-          <span class="setup-param">Motor</span>
-          <span class="setup-val">Specialized 2.2 · 90Nm · 565W</span>
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Batería</span>
-          <select class="setup-edit" id="battery-type" onchange="markDirty()">
-            <option value="500Wh">M2-500 · 500Wh</option>
-            <option value="700Wh">M2-700 · 700Wh</option>
-          </select>
-        </div>
-        <div class="setup-row">
-          <span class="setup-param">Modo preferido</span>
-          <select class="setup-edit" id="motor-mode" onchange="markDirty()">
-            <option value="">—</option>
-            <option value="Eco">Eco</option>
-            <option value="Trail">Trail</option>
-            <option value="Turbo">Turbo</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- SAVE STATUS -->
-  <div id="dirty-banner" style="display:none; margin-top:16px;" class="rec-card">
-    <div class="rec-title">⚠ Cambios sin guardar</div>
-    <div class="rec-body">Hay modificaciones en el setup que no han sido guardadas. Usa "Guardar localmente" para persistirlos.</div>
-    <div style="margin-top:10px; display:flex; gap:10px;">
-      <button class="btn btn-primary" onclick="saveSetupLocal()">Guardar ahora</button>
-      <button class="btn btn-secondary" onclick="discardChanges()">Descartar</button>
+      <div class="setup-section-title">⚡ Motor & E-Bike</div>
+      <div class="setup-group-title">Sistema</div>
+      <div class="setup-row"><span class="setup-param">Motor</span><span class="setup-val" style="font-size:0.7rem;">Specialized 2.2 · 90Nm · 565W</span></div>
+      <div class="setup-row"><span class="setup-param">Batería</span><select class="setup-select" id="battery-type"><option value="500Wh">M2-500 · 500Wh</option><option value="700Wh">M2-700 · 700Wh</option></select></div>
+      <div class="setup-row"><span class="setup-param">Modo preferido</span><select class="setup-select" id="motor-mode"><option value="Eco">Eco</option><option value="Trail" selected>Trail</option><option value="Turbo">Turbo</option></select></div>
+      <div class="setup-group-title">Frenos</div>
+      <div class="setup-row"><span class="setup-param">Manetas</span><span class="setup-val" style="font-size:0.7rem;">Shimano XT</span></div>
+      <div class="setup-row"><span class="setup-param">Calipers</span><span class="setup-val" style="font-size:0.7rem;">Magura MT5 eStop</span></div>
     </div>
   </div>
-
 </div>
 
-<!-- ═══════════════ TAB: RECOMENDACIONES ═══════════════ -->
-<div class="tab-panel" id="tab-recommendations">
-
-  <div style="display:flex; gap:12px; margin-bottom:20px; align-items:center;">
-    <button class="btn btn-primary" onclick="generateRecommendations()">⚡ Generar análisis</button>
-    <span style="font-family:'DM Mono',monospace; font-size:0.78rem; color:var(--muted);">
-      Requiere actividad cargada + setup configurado
-    </span>
+<!-- RECOMENDACIONES -->
+<div class="tab-panel" id="tab-recs">
+  <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap;">
+    <button class="btn-primary" onclick="generateAnalysis()">⚡ Generar análisis</button>
+    <span style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);">Requiere actividad cargada</span>
   </div>
 
-  <!-- ANÁLISIS GENERAL DE LA VUELTA -->
-  <div id="ride-analysis-container" style="margin-bottom:24px; display:none;">
-    <div class="section-title">Análisis de la vuelta</div>
-    <div class="card" style="border-left:3px solid var(--accent);">
-      <div class="card-label" style="margin-bottom:12px;">📊 Resumen ejecutivo</div>
-      <div id="ride-analysis-text" style="font-size:0.95rem; line-height:1.8; color:var(--text);"></div>
-      <div style="margin-top:16px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px;" id="ride-analysis-stats"></div>
+  <div id="rec-analysis-container" style="display:none;">
+    <div class="rec-analysis">
+      <div class="rec-title" id="rec-analysis-title">—</div>
+      <div class="rec-text" id="rec-analysis-text">—</div>
+      <div class="rec-stats" id="rec-stats"></div>
     </div>
+    <div class="tech-grid" id="tech-cards"></div>
   </div>
 
-  <div id="recs-container">
-    <div class="grid-2">
-      <!-- SUSPENSIÓN TRASERA -->
-      <div>
-        <div class="section-title">Amortiguador Öhlins TTX22M</div>
-        <div id="recs-shock">
-          <div class="rec-card">
-            <div class="rec-title">Listo para analizar</div>
-            <div class="rec-body">Carga una actividad y configura el setup actual, luego haz clic en "Generar análisis" para recibir recomendaciones personalizadas basadas en tu rendimiento real.</div>
-            <div class="rec-source">📖 Öhlins TTX22M Owner's Manual</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- HORQUILLA -->
-      <div>
-        <div class="section-title">Horquilla RockShox ZEB</div>
-        <div id="recs-fork">
-          <div class="rec-card">
-            <div class="rec-title">Listo para analizar</div>
-            <div class="rec-body">El análisis correlaciona métricas de flow, grit y segmentos Strava con los ajustes actuales de compresión, rebote y presión de aire.</div>
-            <div class="rec-source">📖 RockShox ZEB A1 Service Manual</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- LLANTAS -->
-      <div>
-        <div class="section-title">Presiones de neumáticos</div>
-        <div id="recs-tires">
-          <div class="rec-card">
-            <div class="rec-title">Referencia rápida</div>
-            <div class="rec-body">Delantera: <strong>Schwalbe Eddy Current 27.5×2.6"</strong> (tubeless)<br>
-            Trasera: <strong>Schwalbe Big Betty 27.5×2.4"</strong> · Tannus Armour instalado<br><br>
-            Rango típico enduro: <strong>1.4–1.6 bar delantera · 1.4–1.6 bar trasera</strong><br>
-            Para terreno seco y duro: +0.1 bar. Para barro o raíces: −0.1 bar.</div>
-            <div class="rec-source">📐 Geometría Kenevo S4 · Specs técnicas</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SAG GUIDE -->
-      <div>
-        <div class="section-title">Guía de Sag</div>
-        <div id="recs-sag">
-          <div class="rec-card positive">
-            <div class="rec-title">Horquilla ZEB 180mm</div>
-            <div class="rec-body">Sag recomendado: <strong>25–30% del recorrido = 45–54 mm</strong><br>
-            Con tu peso + equipo, mide la distancia entre tope superior y rubber bump sentado en posición normal de rodada.<br><br>
-            Si usas 1-2 full turns de preload y no logras el sag → cambiar spring rate.</div>
-            <div class="rec-source">📖 Öhlins TTX22M Owner's Manual · Setting sag and preload</div>
-          </div>
-          <div class="rec-card" style="margin-top:10px; border-left-color:var(--yellow);">
-            <div class="rec-title">Amortiguador Öhlins 230×62.5mm</div>
-            <div class="rec-body">Stroke: 62.5mm · Sag recomendado: 25–30% = <strong>15.6–18.7 mm</strong><br>
-            Preload de 1-2 vueltas es el punto de partida. Ajustar spring rate si no hay sag correcto con ese preload.</div>
-            <div class="rec-source">📖 Öhlins TTX22M · Spring Rate section</div>
-          </div>
-        </div>
-      </div>
+  <div class="ai-chat">
+    <div class="ai-chat-title">🤖 Coach de técnica enduro</div>
+    <div class="quick-qs">
+      <span class="quick-q" onclick="sendQuickQ(this)">¿Cómo mejorar en bajadas técnicas?</span>
+      <span class="quick-q" onclick="sendQuickQ(this)">¿Qué ajuste de suspensión recomiendas?</span>
+      <span class="quick-q" onclick="sendQuickQ(this)">¿Cómo frenar mejor en curvas?</span>
+      <span class="quick-q" onclick="sendQuickQ(this)">¿Cómo mejorar mi flow?</span>
+      <span class="quick-q" onclick="sendQuickQ(this)">Técnica de saltos para enduro</span>
     </div>
-
-    <!-- DIAGNÓSTICO POR SENSACIÓN -->
-    <div class="section-title" style="margin-top:24px;">Diagnóstico rápido por sensación</div>
-    <div class="grid-3" id="feel-diagnosis">
-      <div class="card" style="cursor:pointer;" onclick="showDiag('loose')">
-        <div class="card-label">Si la bici se siente...</div>
-        <div style="font-size:1.4rem; margin:10px 0;">🤸 Suelta / nerviosa</div>
-        <div style="font-size:0.78rem; color:var(--muted);">Inestable en aceleración y frenada, nerviosa en secciones con baches</div>
-        <div style="margin-top:10px;"><span class="badge badge-red">→ + Rebote trasero</span></div>
-      </div>
-      <div class="card" style="cursor:pointer;" onclick="showDiag('harsh')">
-        <div class="card-label">Si la bici se siente...</div>
-        <div style="font-size:1.4rem; margin:10px 0;">🧱 Dura / sin tracción</div>
-        <div style="font-size:0.78rem; color:var(--muted);">Golpes en baches, difícil entrar en curvas, no sigue la línea</div>
-        <div style="margin-top:10px;"><span class="badge badge-blue">→ − Rebote trasero</span></div>
-      </div>
-      <div class="card" style="cursor:pointer;" onclick="showDiag('bottom')">
-        <div class="card-label">Si la bici se siente...</div>
-        <div style="font-size:1.4rem; margin:10px 0;">⬇ Baja / fonde en saltos</div>
-        <div style="font-size:0.78rem; color:var(--muted);">Posición baja, recorre fácilmente el stroke, fonde al aterrizar</div>
-        <div style="margin-top:10px;"><span class="badge badge-yellow">→ + Compresión HSC → III</span></div>
-      </div>
-      <div class="card" style="cursor:pointer;" onclick="showDiag('soft')">
-        <div class="card-label">Si la bici se siente...</div>
-        <div style="font-size:1.4rem; margin:10px 0;">🫧 Esponjosa / inestable en curvas</div>
-        <div style="font-size:0.78rem; color:var(--muted);">Amortiguador blando, sensación esponjosa al entrar en curvas</div>
-        <div style="margin-top:10px;"><span class="badge badge-green">→ + LSC (2 clics CW)</span></div>
-      </div>
-      <div class="card" style="cursor:pointer;" onclick="showDiag('fork-harsh')">
-        <div class="card-label">Si la horquilla se siente...</div>
-        <div style="font-size:1.4rem; margin:10px 0;">💥 Seca en baches pequeños</div>
-        <div style="font-size:0.78rem; color:var(--muted);">Sin sensibilidad en baches pequeños, sacudida en pedales</div>
-        <div style="margin-top:10px;"><span class="badge badge-blue">→ − Presión aire · − LSC</span></div>
-      </div>
-      <div class="card" style="cursor:pointer;" onclick="showDiag('fork-dive')">
-        <div class="card-label">Si la horquilla se siente...</div>
-        <div style="font-size:1.4rem; margin:10px 0;">📉 Hunde al frenar</div>
-        <div style="font-size:0.78rem; color:var(--muted);">Excesivo hundimiento al aplicar freno delantero</div>
-        <div style="margin-top:10px;"><span class="badge badge-yellow">→ + LSC · + Token</span></div>
-      </div>
+    <div class="ai-messages" id="ai-messages">
+      <div class="ai-msg"><div class="ai-msg-bot">Hola Guillermo 👋 Soy tu coach de técnica enduro. Carga una actividad y genera el análisis, o pregúntame directamente sobre pilotaje, setup o entrenamiento.</div></div>
     </div>
-  </div>
-
-  <!-- DIAGNOSIS MODAL -->
-  <div id="diag-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:200; display:none; align-items:center; justify-content:center;">
-    <div style="background:var(--surface2); border:1px solid var(--border); border-radius:16px; padding:28px; max-width:500px; width:90%;">
-      <div id="diag-content"></div>
-      <button class="btn btn-secondary" style="margin-top:16px;" onclick="closeDiag()">Cerrar</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- ═══════════════ TAB: MANUALES ═══════════════ -->
-<div class="tab-panel" id="tab-manuals">
-
-  <div class="grid-2">
-    <div class="card card-yellow" style="border-left-color:var(--yellow);">
-      <div class="card-label" style="color:var(--yellow);">📖 Öhlins TTX22M</div>
-      <div style="margin-top:10px; font-size:0.82rem; color:var(--muted); line-height:1.7;">
-        Amortiguador trasero coil · 230×62.5mm<br>
-        Twin tube design · Patented TTX concept
-      </div>
-      <div class="setup-group" style="margin-top:14px;">
-        <div class="setup-row"><span class="setup-param">Rebote</span><span class="setup-val">Adjuster dorado · bracket · CW = + amortiguación</span></div>
-        <div class="setup-row"><span class="setup-param">LSC</span><span class="setup-val">Adjuster azul · cylinder head · CW = + amortiguación</span></div>
-        <div class="setup-row"><span class="setup-param">HSC</span><span class="setup-val">Adjuster negro · 3 pos: I=soft / II=medium / III=hard</span></div>
-        <div class="setup-row"><span class="setup-param">Servicio</span><span class="setup-val">Cada 50h o 1 vez/año</span></div>
-        <div class="setup-row"><span class="setup-param">Gas N₂</span><span class="setup-val">No modificar · solo centro autorizado</span></div>
-        <div class="setup-row"><span class="setup-param">Fluido</span><span class="setup-val">Öhlins Shock Absorber Fluid #01304-01</span></div>
-      </div>
-    </div>
-
-    <div class="card" style="border-left:3px solid var(--accent3);">
-      <div class="card-label" style="color:var(--accent3);">📖 RockShox ZEB Ultimate · Charger 2.1 RC2</div>
-      <div style="margin-top:10px; font-size:0.82rem; color:var(--muted); line-height:1.7;">
-        Horquilla 180mm · 27.5" · DebonAir · 44mm offset
-      </div>
-      <div class="setup-group" style="margin-top:14px;">
-        <div class="setup-row"><span class="setup-param">Rebote</span><span class="setup-val">Mando rebote · CW = cerrar · contar desde cerrado</span></div>
-        <div class="setup-row"><span class="setup-param">LSC</span><span class="setup-val">Bajo velocidad comp · CW = + amortiguación</span></div>
-        <div class="setup-row"><span class="setup-param">HSC</span><span class="setup-val">Alto velocidad comp · 4 pos: Open / Medium / Firm / Locked</span></div>
-        <div class="setup-row"><span class="setup-param">Tokens</span><span class="setup-val">Bottomless Tokens 35mm · gris · aumentan progresividad</span></div>
-        <div class="setup-row"><span class="setup-param">Mant. 50h</span><span class="setup-val">Mantenimiento brazo inferior</span></div>
-        <div class="setup-row"><span class="setup-param">Mant. 200h</span><span class="setup-val">Amortiguador + resorte</span></div>
-      </div>
-    </div>
-
-    <div class="card col-span-2" style="border-left:3px solid var(--accent2);">
-      <div class="card-label" style="color:var(--accent2);">📐 Geometría & Especificaciones · Specialized Kenevo S4 2021</div>
-      <div class="grid-4" style="margin-top:14px; gap:8px;">
-        <div><div class="card-label">Reach</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;">475<span class="card-unit">mm</span></div></div>
-        <div><div class="card-label">Stack</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;">611<span class="card-unit">mm</span></div></div>
-        <div><div class="card-label">Ángulo dirección</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;">64.5<span class="card-unit">°</span></div></div>
-        <div><div class="card-label">Ángulo asiento</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;">78<span class="card-unit">°</span></div></div>
-        <div><div class="card-label">Distancia ejes</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;">1263<span class="card-unit">mm</span></div></div>
-        <div><div class="card-label">BB Height</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;">351<span class="card-unit">mm</span></div></div>
-        <div><div class="card-label">Trail</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;">125<span class="card-unit">mm</span></div></div>
-        <div><div class="card-label">Vaina inferior</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;">454<span class="card-unit">mm</span></div></div>
-        <div><div class="card-label">Travel trasero</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;">180<span class="card-unit">mm</span></div></div>
-        <div><div class="card-label">Motor</div><div style="font-size:0.72rem; color:var(--text); font-family:'DM Mono',monospace; margin-top:4px;">2.2 Custom Rx<br>90Nm · 565W</div></div>
-        <div><div class="card-label">Batería</div><div style="font-size:0.72rem; color:var(--text); font-family:'DM Mono',monospace; margin-top:4px;">M2-500 · 500Wh<br>M2-700 · 700Wh</div></div>
-        <div><div class="card-label">Frenos</div><div style="font-size:0.72rem; color:var(--text); font-family:'DM Mono',monospace; margin-top:4px;">Shimano XT (manetas)<br>Magura MT5 eStop</div></div>
-      </div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-input" placeholder="Pregunta sobre técnica, setup o tu salida..." onkeypress="if(event.key==='Enter')sendAI()">
+      <button class="ai-send" id="ai-send-btn" onclick="sendAI()">Enviar</button>
     </div>
   </div>
 </div>
@@ -1068,131 +377,30 @@ chmod 600 ~/.mtb_agent.env</pre>
 </main>
 
 <script>
-// ═══════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════
 const STATE = {
-  strava: {
-    clientId: '233784',
-    clientSecret: '0eb0218f66305ae68c0623128ee7c75d520d46b8',
-    refreshToken: 'ba290bd4d3ae4c0ab51d9ec4223d7125efd0d816',
-    accessToken: null,
-    tokenExpiry: 0
-  },
-  activities: [],
-  selectedActivity: null,
-  setup: {},
-  dirty: false
+  strava: { clientId:'233784', clientSecret:'0eb0218f66305ae68c0623128ee7c75d520d46b8', refreshToken:'ba290bd4d3ae4c0ab51d9ec4223d7125efd0d816', accessToken:null, tokenExpiry:0 },
+  activities: [], selectedActivity: null, garminData: null, aiHistory: []
 };
+const GARMIN_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main/garmin_data.json';
 
-// Load saved setup from localStorage
-function initState() {
-  const saved = localStorage.getItem('mtb_setup');
-  if (saved) {
-    STATE.setup = JSON.parse(saved);
-  } else {
-    // Valores reales del setup base · Guillermo González · 94kg · 26-Mar-2026
-    STATE.setup = {
-      fork: {
-        psi: '81',         // PSI
-        tokens: '2',
-        sag: '45',
-        rebound: '8',
-        lsc: '7',
-        hsc: '3'
-      },
-      shock: {
-        spring: '500 lbs',
-        preload: '—',
-        sagPct: '30%',
-        sagMm: '~19',
-        rebound: '4',
-        lsc: '8',
-        hsc: 'II - Medium'
-      },
-      tires: {
-        front: '1.4',
-        rear: '1.4',
-        sealant: '60'
-      },
-      cockpit: {
-        motorMode: 'Trail',
-        battery: '500Wh'
-      },
-      lastUpdated: '2026-03-26T00:00:00.000Z'
-    };
-  }
-  populateSetupFields();
-  updateConnectionStatuses();
-}
+document.addEventListener('DOMContentLoaded', () => { loadSetup(); loadGarminData(); setStatus('strava',true); updateRecordsMonth(); });
 
-// ═══════════════════════════════════════════
-//  TABS
-// ═══════════════════════════════════════════
-function switchTab(id) {
+function switchTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  event.target.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  if (btn) btn.classList.add('active');
 }
 
-// ═══════════════════════════════════════════
-//  STRAVA API
-// ═══════════════════════════════════════════
+// STRAVA
 async function getStravaToken() {
-  const now = Date.now() / 1000;
-  if (STATE.strava.accessToken && STATE.strava.tokenExpiry > now + 60) {
-    return STATE.strava.accessToken;
-  }
-  const clientId = document.getElementById('strava-client-id').value || STATE.strava.clientId;
-  const clientSecret = document.getElementById('strava-client-secret').value || STATE.strava.clientSecret;
-  const refreshToken = document.getElementById('strava-refresh-token').value || STATE.strava.refreshToken;
-
-  try {
-    const res = await fetch('https://www.strava.com/oauth/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        client_id: clientId,
-        client_secret: clientSecret,
-        refresh_token: refreshToken,
-        grant_type: 'refresh_token'
-      })
-    });
-    const data = await res.json();
-    if (data.access_token) {
-      STATE.strava.accessToken = data.access_token;
-      STATE.strava.tokenExpiry = data.expires_at;
-      return data.access_token;
-    }
-    throw new Error(data.message || 'Token refresh failed');
-  } catch (e) {
-    throw new Error('Strava auth error: ' + e.message);
-  }
-}
-
-async function testStrava() {
-  const el = document.getElementById('strava-test-result');
-  el.textContent = 'Conectando...';
-  el.style.color = 'var(--muted)';
-  try {
-    const token = await getStravaToken();
-    const res = await fetch('https://www.strava.com/api/v3/athlete', {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
-    const data = await res.json();
-    if (data.id) {
-      el.textContent = `✓ Conectado como ${data.firstname} ${data.lastname}`;
-      el.style.color = 'var(--green)';
-      setStatus('strava', true);
-    } else {
-      throw new Error('No athlete data');
-    }
-  } catch (e) {
-    el.textContent = '✗ ' + e.message;
-    el.style.color = 'var(--red)';
-    setStatus('strava', false);
-  }
+  const now = Date.now()/1000;
+  if (STATE.strava.accessToken && STATE.strava.tokenExpiry > now+60) return STATE.strava.accessToken;
+  const res = await fetch('https://www.strava.com/oauth/token', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ client_id:STATE.strava.clientId, client_secret:STATE.strava.clientSecret, refresh_token:STATE.strava.refreshToken, grant_type:'refresh_token' }) });
+  const data = await res.json();
+  if (!data.access_token) throw new Error('Token refresh failed');
+  STATE.strava.accessToken = data.access_token; STATE.strava.tokenExpiry = data.expires_at;
+  return data.access_token;
 }
 
 async function fetchStravaActivities() {
@@ -1200,776 +408,260 @@ async function fetchStravaActivities() {
   select.innerHTML = '<option value="">Cargando...</option>';
   try {
     const token = await getStravaToken();
-    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=30', {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
-    const activities = await res.json();
-    if (!Array.isArray(activities)) throw new Error('No activities returned');
-
-    const mtb = activities.filter(a => 
-      a.type === 'MountainBikeRide' || a.sport_type === 'MountainBikeRide' ||
-      a.type === 'EBikeRide' || a.sport_type === 'EBikeRide'
-    );
-    STATE.activities = mtb.length ? mtb : activities;
-
+    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=30', { headers:{'Authorization':'Bearer '+token} });
+    const acts = await res.json();
+    if (!Array.isArray(acts)) throw new Error('No activities');
+    const filtered = acts.filter(a => ['MountainBikeRide','EBikeRide'].includes(a.type) || ['MountainBikeRide','EBikeRide'].includes(a.sport_type));
+    STATE.activities = filtered.length ? filtered : acts;
     select.innerHTML = '<option value="">— Selecciona una actividad —</option>';
     STATE.activities.forEach(a => {
       const date = new Date(a.start_date_local).toLocaleDateString('es-CL');
-      const dist = (a.distance / 1000).toFixed(1);
-      const elev = Math.round(a.total_elevation_gain);
-      select.innerHTML += `<option value="${a.id}">${date} · ${a.name} · ${dist}km · ${elev}m↑</option>`;
+      select.innerHTML += `<option value="${a.id}">${date} · ${a.name} · ${(a.distance/1000).toFixed(1)}km · ${Math.round(a.total_elevation_gain)}m↑</option>`;
     });
-
-    updateHistoryTab();
-    setStatus('strava', true);
-  } catch (e) {
-    select.innerHTML = '<option value="">Error: ' + e.message + '</option>';
-    setStatus('strava', false);
-  }
+    setStatus('strava',true);
+  } catch(e) { select.innerHTML = `<option value="">Error: ${e.message}</option>`; setStatus('strava',false); }
 }
 
-async function loadActivity(activityId) {
-  if (!activityId) return;
-  const activity = STATE.activities.find(a => a.id == activityId);
-  if (!activity) return;
-  STATE.selectedActivity = activity;
-
-  // KPIs
-  document.getElementById('kpi-dist').innerHTML = (activity.distance/1000).toFixed(1) + '<span class="card-unit">km</span>';
-  document.getElementById('kpi-elev').innerHTML = Math.round(activity.total_elevation_gain) + '<span class="card-unit">m</span>';
-
-  const movSec = activity.moving_time;
-  const elapsedSec = activity.elapsed_time;
-  document.getElementById('kpi-time').textContent = formatTime(elapsedSec);
-  document.getElementById('kpi-time-delta').textContent = 'mov: ' + formatTime(movSec);
-
-  const speed = activity.average_speed * 3.6;
-  const stravaMaxSpeed = activity.max_speed * 3.6;
-  // Use Garmin max speed if available (more accurate than Strava)
-  const garminMaxSpeed = STATE.garminData?.activities?.find(a => 
-    a.startTimeLocal && new Date(a.startTimeLocal).toDateString() === new Date(activity.start_date_local).toDateString()
-  )?.maxSpeed;
-  const maxSpeed = garminMaxSpeed ? garminMaxSpeed * 3.6 : stravaMaxSpeed;
-  const maxSpeedSource = garminMaxSpeed ? 'Garmin' : 'Strava';
-  document.getElementById('kpi-speed').innerHTML = maxSpeed.toFixed(1) + '<span class="card-unit">km/h</span>';
-  document.getElementById('kpi-speed-delta').textContent = maxSpeedSource;
-
-  // Load segments
-  await loadSegments(activityId);
-
-  // Load Garmin data matching this activity's date
-  await loadGarminDataForActivity(activity);
-
-  // Populate session setup from current setup
-  populateSessionSetup();
+async function loadActivity(id) {
+  if (!id) return;
+  const act = STATE.activities.find(a => a.id==id);
+  if (!act) return;
+  STATE.selectedActivity = act;
+  const dist = (act.distance/1000).toFixed(1);
+  const avgSpd = (act.average_speed*3.6).toFixed(1);
+  const maxSpd = (act.max_speed*3.6).toFixed(1);
+  document.getElementById('kpi-dist').innerHTML = dist+'<span class="kpi-unit"> km</span>';
+  document.getElementById('kpi-dist-sub').textContent = 'vel media: '+avgSpd+' km/h';
+  document.getElementById('kpi-speed').innerHTML = maxSpd+'<span class="kpi-unit"> km/h</span>';
+  document.getElementById('kpi-speed-sub').textContent = 'Strava';
+  document.getElementById('kpi-time').textContent = formatTime(act.moving_time);
+  document.getElementById('kpi-time-sub').textContent = 'total: '+formatTime(act.elapsed_time);
+  document.getElementById('kpi-elev').innerHTML = Math.round(act.total_elevation_gain)+'<span class="kpi-unit"> m</span>';
+  document.getElementById('kpi-elev-sub').textContent = 'descenso: '+Math.round(act.total_elevation_loss||0)+'m';
+  await loadSegments(id);
+  await loadGarminDataForActivity(act);
 }
 
 async function loadSegments(activityId) {
-  const container = document.getElementById('segments-container');
-  container.innerHTML = '<div class="loading-state"><div class="spinner"></div><span>Cargando segmentos...</span></div>';
+  const c = document.getElementById('segments-container');
+  c.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando...</div>';
   try {
     const token = await getStravaToken();
-    const res = await fetch(`https://www.strava.com/api/v3/activities/${activityId}?include_all_efforts=true`, {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
+    const res = await fetch(`https://www.strava.com/api/v3/activities/${activityId}?include_all_efforts=true`, { headers:{'Authorization':'Bearer '+token} });
     const data = await res.json();
-    const efforts = data.segment_efforts || [];
-    if (!efforts.length) {
-      container.innerHTML = '<div style="color:var(--muted);font-family:\'DM Mono\',monospace;font-size:0.72rem;padding:16px;">Sin segmentos en esta actividad</div>';
-      return;
-    }
-
-    // Fetch segment stats for each effort (includes athlete_segment_stats with PR)
-    container.innerHTML = '<div class="loading-state"><div class="spinner"></div><span>Cargando PRs... (0/' + efforts.length + ')</span></div>';
-
-    const enriched = await Promise.all(
-      efforts.map(async (e, i) => {
-        try {
-          const segRes = await fetch(`https://www.strava.com/api/v3/segments/${e.segment.id}`, {
-            headers: { 'Authorization': 'Bearer ' + token }
-          });
-          const segData = await segRes.json();
-          container.innerHTML = `<div class="loading-state"><div class="spinner"></div><span>Cargando PRs... (${i+1}/${efforts.length})</span></div>`;
-          return { ...e, segStats: segData.athlete_segment_stats, xoms: segData.xoms };
-        } catch {
-          return { ...e, segStats: null, xoms: null };
-        }
-      })
-    );
-
+    const efforts = data.segment_efforts||[];
+    if (!efforts.length) { c.innerHTML = '<div style="color:var(--muted);padding:16px;font-size:0.82rem;">Sin segmentos</div>'; return; }
+    c.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando PRs...</div>';
+    const enriched = await Promise.all(efforts.map(async e => {
+      try { const r = await fetch(`https://www.strava.com/api/v3/segments/${e.segment.id}`,{headers:{'Authorization':'Bearer '+token}}); const s = await r.json(); return {...e,segStats:s.athlete_segment_stats}; }
+      catch { return {...e,segStats:null}; }
+    }));
+    // Best segment = smallest positive delta
+    let bestIdx=-1, bestDelta=Infinity;
+    enriched.forEach((e,i) => { if (e.segStats?.pr_elapsed_time) { const d=e.elapsed_time-e.segStats.pr_elapsed_time; if(d<bestDelta){bestDelta=d;bestIdx=i;} } });
     let html = '<table class="seg-table"><thead><tr><th>Segmento</th><th>Tiempo</th><th>PR · Delta</th></tr></thead><tbody>';
-
-    enriched.forEach(e => {
-      const time = formatTime(e.elapsed_time);
-      const stats = e.segStats;
-      const prTime = stats?.pr_elapsed_time ? formatTime(stats.pr_elapsed_time) : '—';
-      const effortCount = stats?.effort_count ? stats.effort_count + 'x' : '—';
-
-      let delta = '';
-      let timeClass = 'time-normal';
-      if (stats?.pr_elapsed_time) {
-        const diff = e.elapsed_time - stats.pr_elapsed_time;
-        if (diff <= 0) {
-          delta = '<span class="badge badge-yellow">🏆 PR</span>';
-          timeClass = 'time-pr';
-        } else if (diff < 30) {
-          delta = `<span style="color:var(--yellow);font-family:'DM Mono',monospace;font-size:0.78rem;">+${formatTime(diff)}</span>`;
-          timeClass = 'time-good';
-        } else {
-          delta = `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:0.78rem;">+${formatTime(diff)}</span>`;
-        }
-      }
-
-      html += `<tr>
-        <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.name}">${e.name}</td>
-        <td>
-          <span class="${timeClass}" style="font-family:'DM Mono',monospace;">${time}</span>
-        </td>
-        <td style="font-family:'DM Mono',monospace;white-space:nowrap;">
-          <div style="color:var(--muted);font-size:0.82rem;">${prTime}</div>
-          <div style="margin-top:3px;">${delta}</div>
-        </td>
+    enriched.forEach((e,i) => {
+      const time=formatTime(e.elapsed_time), st=e.segStats;
+      const prTime=st?.pr_elapsed_time?formatTime(st.pr_elapsed_time):'—';
+      let delta='',cls='t-normal';
+      if(st?.pr_elapsed_time){const diff=e.elapsed_time-st.pr_elapsed_time; if(diff<=0){delta='<span class="badge-pr">🏆 PR</span>';cls='t-pr';}else if(diff<30){delta=`<span style="color:var(--yellow);font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`;cls='t-good';}else{delta=`<span style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`;}}
+      const isBest=i===bestIdx&&bestDelta>0;
+      html+=`<tr${isBest?' class="best-seg"':''}>
+        <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;" title="${e.name}">${isBest?'<span class="badge-best">⭐</span> ':''}${e.name}</td>
+        <td><div class="${cls}">${time}</div></td>
+        <td><div style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.75rem;">${prTime}</div><div style="margin-top:2px;">${delta}</div></td>
       </tr>`;
     });
-
-    html += '</tbody></table>';
-    container.innerHTML = html;
-  } catch (e) {
-    container.innerHTML = '<div style="color:var(--red);font-size:0.72rem;padding:8px;">Error: ' + e.message + '</div>';
-  }
+    c.innerHTML = html+'</tbody></table>';
+  } catch(e) { c.innerHTML = `<div style="color:var(--red);font-size:0.8rem;padding:8px;">Error: ${e.message}</div>`; }
 }
 
-// ═══════════════════════════════════════════
-//  GARMIN DATA LOADER
-// ═══════════════════════════════════════════
-//  GARMIN DATA LOADER
-// ═══════════════════════════════════════════
-const GARMIN_GITHUB_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main/garmin_data.json';
-
+// GARMIN
 async function fetchGarminData() {
-  const urls = [
-    'garmin_data.json?t=' + Date.now(),
-    GARMIN_GITHUB_URL + '?t=' + Date.now()
-  ];
-  for (const url of urls) {
-    try {
-      const res = await fetch(url);
-      if (res.ok) {
-        const data = await res.json();
-        STATE.garminData = data;
-        return data;
-      }
-    } catch(e) {}
+  for (const url of ['garmin_data.json?t='+Date.now(), GARMIN_URL+'?t='+Date.now()]) {
+    try { const r=await fetch(url); if(r.ok){const d=await r.json();STATE.garminData=d;return d;} } catch(e){}
   }
-  throw new Error('No se pudo cargar garmin_data.json');
-}
-
-async function loadGarminDataForActivity(stravaActivity) {
-  try {
-    const data = await fetchGarminData();
-    const stravaDate = new Date(stravaActivity.start_date_local).toDateString();
-    const matched = data.activities?.find(a => {
-      if (!a.startTimeLocal) return false;
-      return new Date(a.startTimeLocal).toDateString() === stravaDate;
-    });
-    const dynamics = matched?.mtbDynamics || null;
-    const syncEl = document.getElementById('garmin-sync-time');
-    if (dynamics && Object.keys(dynamics).length > 0) {
-      renderGarminDynamics(dynamics);
-      // Update max speed KPI with Garmin (more accurate than Strava)
-      if (matched?.maxSpeed) {
-        const garminMax = (matched.maxSpeed * 3.6).toFixed(1);
-        const el = document.getElementById('kpi-speed');
-        if (el) el.innerHTML = garminMax + '<span class="card-unit">km/h</span>';
-        const elD = document.getElementById('kpi-speed-delta');
-        if (elD) elD.textContent = 'Garmin';
-      }
-      setStatus('garmin', true);
-      const actDate = new Date(stravaActivity.start_date_local).toLocaleDateString('es-CL');
-      if (syncEl) syncEl.textContent = 'Garmin · ' + actDate + (matched ? '' : ' · última salida');
-    } else {
-      ['dyn-jumps','dyn-battery','dyn-load','dyn-fx'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = '—';
-      });
-      ['bar-flow','bar-grit'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.style.width = '0%';
-      });
-      ['val-flow','val-grit'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = '—';
-      });
-      if (syncEl) syncEl.textContent = 'Sin datos Garmin para esta fecha';
-      setStatus('garmin', false);
-    }
-  } catch(e) {
-    console.log('Garmin not available:', e.message);
-  }
+  throw new Error('Sin datos Garmin');
 }
 
 async function loadGarminData() {
-  const syncEl = document.getElementById('garmin-sync-time');
-  if (syncEl) syncEl.textContent = 'Cargando...';
   try {
     const data = await fetchGarminData();
-    const act = STATE.selectedActivity;
-    let dynamics = null;
-    if (act) {
-      const stravaDate = new Date(act.start_date_local).toDateString();
-      const matched = data.activities?.find(a => {
-        if (!a.startTimeLocal) return false;
-        return new Date(a.startTimeLocal).toDateString() === stravaDate;
-      });
-      dynamics = matched?.mtbDynamics || data.latestDynamics;
-    } else {
-      dynamics = data.latestDynamics;
-    }
-    if (dynamics) {
-      renderGarminDynamics(dynamics);
-      // Update max speed KPI with Garmin data (more accurate)
-      const garminAct = data.activities?.find(a =>
-        a.startTimeLocal && STATE.selectedActivity &&
-        new Date(a.startTimeLocal).toDateString() === new Date(STATE.selectedActivity.start_date_local).toDateString()
-      );
-      if (garminAct?.maxSpeed) {
-        const garminMax = (garminAct.maxSpeed * 3.6).toFixed(1);
-        const el = document.getElementById('kpi-speed');
-        if (el) el.innerHTML = garminMax + '<span class="card-unit">km/h</span>';
-        const elD = document.getElementById('kpi-speed-delta');
-        if (elD) elD.textContent = 'Garmin';
-      }
-    }
-    setStatus('garmin', true);
-    if (syncEl) syncEl.textContent = 'Sync: ' + new Date(data.lastSync).toLocaleString('es-CL');
-  } catch(e) {
-    if (syncEl) syncEl.textContent = '✗ ' + e.message;
-    setStatus('garmin', false);
+    setStatus('garmin',true);
+    const el = document.getElementById('garmin-sync-time');
+    if(el) el.textContent = 'Sync: '+new Date(data.lastSync).toLocaleString('es-CL');
+    if(STATE.selectedActivity) await loadGarminDataForActivity(STATE.selectedActivity);
+    updateRecords();
+  } catch(e) { setStatus('garmin',false); }
+}
+
+async function loadGarminDataForActivity(act) {
+  if (!STATE.garminData) return;
+  const sd = new Date(act.start_date_local).toDateString();
+  const ga = STATE.garminData.activities?.find(a => a.startTimeLocal && new Date(a.startTimeLocal).toDateString()===sd);
+  const dyn = ga?.mtbDynamics||null;
+  if (dyn && Object.keys(dyn).length>0) {
+    renderGarminDynamics(dyn,ga);
+    if(ga?.maxSpeed){ document.getElementById('kpi-speed').innerHTML=(ga.maxSpeed*3.6).toFixed(1)+'<span class="kpi-unit"> km/h</span>'; document.getElementById('kpi-speed-sub').textContent='Garmin'; }
+    const el=document.getElementById('garmin-sync-time'); if(el) el.textContent='Garmin · '+new Date(act.start_date_local).toLocaleDateString('es-CL');
+  } else {
+    const el=document.getElementById('garmin-sync-time'); if(el) el.textContent='Sin datos Garmin para esta fecha';
   }
 }
 
-function testGarmin() {
-  const el = document.getElementById('garmin-test-result');
-  el.textContent = 'Cargando garmin_data.json...';
-  fetchGarminData()
-    .then(d => {
-      el.textContent = `✓ ${d.activities?.length || 0} actividades · sync: ${new Date(d.lastSync).toLocaleString('es-CL')}`;
-      el.style.color = 'var(--green)';
-      setStatus('garmin', true);
-    }).catch(e => {
-      el.textContent = '✗ ' + e.message;
-      el.style.color = 'var(--red)';
+function renderGarminDynamics(dyn, act) {
+  const set=(id,val)=>{const el=document.getElementById(id);if(el&&val!=null)el.innerHTML=String(val);};
+  set('dyn-jumps', dyn.jumpCount??'—');
+  if(dyn.eBikeBatteryUsage!=null){set('dyn-battery',dyn.eBikeBatteryUsage+'%');set('dyn-battery-rem','restante: '+(dyn.eBikeBatteryRemaining??'—')+'%');}
+  if(dyn.activityTrainingLoad) set('dyn-load',dyn.activityTrainingLoad.toFixed(0));
+  const labels={'AEROBIC_BASE':'Base Aeróbica','IMPROVING_AEROBIC_ENDURANCE':'Mejorando Resistencia','MAINTAINING_AEROBIC_BASE':'Manteniendo Base','OVERREACHING':'Sobrecarga','RECOVERY':'Recuperación'};
+  if(dyn.trainingEffectLabel) set('dyn-fx',labels[dyn.trainingEffectLabel]||dyn.trainingEffectLabel);
+  if(act?.avgHR) set('dyn-hr',Math.round(act.avgHR)+'<span style="font-size:0.8rem"> ppm</span>');
+  if(act?.avgTemperature) set('dyn-temp','temp: '+Math.round(act.avgTemperature)+'°C');
+  if(dyn.avgFlow!=null){document.getElementById('bar-flow').style.width=Math.min((dyn.avgFlow/10)*100,100)+'%';set('val-flow',dyn.avgFlow.toFixed(2));}
+  if(dyn.grit!=null){document.getElementById('bar-grit').style.width=Math.min((dyn.grit/200)*100,100)+'%';set('val-grit',dyn.grit.toFixed(1));}
+  if(dyn.jumpCount&&dyn.jumpCount>0){
+    const card=document.getElementById('best-jump-card'); card.style.display='block';
+    set('best-jump-val',dyn.jumpCount+' saltos totales');
+    set('best-jump-sub',(dyn.avgFlow?'Flow: '+dyn.avgFlow.toFixed(2):'')+' · Grit: '+(dyn.grit?.toFixed(1)||'—'));
+  }
+}
+
+// RECORDS
+function updateRecordsMonth() {
+  const now=new Date();
+  const label=now.toLocaleDateString('es-CL',{month:'long',year:'numeric'});
+  document.getElementById('records-month-label').textContent=label.charAt(0).toUpperCase()+label.slice(1);
+}
+
+function updateRecords() {
+  if(!STATE.garminData?.activities) return;
+  updateRecordsMonth();
+  const now=new Date();
+  const thisMonth=STATE.garminData.activities.filter(a=>{if(!a.startTimeLocal)return false;const d=new Date(a.startTimeLocal);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+  const all=STATE.garminData.activities;
+  const best=(arr,fn)=>arr.reduce((b,a)=>{const v=fn(a);return v>b.val?{val:v,date:a.startTimeLocal}:b},{val:0,date:null});
+  const bestAll=(arr,fn)=>arr.reduce((b,a)=>{const v=fn(a);return v>b?v:b},0);
+
+  const mxSpd=best(thisMonth,a=>a.maxSpeed?a.maxSpeed*3.6:0);
+  const axSpd=bestAll(all,a=>a.maxSpeed?a.maxSpeed*3.6:0);
+  if(mxSpd.val>0){document.getElementById('rec-maxspeed').innerHTML=mxSpd.val.toFixed(1)+'<span class="record-unit"> km/h</span>';document.getElementById('rec-maxspeed-date').textContent=new Date(mxSpd.date).toLocaleDateString('es-CL');document.getElementById('rec-maxspeed-pr').textContent='PR histórico: '+axSpd.toFixed(1)+' km/h';}
+
+  const mxJmp=best(thisMonth,a=>a.mtbDynamics?.jumpCount||0);
+  const axJmp=bestAll(all,a=>a.mtbDynamics?.jumpCount||0);
+  if(mxJmp.val>0){document.getElementById('rec-jump').innerHTML=mxJmp.val+'<span class="record-unit"> saltos</span>';document.getElementById('rec-jump-date').textContent=new Date(mxJmp.date).toLocaleDateString('es-CL');document.getElementById('rec-jump-pr').textContent='PR histórico: '+axJmp+' saltos';}
+
+  const mxFlw=best(thisMonth,a=>a.mtbDynamics?.avgFlow||0);
+  const axFlw=bestAll(all,a=>a.mtbDynamics?.avgFlow||0);
+  if(mxFlw.val>0){document.getElementById('rec-flow').innerHTML=mxFlw.val.toFixed(2);document.getElementById('rec-flow-date').textContent=new Date(mxFlw.date).toLocaleDateString('es-CL');document.getElementById('rec-flow-pr').textContent='PR histórico: '+axFlw.toFixed(2);}
+
+  if(thisMonth.length>0){
+    let html='<table class="records-table"><thead><tr><th>Fecha</th><th>Distancia</th><th>Desnivel</th><th>Jumps</th><th>Flow</th><th>Vel. Máx</th></tr></thead><tbody>';
+    thisMonth.forEach(a=>{
+      html+=`<tr><td>${new Date(a.startTimeLocal).toLocaleDateString('es-CL')}</td><td style="font-family:'DM Mono',monospace">${a.distance?(a.distance/1000).toFixed(1)+' km':'—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationGain?Math.round(a.elevationGain)+' m':'—'}</td><td style="font-family:'DM Mono',monospace">${a.mtbDynamics?.jumpCount||'—'}</td><td style="font-family:'DM Mono',monospace">${a.mtbDynamics?.avgFlow?a.mtbDynamics.avgFlow.toFixed(2):'—'}</td><td style="font-family:'DM Mono',monospace">${a.maxSpeed?(a.maxSpeed*3.6).toFixed(1)+' km/h':'—'}</td></tr>`;
     });
-}
-
-// ═══════════════════════════════════════════
-//  SETUP MANAGEMENT
-// ═══════════════════════════════════════════
-function markDirty() {
-  STATE.dirty = true;
-  document.getElementById('dirty-banner').style.display = 'block';
-}
-
-function saveSetupLocal() {
-  STATE.setup = {
-    fork: {
-      psi: document.getElementById('fork-psi').value,
-      tokens: document.getElementById('fork-tokens').value,
-      sag: document.getElementById('fork-sag').value,
-      rebound: document.getElementById('fork-reb').value,
-      lsc: document.getElementById('fork-lsc').value,
-      hsc: document.getElementById('fork-hsc').value
-    },
-    shock: {
-      spring: document.getElementById('shock-spring').value,
-      preload: document.getElementById('shock-preload').value,
-      sagPct: document.getElementById('shock-sag-pct').value,
-      sagMm: document.getElementById('shock-sag-mm').value,
-      rebound: document.getElementById('shock-reb').value,
-      lsc: document.getElementById('shock-lsc').value,
-      hsc: document.getElementById('shock-hsc').value
-    },
-    tires: {
-      front: document.getElementById('tire-front').value,
-      rear: document.getElementById('tire-rear').value,
-      sealant: document.getElementById('tire-sealant').value
-    },
-    cockpit: {
-      motorMode: document.getElementById('motor-mode').value,
-      battery: document.getElementById('battery-type').value
-    },
-    lastUpdated: new Date().toISOString()
-  };
-  localStorage.setItem('mtb_setup', JSON.stringify(STATE.setup));
-  STATE.dirty = false;
-  document.getElementById('dirty-banner').style.display = 'none';
-  document.getElementById('setup-last-updated').textContent = 'Guardado: ' + new Date().toLocaleString('es-CL');
-}
-
-function populateSetupFields() {
-  const s = STATE.setup;
-  if (!s || !s.fork) return;
-  if (s.fork) {
-    setVal('fork-psi', s.fork.psi);
-    setVal('fork-tokens', s.fork.tokens);
-    setVal('fork-sag', s.fork.sag);
-    setVal('fork-reb', s.fork.rebound);
-    setVal('fork-lsc', s.fork.lsc);
-    setVal('fork-hsc', s.fork.hsc);
-  }
-  if (s.shock) {
-    setVal('shock-spring', s.shock.spring);
-    setVal('shock-preload', s.shock.preload);
-    setVal('shock-sag-pct', s.shock.sagPct);
-    setVal('shock-sag-mm', s.shock.sagMm);
-    setVal('shock-reb', s.shock.rebound);
-    setVal('shock-lsc', s.shock.lsc);
-    setVal('shock-hsc', s.shock.hsc);
-  }
-  if (s.tires) {
-    setVal('tire-front', s.tires.front);
-    setVal('tire-rear', s.tires.rear);
-    setVal('tire-sealant', s.tires.sealant);
-  }
-  if (s.cockpit) {
-    setVal('motor-mode', s.cockpit.motorMode);
-    setVal('battery-type', s.cockpit.battery);
-  }
-  if (s.lastUpdated) {
-    document.getElementById('setup-last-updated').textContent = 'Última actualización: ' + new Date(s.lastUpdated).toLocaleString('es-CL');
-  }
-}
-
-function populateSessionSetup() {
-  const s = STATE.setup;
-  if (!s || !s.fork) return;
-  document.getElementById('ss-fork-psi').textContent = s.fork?.psi ? s.fork.psi + ' PSI' : '— PSI';
-  document.getElementById('ss-fork-tokens').textContent = s.fork?.tokens || '—';
-  document.getElementById('ss-fork-reb').textContent = s.fork?.rebound ? s.fork.rebound + ' clics' : '— clics';
-  document.getElementById('ss-fork-lsc').textContent = s.fork?.lsc ? s.fork.lsc + ' clics' : '— clics';
-  document.getElementById('ss-fork-hsc').textContent = s.fork?.hsc || '—';
-  document.getElementById('ss-fork-sag').textContent = s.fork?.sag || '— mm';
-  document.getElementById('ss-shock-spring').textContent = s.shock?.spring || '—';
-  document.getElementById('ss-shock-preload').textContent = s.shock?.preload || '—';
-  document.getElementById('ss-shock-reb').textContent = s.shock?.rebound ? s.shock.rebound + ' clics' : '— clics';
-  document.getElementById('ss-shock-lsc').textContent = s.shock?.lsc ? s.shock.lsc + ' clics' : '— clics';
-  document.getElementById('ss-shock-hsc').textContent = s.shock?.hsc || '—';
-  document.getElementById('ss-shock-sag').textContent = s.shock?.sagMm ? s.shock.sagMm + ' mm' : '— mm';
-  document.getElementById('ss-tire-f').textContent = s.tires?.front ? s.tires.front + ' bar' : '— bar';
-  document.getElementById('ss-tire-r').textContent = s.tires?.rear ? s.tires.rear + ' bar' : '— bar';
-  document.getElementById('ss-mode').textContent = s.cockpit?.motorMode || '—';
-}
-
-function setVal(id, val) {
-  const el = document.getElementById(id);
-  if (el && val) el.value = val;
-}
-
-function discardChanges() {
-  populateSetupFields();
-  STATE.dirty = false;
-  document.getElementById('dirty-banner').style.display = 'none';
-}
-
-function loadSetupFromDoc() {
-  openGDoc();
-  alert('El documento se abrirá en una nueva pestaña. Copia los valores de setup manualmente en los campos de la pestaña "Setup Bici" y guárdalos.\n\nEn la próxima versión este paso será automático via Google Sheets API.');
-}
-
-function openGDoc() {
-  window.open('https://docs.google.com/document/d/1TCh7pFq2gLvLADS4kDTI7-M_WzizU-6setX0e9tuJzo/edit', '_blank');
-}
-
-// ═══════════════════════════════════════════
-//  HISTORY TAB
-// ═══════════════════════════════════════════
-function updateHistoryTab() {
-  const acts = STATE.activities;
-  if (!acts.length) return;
-  document.getElementById('hist-total').textContent = acts.length;
-  const km = acts.reduce((s, a) => s + a.distance / 1000, 0);
-  document.getElementById('hist-km').innerHTML = km.toFixed(0) + '<span class="card-unit">km</span>';
-  const elev = acts.reduce((s, a) => s + a.total_elevation_gain, 0);
-  document.getElementById('hist-elev').innerHTML = Math.round(elev) + '<span class="card-unit">m</span>';
-  const hrs = acts.reduce((s, a) => s + a.moving_time, 0) / 3600;
-  document.getElementById('hist-hrs').innerHTML = hrs.toFixed(1) + '<span class="card-unit">h</span>';
-
-  let html = '';
-  acts.slice(0, 20).forEach(a => {
-    const date = new Date(a.start_date_local).toLocaleDateString('es-CL');
-    const dist = (a.distance / 1000).toFixed(1);
-    const elev = Math.round(a.total_elevation_gain);
-    const speed = (a.average_speed * 3.6).toFixed(1);
-    const time = formatTime(a.moving_time);
-    html += `
-      <div class="activity-row" onclick="selectHistAct(${a.id})">
-        <div class="act-type">🚵</div>
-        <div>
-          <div class="act-name">${a.name}</div>
-          <div class="act-sub">${date} · ${time}</div>
-        </div>
-        <div class="act-stat"><div>${dist} km</div><div class="act-stat-label">distancia</div></div>
-        <div class="act-stat"><div>${elev} m</div><div class="act-stat-label">desnivel</div></div>
-        <div class="act-stat"><div>${speed} km/h</div><div class="act-stat-label">velocidad</div></div>
-      </div>`;
-  });
-  document.getElementById('activity-list').innerHTML = html;
-}
-
-function selectHistAct(id) {
-  document.querySelectorAll('.activity-row').forEach(r => r.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
-  document.getElementById('activity-select').value = id;
-  loadActivity(id);
-  switchTab('session');
-  document.querySelectorAll('.tab-btn')[1].click();
-}
-
-// ═══════════════════════════════════════════
-//  RECOMMENDATIONS
-// ═══════════════════════════════════════════
-function generateRecommendations() {
-  const act = STATE.selectedActivity;
-  const setup = STATE.setup;
-  if (!act) { alert('Carga una actividad primero desde la pestaña Sesión'); return; }
-
-  // Render ride analysis
-  renderRideAnalysis(act, setup);
-
-  const recs = analyzePerformance(act, setup);
-  renderRecommendations(recs);
-}
-
-function renderRideAnalysis(act, setup) {
-  const container = document.getElementById('ride-analysis-container');
-  const textEl = document.getElementById('ride-analysis-text');
-  const statsEl = document.getElementById('ride-analysis-stats');
-
-  const dist = (act.distance / 1000).toFixed(1);
-  const elev = Math.round(act.total_elevation_gain);
-  const movTime = formatTime(act.moving_time);
-  const totalTime = formatTime(act.elapsed_time);
-  const speed = (act.average_speed * 3.6).toFixed(1);
-  // Use Garmin max speed if available
-  const garminAct = STATE.garminData?.activities?.find(a =>
-    a.startTimeLocal && new Date(a.startTimeLocal).toDateString() === new Date(act.start_date_local).toDateString()
-  );
-  const maxSpeed = garminAct?.maxSpeed ? (garminAct.maxSpeed * 3.6).toFixed(1) : (act.max_speed * 3.6).toFixed(1);
-  const maxSpeedSource = garminAct?.maxSpeed ? 'Garmin' : 'Strava';
-  const date = new Date(act.start_date_local).toLocaleDateString('es-CL', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
-  const pauseTime = act.elapsed_time - act.moving_time;
-  const elevPerKm = (elev / parseFloat(dist)).toFixed(0);
-  const name = act.name || 'Vuelta MTB';
-
-  // Build analysis paragraph
-  let analysis = `<strong>${name}</strong> — ${date}.<br><br>`;
-
-  // Effort level
-  if (elev > 1000) {
-    analysis += `Salida de alta exigencia con <strong>${elev}m de desnivel positivo</strong> en ${dist}km — un ratio de ${elevPerKm}m/km que indica terreno muy técnico y exigente. `;
-  } else if (elev > 600) {
-    analysis += `Salida de exigencia media-alta con <strong>${elev}m de desnivel</strong> en ${dist}km (${elevPerKm}m/km). `;
+    document.getElementById('records-table-container').innerHTML=html+'</tbody></table>';
   } else {
-    analysis += `Salida de exigencia moderada con <strong>${elev}m de desnivel</strong> en ${dist}km. `;
-  }
-
-  // Speed analysis
-  analysis += `La velocidad media de ${speed} km/h con peak de ${maxSpeed} km/h refleja el mix de subidas y bajadas técnicas. `;
-
-  // Pause analysis
-  if (pauseTime > 600) {
-    analysis += `Se registraron <strong>${formatTime(pauseTime)} de pausa</strong> entre tiempo total (${totalTime}) y tiempo en movimiento (${movTime}), lo que puede indicar descansos, ajustes de equipo o secciones en porteo. `;
-  } else {
-    analysis += `El tiempo de pausa fue mínimo (${formatTime(pauseTime)}), señal de una vuelta fluida y continua. `;
-  }
-
-  // Setup correlation
-  if (setup?.fork?.psi) {
-    analysis += `<br><br>El setup de horquilla a <strong>${setup.fork.psi} PSI</strong> con ${setup.fork.tokens || '—'} tokens `;
-    if (parseFloat(setup.fork.psi) >= 75) {
-      analysis += `es adecuado para tu peso de 94kg con equipo completo. `;
-    } else {
-      analysis += `podría estar algo bajo para tu peso de 94kg — considera subir 3-5 PSI. `;
-    }
-  }
-
-  if (setup?.tires?.front) {
-    analysis += `Las presiones de neumático (${setup.tires.front} bar D / ${setup.tires.rear || '—'} bar T) `;
-    if (parseFloat(setup.tires.front) <= 1.5) {
-      analysis += `son conservadoras para terreno técnico, priorizando tracción sobre velocidad de rodadura.`;
-    } else {
-      analysis += `son equilibradas para este tipo de terreno.`;
-    }
-  }
-
-  textEl.innerHTML = analysis;
-
-  // Stats mini grid
-  statsEl.innerHTML = `
-    <div style="text-align:center; background:var(--surface2); border-radius:8px; padding:12px;">
-      <div style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); margin-bottom:4px;">DISTANCIA</div>
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--accent);">${dist}<span style="font-size:0.9rem; color:var(--muted);"> km</span></div>
-    </div>
-    <div style="text-align:center; background:var(--surface2); border-radius:8px; padding:12px;">
-      <div style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); margin-bottom:4px;">DESNIVEL</div>
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--accent3);">${elev}<span style="font-size:0.9rem; color:var(--muted);"> m</span></div>
-    </div>
-    <div style="text-align:center; background:var(--surface2); border-radius:8px; padding:12px;">
-      <div style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); margin-bottom:4px;">TIEMPO MOV</div>
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--yellow);">${movTime}</div>
-    </div>
-    <div style="text-align:center; background:var(--surface2); border-radius:8px; padding:12px;">
-      <div style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); margin-bottom:4px;">VEL MEDIA</div>
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--green);">${speed}<span style="font-size:0.9rem; color:var(--muted);"> km/h</span></div>
-    </div>
-  `;
-
-  container.style.display = 'block';
-}
-
-function analyzePerformance(act, setup) {
-  const recs = { shock: [], fork: [], tires: [], general: [] };
-  const speed = act.average_speed * 3.6;
-  const elev = act.total_elevation_gain;
-
-  // Shock analysis based on available data
-  if (setup.shock) {
-    const rebClics = parseInt(setup.shock.rebound);
-    if (rebClics > 12) {
-      recs.shock.push({
-        type: 'warning',
-        title: 'Rebote trasero posiblemente muy cerrado',
-        body: `Con ${rebClics} clics desde cerrado, el rebote puede estar demasiado lento para enduro. Si la bici se siente dura o empacada en secciones con baches consecutivos, abre 2 clics (CCW).`,
-        source: '📖 Öhlins TTX22M · Rebound damping adjuster'
-      });
-    }
-    if (setup.shock.hsc === 'I - Soft' && elev > 800) {
-      recs.shock.push({
-        type: 'positive',
-        title: 'HSC en Soft para salida con mucho desnivel',
-        body: `Buena elección para terreno técnico con mucho desnivel (${elev}m). El HSC en posición I mejora tracción trasera en terreno rugoso.`,
-        source: '📖 Öhlins TTX22M · High speed compression · Position I'
-      });
-    }
-    if (!setup.shock.sagMm) {
-      recs.shock.push({
-        type: 'neutral',
-        title: 'Sag no registrado',
-        body: 'Registra el sag medido del amortiguador en la pestaña Setup. El sag correcto es 25-30% del stroke = 15.6-18.7mm para el TTX22M 62.5mm.',
-        source: '📖 Öhlins TTX22M · Setting sag and preload'
-      });
-    }
-  }
-
-  // Fork analysis
-  if (setup.fork) {
-    const bar = parseFloat(setup.fork.psi);
-    if (bar && bar < 60) {
-      recs.fork.push({
-        type: 'warning',
-        title: 'Presión de horquilla baja detectada',
-        body: `${bar} PSI puede ser insuficiente para tu peso con equipo completo (94kg). Para e-MTB considera aumentar 3-5 PSI y re-verificar el sag (objetivo: 45mm).`,
-        source: '📖 RockShox ZEB · DebonAir spring setup'
-      });
-    }
-    if (!setup.fork.tokens || setup.fork.tokens === '0') {
-      recs.fork.push({
-        type: 'neutral',
-        title: 'Sin tokens instalados',
-        body: 'Sin Bottomless Tokens el final del recorrido puede ser progresivo. Para enduro agresivo con saltos, considera instalar 1 token para aumentar la progresividad y evitar fondeos.',
-        source: '📖 RockShox ZEB · Bottomless Tokens 35mm'
-      });
-    }
-  }
-
-  // Tire analysis based on terrain
-  if (setup.tires) {
-    const f = parseFloat(setup.tires.front);
-    const r = parseFloat(setup.tires.rear);
-    if (f && r && (f > r)) {
-      recs.tires.push({
-        type: 'warning',
-        title: 'Presión delantera mayor que trasera',
-        body: `Delantera ${f} bar > trasera ${r} bar. Para enduro la trasera suele llevar algo más de presión que la delantera para evitar pinchazos con el peso del motor/batería. Verifica que sea intencional.`,
-        source: '📐 Specs · Kenevo S4 · Butcher Grid Gravity T9'
-      });
-    }
-  }
-
-  return recs;
-}
-
-function renderRecommendations(recs) {
-  const typeMap = { warning: '', positive: 'positive', neutral: '' };
-  ['shock', 'fork'].forEach(key => {
-    const container = document.getElementById('recs-' + key);
-    if (!recs[key].length) {
-      container.innerHTML = '<div class="rec-card positive"><div class="rec-title">✓ Sin alertas detectadas</div><div class="rec-body">El setup parece consistente con la sesión analizada.</div></div>';
-      return;
-    }
-    container.innerHTML = recs[key].map(r => `
-      <div class="rec-card ${typeMap[r.type] || ''}">
-        <div class="rec-title">${r.title}</div>
-        <div class="rec-body">${r.body}</div>
-        <div class="rec-source">${r.source}</div>
-      </div>`).join('');
-  });
-  if (recs.tires.length) {
-    document.getElementById('recs-tires').innerHTML = recs.tires.map(r => `
-      <div class="rec-card ${typeMap[r.type] || ''}">
-        <div class="rec-title">${r.title}</div>
-        <div class="rec-body">${r.body}</div>
-        <div class="rec-source">${r.source}</div>
-      </div>`).join('');
+    document.getElementById('records-table-container').innerHTML='<div style="color:var(--muted);font-size:0.82rem;padding:16px;">Sin salidas este mes en datos Garmin</div>';
   }
 }
 
-// ═══════════════════════════════════════════
-//  DIAGNOSIS MODAL
-// ═══════════════════════════════════════════
-const DIAG = {
-  loose: {
-    title: '🤸 Bici suelta / nerviosa',
-    content: `<strong>Síntoma:</strong> Inestable en aceleración y frenada, nerviosa sobre baches.<br><br>
-    <strong>Amortiguador Öhlins TTX22M:</strong><br>
-    → Cerrar rebote 1 clic (CW en adjuster dorado)<br>
-    → Si persiste, cerrar 1 clic más<br><br>
-    <strong>Horquilla ZEB:</strong><br>
-    → Cerrar rebote 1-2 clics<br><br>
-    <em>Ref: Öhlins TTX22M Manual · Rebound damping · "If the bike feels loose, nervous"</em>`,
-    badge: 'badge-red'
-  },
-  harsh: {
-    title: '🧱 Bici dura / sin tracción',
-    content: `<strong>Síntoma:</strong> Golpes en baches, difícil entrar en curvas, no sigue la línea.<br><br>
-    <strong>Amortiguador Öhlins TTX22M:</strong><br>
-    → Abrir rebote 1 clic (CCW en adjuster dorado)<br>
-    → Si hay poca tracción trasera: reducir LSC 2 clics<br><br>
-    <strong>Horquilla ZEB:</strong><br>
-    → Abrir rebote 1-2 clics<br>
-    → Reducir LSC 2 clics si hay poca tracción delantera<br><br>
-    <em>Ref: Öhlins TTX22M Manual · "If the bike feels hard, harsh"</em>`,
-    badge: 'badge-blue'
-  },
-  bottom: {
-    title: '⬇ Bici baja / fonde en saltos',
-    content: `<strong>Síntoma:</strong> Posición baja, fonde al aterrizar saltos, atraviesa el stroke.<br><br>
-    <strong>Amortiguador Öhlins TTX22M:</strong><br>
-    → Cambiar HSC a posición III (hard)<br>
-    → Si persiste: aumentar spring rate (contactar servicio autorizado)<br><br>
-    <strong>Horquilla ZEB:</strong><br>
-    → Aumentar presión de aire 3-5 PSI<br>
-    → Agregar 1 Bottomless Token para más progresividad<br><br>
-    <em>Ref: Öhlins TTX22M Manual · High speed compression · Position III</em>`,
-    badge: 'badge-yellow'
-  },
-  soft: {
-    title: '🫧 Amortiguador esponjoso en curvas',
-    content: `<strong>Síntoma:</strong> Sensación blanda al entrar en curvas, inestable bajo carga lateral.<br><br>
-    <strong>Amortiguador Öhlins TTX22M:</strong><br>
-    → Cerrar LSC 2 clics (CW en adjuster azul)<br>
-    → El LSC controla el movimiento del chasis hacia el suelo<br><br>
-    <strong>Horquilla ZEB:</strong><br>
-    → Cerrar LSC 2 clics (CW)<br><br>
-    <em>Ref: Öhlins TTX22M Manual · Low speed compression · "close two clicks"</em>`,
-    badge: 'badge-green'
-  },
-  'fork-harsh': {
-    title: '💥 Horquilla seca en baches pequeños',
-    content: `<strong>Síntoma:</strong> Sin sensibilidad en baches pequeños, transmite vibraciones a las manos.<br><br>
-    <strong>Horquilla RockShox ZEB:</strong><br>
-    → Reducir presión de aire 3-5 PSI y re-verificar sag<br>
-    → Abrir LSC 2 clics (CCW)<br>
-    → Si el problema persiste: considerar reducir HSC a posición I<br><br>
-    <em>Ref: ZEB A1 Service Manual · Low speed compression damping</em>`,
-    badge: 'badge-blue'
-  },
-  'fork-dive': {
-    title: '📉 Horquilla hunde al frenar',
-    content: `<strong>Síntoma:</strong> Excesivo hundimiento frontal al aplicar el freno delantero.<br><br>
-    <strong>Horquilla RockShox ZEB:</strong><br>
-    → Cerrar LSC 2-4 clics (CW)<br>
-    → Si el aire está bajo: aumentar 3-5 PSI<br>
-    → Si persiste con buen sag: agregar 1 Bottomless Token<br><br>
-    <em>Ref: ZEB A1 Service Manual · Low speed compression · Bottomless Tokens</em>`,
-    badge: 'badge-yellow'
-  }
-};
-
-function showDiag(key) {
-  const d = DIAG[key];
-  if (!d) return;
-  document.getElementById('diag-content').innerHTML = `
-    <div style="font-family:'Bebas Neue',sans-serif; font-size:1.4rem; margin-bottom:16px;">${d.title}</div>
-    <div style="font-size:0.82rem; line-height:1.8; color:var(--muted);">${d.content}</div>
-  `;
-  document.getElementById('diag-modal').style.display = 'flex';
-}
-function closeDiag() {
-  document.getElementById('diag-modal').style.display = 'none';
+// SETUP
+function loadSetup() {
+  const saved=localStorage.getItem('mtb_setup_v2');
+  const fields=['fork-psi','fork-tokens','fork-sag','fork-reb','fork-lsc','fork-hsc','shock-spring','shock-preload','shock-sag','shock-reb','shock-lsc','shock-hsc','tire-front','tire-rear','tire-sealant','battery-type','motor-mode'];
+  if(saved){const s=JSON.parse(saved);fields.forEach(id=>{const el=document.getElementById(id);if(el&&s[id])el.value=s[id];});if(s.lastSaved)document.getElementById('setup-saved-time').textContent='Guardado: '+new Date(s.lastSaved).toLocaleString('es-CL');}
+  else{const d={'fork-psi':'81','fork-tokens':'2','fork-sag':'45','fork-reb':'8','fork-lsc':'7','fork-hsc':'3','shock-spring':'500 lbs','shock-preload':'1-2','shock-sag':'~19','shock-reb':'4','shock-lsc':'8','shock-hsc':'II','tire-front':'1.4','tire-rear':'1.4','tire-sealant':'60','battery-type':'500Wh','motor-mode':'Trail'};Object.entries(d).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v;});}
 }
 
-// ═══════════════════════════════════════════
-//  MISC UTILS
-// ═══════════════════════════════════════════
-function formatTime(seconds) {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = seconds % 60;
-  if (h > 0) return `${h}h ${m.toString().padStart(2,'0')}m`;
-  return `${m}m ${s.toString().padStart(2,'0')}s`;
+function saveSetup() {
+  const fields=['fork-psi','fork-tokens','fork-sag','fork-reb','fork-lsc','fork-hsc','shock-spring','shock-preload','shock-sag','shock-reb','shock-lsc','shock-hsc','tire-front','tire-rear','tire-sealant','battery-type','motor-mode'];
+  const s={lastSaved:new Date().toISOString()};
+  fields.forEach(id=>{const el=document.getElementById(id);if(el)s[id]=el.value;});
+  localStorage.setItem('mtb_setup_v2',JSON.stringify(s));
+  document.getElementById('setup-saved-time').textContent='Guardado: '+new Date().toLocaleString('es-CL');
 }
 
-function setStatus(service, connected) {
-  const dot = document.getElementById(service + '-dot');
-  const label = document.getElementById(service + '-label');
-  if (dot) dot.className = 'status-dot' + (connected ? ' connected' : '');
+// ANALYSIS
+function generateAnalysis() {
+  const act=STATE.selectedActivity;
+  if(!act){alert('Carga una actividad primero');return;}
+  const dist=(act.distance/1000).toFixed(1),elev=Math.round(act.total_elevation_gain),speed=(act.average_speed*3.6).toFixed(1),movTime=formatTime(act.moving_time),pauseTime=act.elapsed_time-act.moving_time;
+  const date=new Date(act.start_date_local).toLocaleDateString('es-CL',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const elevPerKm=(elev/parseFloat(dist)).toFixed(0);
+  const sd=new Date(act.start_date_local).toDateString();
+  const ga=STATE.garminData?.activities?.find(a=>a.startTimeLocal&&new Date(a.startTimeLocal).toDateString()===sd);
+  const dyn=ga?.mtbDynamics||{};
+  const maxSpeed=ga?.maxSpeed?(ga.maxSpeed*3.6).toFixed(1):(act.max_speed*3.6).toFixed(1);
+
+  document.getElementById('rec-analysis-title').textContent=act.name+' · '+date;
+  let text=`Salida de ${dist}km con ${elev}m de desnivel (${elevPerKm}m/km), tiempo en movimiento ${movTime}. Velocidad máxima ${maxSpeed} km/h · media ${speed} km/h. `;
+  if(pauseTime>300) text+=`Pausa de ${formatTime(pauseTime)}. `;
+  if(dyn.avgFlow){text+=`Flow ${dyn.avgFlow.toFixed(2)} y Grit ${dyn.grit?.toFixed(1)||'—'} — `;if(dyn.avgFlow>4.5)text+='excelente fluidez en bajadas. ';else if(dyn.avgFlow>3.5)text+='buena fluidez, con margen de mejora. ';else text+='fluidez moderada, área de enfoque. ';}
+  if(dyn.eBikeBatteryUsage) text+=`Batería: ${dyn.eBikeBatteryUsage}% usada (${dyn.eBikeBatteryRemaining}% restante). `;
+  document.getElementById('rec-analysis-text').textContent=text;
+  document.getElementById('rec-stats').innerHTML=`<div class="rec-stat"><div class="rec-stat-label">Distancia</div><div class="rec-stat-val">${dist}<span style="font-size:0.7rem;color:var(--muted)">km</span></div></div><div class="rec-stat"><div class="rec-stat-label">Desnivel</div><div class="rec-stat-val">${elev}<span style="font-size:0.7rem;color:var(--muted)">m</span></div></div><div class="rec-stat"><div class="rec-stat-label">Flow</div><div class="rec-stat-val">${dyn.avgFlow?.toFixed(2)||'—'}</div></div><div class="rec-stat"><div class="rec-stat-label">Jumps</div><div class="rec-stat-val">${dyn.jumpCount||'—'}</div></div>`;
+
+  const cards=[];
+  if(dyn.avgFlow&&dyn.avgFlow<3.5) cards.push({type:'alert',title:'Flow bajo — Mejorar fluidez',body:`Flow ${dyn.avgFlow.toFixed(2)}. Mantén velocidad de entrada en curvas, evita frenos bruscos dentro de la curva y trabaja la visión hacia adelante.`,src:'MTB Dynamics Garmin'});
+  if(dyn.avgFlow&&dyn.avgFlow>=4.5) cards.push({type:'ok',title:'✓ Excelente flow',body:`Flow ${dyn.avgFlow.toFixed(2)}. Muy buena lectura del terreno y fluidez. Mantén el mismo ritmo.`,src:'MTB Dynamics Garmin'});
+  if(dyn.grit&&dyn.grit>80) cards.push({type:'',title:'Terreno técnico detectado',body:`Grit ${dyn.grit.toFixed(1)}. En terreno muy técnico, mantén posición baja y centrada, aumenta presión en el manubrio solo en momentos puntuales.`,src:'Análisis de terreno'});
+  if(dyn.eBikeBatteryUsage&&dyn.eBikeBatteryUsage>80) cards.push({type:'alert',title:'Alto consumo de batería',body:`${dyn.eBikeBatteryUsage}% consumido. Usa Eco en subidas largas y Trail en secciones técnicas para optimizar autonomía.`,src:'Datos e-bike'});
+  cards.push({type:'',title:'Frenado en enduro',body:'Frena antes de la curva, no dentro. Más freno trasero en tierra suelta, más delantero en compacto. Libera al entrar en curva.',src:'Técnica enduro'});
+  cards.push({type:'',title:'Posición de ataque',body:'Codos afuera, rodillas flexionadas, peso equilibrado. En grit alto baja el centro de gravedad para mejorar control.',src:'Técnica enduro'});
+
+  document.getElementById('tech-cards').innerHTML=cards.map(c=>`<div class="tech-card ${c.type}"><div class="tech-title">${c.title}</div><div class="tech-body">${c.body}</div><div class="tech-source">${c.src}</div></div>`).join('');
+  document.getElementById('rec-analysis-container').style.display='block';
 }
 
-function updateConnectionStatuses() {
-  // Strava token pre-loaded
-  if (STATE.strava.refreshToken) setStatus('strava', true);
+// AI CHAT
+function sendQuickQ(el){document.getElementById('ai-input').value=el.textContent;sendAI();}
+
+async function sendAI() {
+  const input=document.getElementById('ai-input');
+  const q=input.value.trim();
+  if(!q)return;
+  input.value='';
+  const btn=document.getElementById('ai-send-btn');
+  btn.disabled=true;
+  addAIMsg(q,'user');
+
+  const act=STATE.selectedActivity;
+  const sd=act?new Date(act.start_date_local).toDateString():null;
+  const ga=sd?STATE.garminData?.activities?.find(a=>a.startTimeLocal&&new Date(a.startTimeLocal).toDateString()===sd):null;
+  const dyn=ga?.mtbDynamics||{};
+  const setup=JSON.parse(localStorage.getItem('mtb_setup_v2')||'{}');
+
+  const ctx=`Eres un experto coach de enduro MTB. El piloto es Guillermo González, 94kg con equipación, Santiago Chile (cerros La Buitrera, El Gringo, Lomo Vetado, Mampato).
+Bici: Specialized Kenevo S4 2021 e-MTB enduro, 180mm travel.
+Setup: Horquilla RockShox ZEB ${setup['fork-psi']||81} PSI, ${setup['fork-tokens']||2} tokens, rebote ${setup['fork-reb']||8} clics. Öhlins TTX22M coil ${setup['shock-spring']||'500 lbs'}, rebote ${setup['shock-reb']||4} clics, LSC ${setup['shock-lsc']||8} clics. Neumáticos Schwalbe 1.4 bar.
+${act?`Última salida: ${(act.distance/1000).toFixed(1)}km, ${Math.round(act.total_elevation_gain)}m desnivel.`:''}
+${dyn.avgFlow?`Flow: ${dyn.avgFlow.toFixed(2)}, Grit: ${dyn.grit?.toFixed(1)}, Jumps: ${dyn.jumpCount||'—'}.`:''}
+Responde en español, de forma concisa y práctica con consejos específicos de técnica enduro.`;
+
+  STATE.aiHistory.push({role:'user',content:q});
+  try {
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:ctx,messages:STATE.aiHistory.slice(-6)})});
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||'Error al obtener respuesta.';
+    STATE.aiHistory.push({role:'assistant',content:reply});
+    addAIMsg(reply,'bot');
+  } catch(e){addAIMsg('Error conectando. Inténtalo de nuevo.','bot');}
+  btn.disabled=false;
 }
 
-function fetchAll() {
-  fetchStravaActivities();
-  loadGarminData();
+function addAIMsg(text,type){
+  const c=document.getElementById('ai-messages');
+  const d=document.createElement('div');
+  d.className='ai-msg';
+  d.innerHTML=`<div class="ai-msg-${type}">${text.replace(/\n/g,'<br>')}</div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
 }
 
-function exportSetupPDF() {
-  window.print();
-}
-
-function copyInstall() {
-  const code = `pip3 install garminconnect requests python-dotenv fitparse\n\ncat > ~/.mtb_agent.env << 'EOF'\nSTRAVA_CLIENT_ID=233784\nSTRAVA_CLIENT_SECRET=0eb0218f66305ae68c0623128ee7c75d520d46b8\nSTRAVA_REFRESH_TOKEN=ba290bd4d3ae4c0ab51d9ec4223d7125efd0d816\nGARMIN_EMAIL=tu@email.com\nGARMIN_PASSWORD=tupassword\nEOF\nchmod 600 ~/.mtb_agent.env`;
-  navigator.clipboard.writeText(code).then(() => alert('Copiado al portapapeles'));
-}
-
-// ═══════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', initState);
+// UTILS
+function formatTime(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;if(h>0)return`${h}h ${m.toString().padStart(2,'0')}m`;return`${m}m ${sec.toString().padStart(2,'0')}s`;}
+function setStatus(svc,on){const d=document.getElementById(svc+'-dot');if(d)d.className='status-dot'+(on?' on':'');}
+function syncAll(){fetchStravaActivities();loadGarminData();}
 </script>
 </body>
 </html>
-<script>
-function renderGarminDynamics(dyn) {
-  const j = document.getElementById('dyn-jumps');
-  const b = document.getElementById('dyn-battery');
-  const l = document.getElementById('dyn-load');
-  const f = document.getElementById('dyn-fx');
-  const bf = document.getElementById('bar-flow');
-  const vf = document.getElementById('val-flow');
-  const bg = document.getElementById('bar-grit');
-  const vg = document.getElementById('val-grit');
-  if (j) j.textContent = dyn.jumpCount ?? '—';
-  if (b && dyn.eBikeBatteryUsage != null) b.textContent = dyn.eBikeBatteryUsage + '% usada · ' + (dyn.eBikeBatteryRemaining ?? '—') + '% restante';
-  if (l && dyn.activityTrainingLoad) l.textContent = dyn.activityTrainingLoad.toFixed(1);
-  if (f && dyn.trainingEffectLabel) {
-    const labels = {'AEROBIC_BASE':'Base Aeróbica','IMPROVING_AEROBIC_ENDURANCE':'Mejorando Resistencia','MAINTAINING_AEROBIC_BASE':'Manteniendo Base','OVERREACHING':'Sobrecarga','RECOVERY':'Recuperación'};
-    f.textContent = labels[dyn.trainingEffectLabel] || dyn.trainingEffectLabel;
-  }
-  if (bf && dyn.avgFlow != null) { bf.style.width = Math.min((dyn.avgFlow/10)*100,100)+'%'; vf.textContent = dyn.avgFlow.toFixed(2); }
-  if (bg && dyn.grit != null) { bg.style.width = Math.min((dyn.grit/200)*100,100)+'%'; vg.textContent = dyn.grit.toFixed(1); }
-}
-</script>
