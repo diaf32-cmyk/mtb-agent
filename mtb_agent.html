@@ -280,7 +280,7 @@
   <div class="records-period">📅 <span id="records-month-label">—</span></div>
   <div class="records-grid">
     <div class="record-card"><div class="record-icon">⚡</div><div class="record-label">Vel. Máxima del mes</div><div class="record-value" id="rec-maxspeed">—<span class="record-unit"> km/h</span></div><div class="record-date" id="rec-maxspeed-date">—</div><div class="record-pr" id="rec-maxspeed-pr">PR histórico: —</div></div>
-    <div class="record-card"><div class="record-icon">⬇</div><div class="record-label">Mayor descenso del mes</div><div class="record-value" id="rec-jump">—<span class="record-unit"> m</span></div><div class="record-date" id="rec-jump-date">—</div><div class="record-pr" id="rec-jump-pr">PR histórico: —</div></div>
+    <div class="record-card"><div class="record-icon">🦅</div><div class="record-label">Mejor salto del mes</div><div class="record-value" id="rec-jump">—<span class="record-unit"> m</span></div><div class="record-date" id="rec-jump-date">—</div><div class="record-pr" id="rec-jump-pr">PR histórico: —</div></div>
     <div class="record-card"><div class="record-icon">🌊</div><div class="record-label">Mejor Flow del mes</div><div class="record-value" id="rec-flow">—</div><div class="record-date" id="rec-flow-date">—</div><div class="record-pr" id="rec-flow-pr">PR histórico: —</div></div>
   </div>
   <div class="section-title">Salidas del mes</div>
@@ -554,9 +554,15 @@ function updateRecords() {
   const axSpd=bestAll(all,a=>a.maxSpeed?a.maxSpeed*3.6:0);
   if(mxSpd.val>0){document.getElementById('rec-maxspeed').innerHTML=mxSpd.val.toFixed(1)+'<span class="record-unit"> km/h</span>';document.getElementById('rec-maxspeed-date').textContent=new Date(mxSpd.date).toLocaleDateString('es-CL');document.getElementById('rec-maxspeed-pr').textContent='PR histórico: '+axSpd.toFixed(1)+' km/h';}
 
-  const mxJmp=best(thisMonth,a=>a.elevationLoss||0);
-  const axJmp=bestAll(all,a=>a.elevationLoss||0);
-  if(mxJmp.val>0){document.getElementById('rec-jump').innerHTML=Math.round(mxJmp.val)+'<span class="record-unit"> m</span>';document.getElementById('rec-jump-date').textContent=new Date(mxJmp.date).toLocaleDateString('es-CL');document.getElementById('rec-jump-pr').textContent='PR histórico: '+Math.round(axJmp)+' m';}
+  const mxJmp=best(thisMonth,a=>a.bestJump?.score||0);
+  const axJmp=bestAll(all,a=>a.bestJump?.score||0);
+  if(mxJmp.val>0){
+    const bj=thisMonth.find(a=>a.startTimeLocal===mxJmp.date)?.bestJump;
+    document.getElementById('rec-jump').innerHTML=(bj?.distance||'—')+'<span class="record-unit"> m</span>';
+    document.getElementById('rec-jump-date').textContent=new Date(mxJmp.date).toLocaleDateString('es-CL')+' · score '+mxJmp.val;
+    const bjAll=all.find(a=>a.bestJump?.score===axJmp)?.bestJump;
+    document.getElementById('rec-jump-pr').textContent='PR histórico: '+(bjAll?.distance||'—')+'m · score '+axJmp;
+  }
 
   const mxFlw=thisMonth.filter(a=>a.mtbDynamics?.avgFlow>0).reduce((b,a)=>{const v=a.mtbDynamics.avgFlow;return v<b.val?{val:v,date:a.startTimeLocal}:b},{val:Infinity,date:null});
   const axFlw=all.filter(a=>a.mtbDynamics?.avgFlow>0).reduce((b,a)=>a.mtbDynamics.avgFlow<b?a.mtbDynamics.avgFlow:b,Infinity);
