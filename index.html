@@ -529,8 +529,14 @@ function renderGarminDynamics(dyn, act) {
   if(dyn.grit!=null){document.getElementById('bar-grit').style.width=Math.min((dyn.grit/200)*100,100)+'%';set('val-grit',dyn.grit.toFixed(1));}
   if(dyn.jumpCount&&dyn.jumpCount>0){
     const card=document.getElementById('best-jump-card'); card.style.display='block';
-    set('best-jump-val',dyn.jumpCount+' saltos totales');
-    set('best-jump-sub',(dyn.avgFlow?'Flow: '+dyn.avgFlow.toFixed(2):'')+' · Grit: '+(dyn.grit?.toFixed(1)||'—'));
+    const bj=ga?.bestJump;
+    if(bj){
+      set('best-jump-val', bj.distance+'m · score '+bj.score);
+      set('best-jump-sub', bj.hangTime+'s en el aire · '+bj.speed+' km/h · '+dyn.jumpCount+' saltos totales');
+    } else {
+      set('best-jump-val', dyn.jumpCount+' saltos totales');
+      set('best-jump-sub', (dyn.avgFlow?'Flow: '+dyn.avgFlow.toFixed(2):'')+' · Grit: '+(dyn.grit?.toFixed(1)||'—'));
+    }
   }
 }
 
