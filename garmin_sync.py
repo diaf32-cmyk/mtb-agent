@@ -117,7 +117,23 @@ def main():
                 detail = __import__("json").loads(r2.stdout)
             except:
                 detail = {}
-            enriched.append(extract_summary(detail))
+            # Get jump details via garth
+            jump_details = []
+            try:
+                jr = client.garth.get("connectapi", f"/activity-service/activity/{act_id}/jumpDetails")
+                jump_details = jr.json() if jr.status_code == 200 else []
+            except:
+                pass
+            summary = extract_summary(detail)
+            if jump_details:
+                best = max(jump_details, key=lambda j: j.get("score", 0))
+                summary["bestJump"] = {
+                    "score": best.get("score"),
+                    "distance": round(best.get("distance", 0), 2),
+                    "hangTime": round(best.get("hangTime", 0), 3),
+                    "speed": round(best.get("speed", 0) * 3.6, 1)
+                }
+            enriched.append(summary)
         except Exception as e:
             print(f"  ⚠ Error: {e}")
             enriched.append({
