@@ -280,7 +280,7 @@
   <div class="records-period">📅 <span id="records-month-label">—</span></div>
   <div class="records-grid">
     <div class="record-card"><div class="record-icon">⚡</div><div class="record-label">Vel. Máxima del mes</div><div class="record-value" id="rec-maxspeed">—<span class="record-unit"> km/h</span></div><div class="record-date" id="rec-maxspeed-date">—</div><div class="record-pr" id="rec-maxspeed-pr">PR histórico: —</div></div>
-    <div class="record-card"><div class="record-icon">🦅</div><div class="record-label">Más saltos del mes</div><div class="record-value" id="rec-jump">—<span class="record-unit"> saltos</span></div><div class="record-date" id="rec-jump-date">—</div><div class="record-pr" id="rec-jump-pr">PR histórico: —</div></div>
+    <div class="record-card"><div class="record-icon">⬇</div><div class="record-label">Mayor descenso del mes</div><div class="record-value" id="rec-jump">—<span class="record-unit"> m</span></div><div class="record-date" id="rec-jump-date">—</div><div class="record-pr" id="rec-jump-pr">PR histórico: —</div></div>
     <div class="record-card"><div class="record-icon">🌊</div><div class="record-label">Mejor Flow del mes</div><div class="record-value" id="rec-flow">—</div><div class="record-date" id="rec-flow-date">—</div><div class="record-pr" id="rec-flow-pr">PR histórico: —</div></div>
   </div>
   <div class="section-title">Salidas del mes</div>
@@ -554,18 +554,18 @@ function updateRecords() {
   const axSpd=bestAll(all,a=>a.maxSpeed?a.maxSpeed*3.6:0);
   if(mxSpd.val>0){document.getElementById('rec-maxspeed').innerHTML=mxSpd.val.toFixed(1)+'<span class="record-unit"> km/h</span>';document.getElementById('rec-maxspeed-date').textContent=new Date(mxSpd.date).toLocaleDateString('es-CL');document.getElementById('rec-maxspeed-pr').textContent='PR histórico: '+axSpd.toFixed(1)+' km/h';}
 
-  const mxJmp=best(thisMonth,a=>a.mtbDynamics?.jumpCount||0);
-  const axJmp=bestAll(all,a=>a.mtbDynamics?.jumpCount||0);
-  if(mxJmp.val>0){document.getElementById('rec-jump').innerHTML=mxJmp.val+'<span class="record-unit"> saltos</span>';document.getElementById('rec-jump-date').textContent=new Date(mxJmp.date).toLocaleDateString('es-CL');document.getElementById('rec-jump-pr').textContent='PR histórico: '+axJmp+' saltos';}
+  const mxJmp=best(thisMonth,a=>a.elevationLoss||0);
+  const axJmp=bestAll(all,a=>a.elevationLoss||0);
+  if(mxJmp.val>0){document.getElementById('rec-jump').innerHTML=Math.round(mxJmp.val)+'<span class="record-unit"> m</span>';document.getElementById('rec-jump-date').textContent=new Date(mxJmp.date).toLocaleDateString('es-CL');document.getElementById('rec-jump-pr').textContent='PR histórico: '+Math.round(axJmp)+' m';}
 
   const mxFlw=thisMonth.filter(a=>a.mtbDynamics?.avgFlow>0).reduce((b,a)=>{const v=a.mtbDynamics.avgFlow;return v<b.val?{val:v,date:a.startTimeLocal}:b},{val:Infinity,date:null});
   const axFlw=all.filter(a=>a.mtbDynamics?.avgFlow>0).reduce((b,a)=>a.mtbDynamics.avgFlow<b?a.mtbDynamics.avgFlow:b,Infinity);
   if(mxFlw.val>0){document.getElementById('rec-flow').innerHTML=mxFlw.val.toFixed(2);document.getElementById('rec-flow-date').textContent=new Date(mxFlw.date).toLocaleDateString('es-CL');document.getElementById('rec-flow-pr').textContent='PR histórico: '+axFlw.toFixed(2);}
 
   if(thisMonth.length>0){
-    let html='<table class="records-table"><thead><tr><th>Fecha</th><th>Distancia</th><th>Desnivel</th><th>Jumps</th><th>Flow</th><th>Vel. Máx</th></tr></thead><tbody>';
+    let html='<table class="records-table"><thead><tr><th>Fecha</th><th>Distancia</th><th>Ascenso</th><th>Descenso</th><th>Flow</th><th>Vel. Máx</th></tr></thead><tbody>';
     thisMonth.forEach(a=>{
-      html+=`<tr><td>${new Date(a.startTimeLocal).toLocaleDateString('es-CL')}</td><td style="font-family:'DM Mono',monospace">${a.distance?(a.distance/1000).toFixed(1)+' km':'—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationGain?Math.round(a.elevationGain)+' m':'—'}</td><td style="font-family:'DM Mono',monospace">${a.mtbDynamics?.jumpCount||'—'}</td><td style="font-family:'DM Mono',monospace">${a.mtbDynamics?.avgFlow?a.mtbDynamics.avgFlow.toFixed(2):'—'}</td><td style="font-family:'DM Mono',monospace">${a.maxSpeed?(a.maxSpeed*3.6).toFixed(1)+' km/h':'—'}</td></tr>`;
+      html+=`<tr><td>${new Date(a.startTimeLocal).toLocaleDateString('es-CL')}</td><td style="font-family:'DM Mono',monospace">${a.distance?(a.distance/1000).toFixed(1)+' km':'—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationGain?Math.round(a.elevationGain)+' m':'—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationLoss?Math.round(a.elevationLoss)+' m':'—'}</td><td style="font-family:'DM Mono',monospace">${a.mtbDynamics?.avgFlow?a.mtbDynamics.avgFlow.toFixed(2):'—'}</td><td style="font-family:'DM Mono',monospace">${a.maxSpeed?(a.maxSpeed*3.6).toFixed(1)+' km/h':'—'}</td></tr>`;
     });
     document.getElementById('records-table-container').innerHTML=html+'</tbody></table>';
   } else {
