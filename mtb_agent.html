@@ -508,7 +508,7 @@ async function loadGarminDataForActivity(act) {
   const ga = STATE.garminData.activities?.find(a => a.startTimeLocal && new Date(a.startTimeLocal).toDateString()===sd);
   const dyn = ga?.mtbDynamics||null;
   if (dyn && Object.keys(dyn).length>0) {
-    renderGarminDynamics(dyn,ga);
+    renderGarminDynamics(dyn,ga,ga?.bestJump);
     if(ga?.maxSpeed){ document.getElementById('kpi-speed').innerHTML=(ga.maxSpeed*3.6).toFixed(1)+'<span class="kpi-unit"> km/h</span>'; document.getElementById('kpi-speed-sub').textContent='Garmin'; }
     const el=document.getElementById('garmin-sync-time'); if(el) el.textContent='Garmin · '+new Date(act.start_date_local).toLocaleDateString('es-CL');
   } else {
@@ -516,7 +516,7 @@ async function loadGarminDataForActivity(act) {
   }
 }
 
-function renderGarminDynamics(dyn, act) {
+function renderGarminDynamics(dyn, act, bestJump) {
   const set=(id,val)=>{const el=document.getElementById(id);if(el&&val!=null)el.innerHTML=String(val);};
   set('dyn-jumps', dyn.jumpCount??'—');
   if(dyn.eBikeBatteryUsage!=null){set('dyn-battery',dyn.eBikeBatteryUsage+'%');set('dyn-battery-rem','restante: '+(dyn.eBikeBatteryRemaining??'—')+'%');}
@@ -529,7 +529,7 @@ function renderGarminDynamics(dyn, act) {
   if(dyn.grit!=null){document.getElementById('bar-grit').style.width=Math.min((dyn.grit/200)*100,100)+'%';set('val-grit',dyn.grit.toFixed(1));}
   if(dyn.jumpCount&&dyn.jumpCount>0){
     const card=document.getElementById('best-jump-card'); card.style.display='block';
-    const bj=ga?.bestJump;
+    const bj=bestJump;
     if(bj){
       set('best-jump-val', bj.distance+'m · score '+bj.score);
       set('best-jump-sub', bj.hangTime+'s en el aire · '+bj.speed+' km/h · '+dyn.jumpCount+' saltos totales');
