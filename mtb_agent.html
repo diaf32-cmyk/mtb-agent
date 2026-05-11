@@ -660,7 +660,7 @@ Responde en español, de forma concisa y práctica con consejos específicos de 
 
   STATE.aiHistory.push({role:'user',content:q});
   try {
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:ctx,messages:STATE.aiHistory.slice(-6)})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:ctx,messages:STATE.aiHistory.slice(-6)})});
     const data=await res.json();
     const reply=data.content?.[0]?.text||'Error al obtener respuesta.';
     STATE.aiHistory.push({role:'assistant',content:reply});
