@@ -224,7 +224,6 @@
     <select class="activity-select" id="activity-select" onchange="loadActivity(this.value)">
       <option value="">— Selecciona una actividad —</option>
     </select>
-    <button class="btn-primary" onclick="fetchStravaActivities()">Cargar actividades</button>
   </div>
 
   <div class="kpi-grid">
@@ -383,7 +382,7 @@ const STATE = {
 };
 const GARMIN_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main/garmin_data.json';
 
-document.addEventListener('DOMContentLoaded', () => { loadSetup(); loadGarminData(); setStatus('strava',true); updateRecordsMonth(); });
+document.addEventListener('DOMContentLoaded', () => { loadSetup(); loadGarminData(); setStatus('strava',true); updateRecordsMonth(); syncAll(); });
 
 function switchTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -680,7 +679,19 @@ function addAIMsg(text,type){
 // UTILS
 function formatTime(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;if(h>0)return`${h}h ${m.toString().padStart(2,'0')}m`;return`${m}m ${sec.toString().padStart(2,'0')}s`;}
 function setStatus(svc,on){const d=document.getElementById(svc+'-dot');if(d)d.className='status-dot'+(on?' on':'');}
-function syncAll(){fetchStravaActivities();loadGarminData();}
+async function syncAll(){
+  const btn = document.querySelector('.btn-sync');
+  if(btn) btn.textContent = '↻ Syncing...';
+  await fetchStravaActivities();
+  await loadGarminData();
+  // Auto-select latest activity
+  const select = document.getElementById('activity-select');
+  if(select && select.options.length > 1) {
+    select.selectedIndex = 1;
+    await loadActivity(select.value);
+  }
+  if(btn) btn.textContent = '↻ Sync';
+}
 </script>
 </body>
 </html>
