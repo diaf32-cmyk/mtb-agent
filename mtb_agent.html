@@ -504,7 +504,9 @@ async function loadGarminDataForActivity(act) {
     try { await fetchGarminData(); } catch(e) { return; }
   }
   const sd = new Date(act.start_date_local).toDateString();
-  const ga = STATE.garminData.activities?.find(a => a.startTimeLocal && new Date(a.startTimeLocal).toDateString()===sd);
+  // Prefer EBike activities with MTB dynamics when multiple activities on same day
+  const sameDay = STATE.garminData.activities?.filter(a => a.startTimeLocal && new Date(a.startTimeLocal).toDateString()===sd) || [];
+  const ga = sameDay.find(a => a.mtbDynamics?.jumpCount) || sameDay[0];
   const dyn = ga?.mtbDynamics||null;
   if (dyn && Object.keys(dyn).length>0) {
     renderGarminDynamics(dyn,ga,ga?.bestJump);
