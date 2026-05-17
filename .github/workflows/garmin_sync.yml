@@ -11,7 +11,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: pip install garminconnect requests
+        run: pip install garminconnect garth requests
       - name: Run sync
         env:
           GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
