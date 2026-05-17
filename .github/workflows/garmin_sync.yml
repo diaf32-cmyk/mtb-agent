@@ -1,8 +1,26 @@
 name: Garmin Sync
 on:
   workflow_dispatch:
+
 jobs:
-  placeholder:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Sync se hace desde Mac local"
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install garminconnect requests
+      - name: Run sync
+        env:
+          GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+        run: python3 garmin_sync.py
+      - name: Commit and push
+        run: |
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          git add garmin_data.json
+          git diff --staged --quiet || git commit -m "auto sync garmin [skip ci]"
+          git push
