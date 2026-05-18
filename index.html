@@ -556,13 +556,7 @@ async function loadSegments(activityId) {
     if (!efforts.length) { c.innerHTML = '<div style="color:var(--muted);padding:16px;font-size:0.82rem;">Sin segmentos</div>'; return; }
     c.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando PRs...</div>';
 
-    const enriched = await Promise.all(efforts.map(async e => {
-      try {
-        const r = await fetch(`https://www.strava.com/api/v3/segments/${e.segment.id}`, { headers: { 'Authorization': 'Bearer ' + token } });
-        const s = await r.json();
-        return { ...e, segStats: s.athlete_segment_stats };
-      } catch { return { ...e, segStats: null }; }
-    }));
+    const enriched = await fetchSegmentsSerialized(efforts, token);
 
     // Guardar en cache para pistas frecuentes y comparación
     STATE.segCache[activityId] = enriched;
@@ -1108,6 +1102,22 @@ async function syncAll() {
   if (btn) btn.textContent = '↻ Sync';
 }
 
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function fetchSegmentsSerialized(efforts, token) {
+  // Serializar llamadas con delay para evitar rate limiting de Strava
+  const enriched = [];
+  for (const e of efforts) {
+    try {
+      const r = await fetch(`https://www.strava.com/api/v3/segments/${e.segment.id}`, { headers: { 'Authorization': 'Bearer ' + token } });
+      const s = await r.json();
+      enriched.push({ ...e, segStats: s.athlete_segment_stats || null });
+    } catch { enriched.push({ ...e, segStats: null }); }
+    await sleep(120); // 120ms entre llamadas — respeta el rate limit de Strava
+  }
+  return enriched;
+}
+
 async function preloadSegments() {
   // Tomar las siguientes 4 actividades después de la ya cargada
   const toPreload = STATE.activities.slice(1, 5);
@@ -1119,22 +1129,17 @@ async function preloadSegments() {
     try {
       const res = await fetch(`https://www.strava.com/api/v3/activities/${act.id}?include_all_efforts=true`, { headers: { 'Authorization': 'Bearer ' + token } });
       const data = await res.json();
-      const efforts = data.segment_efforts || [];
-      // Enriquecer con PR de cada segmento
-      const enriched = await Promise.all(efforts.map(async e => {
-        try {
-          const r = await fetch(`https://www.strava.com/api/v3/segments/${e.segment.id}`, { headers: { 'Authorization': 'Bearer ' + token } });
-          const s = await r.json();
-          return { ...e, segStats: s.athlete_segment_stats };
-        } catch { return { ...e, segStats: null }; }
-      }));
+      if (!Array.isArray(data.segment_efforts)) continue;
+      const enriched = await fetchSegmentsSerialized(data.segment_efforts, token);
       STATE.segCache[act.id] = enriched;
+      // Redibujar pistas después de cada actividad cargada
+      renderPistasFrecuentes();
     } catch (e) {}
+    await sleep(300); // pausa entre actividades
   }
-  // Redibujar pistas frecuentes y score con datos nuevos
-  renderPistasFrecuentes();
+  // Score solo una vez al final, con todos los datos listos
   if (STATE.garminData?.activities) {
-    const nowY = new Date().getFullYear(), nowM = new Date().getMonth();
+    const nowM = new Date().getMonth(), nowY = new Date().getFullYear();
     const all = STATE.garminData.activities;
     const thisMonth = all.filter(a => { if (!a.startTimeLocal) return false; const d = new Date(a.startTimeLocal); return d.getMonth() === nowM && d.getFullYear() === nowY; });
     renderScoreMes(thisMonth, all);
