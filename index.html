@@ -1098,8 +1098,46 @@ async function syncAll() {
   await fetchStravaActivities();
   await loadGarminData();
   const select = document.getElementById('activity-select');
-  if (select && select.options.length > 1) { select.selectedIndex = 1; await loadActivity(select.value); }
+  if (select && select.options.length > 1) {
+    select.selectedIndex = 1;
+    await loadActivity(select.value);
+  }
+  // Precargar segmentos de las últimas 4 actividades para poblar Tus Pistas
+  await preloadSegments();
   if (btn) btn.textContent = '↻ Sync';
+}
+
+async function preloadSegments() {
+  // Tomar las siguientes 4 actividades después de la ya cargada
+  const toPreload = STATE.activities.slice(1, 5);
+  if (!toPreload.length) return;
+  const token = await getStravaToken().catch(() => null);
+  if (!token) return;
+  for (const act of toPreload) {
+    if (STATE.segCache[act.id]) continue; // ya en cache, saltar
+    try {
+      const res = await fetch(`https://www.strava.com/api/v3/activities/${act.id}?include_all_efforts=true`, { headers: { 'Authorization': 'Bearer ' + token } });
+      const data = await res.json();
+      const efforts = data.segment_efforts || [];
+      // Enriquecer con PR de cada segmento
+      const enriched = await Promise.all(efforts.map(async e => {
+        try {
+          const r = await fetch(`https://www.strava.com/api/v3/segments/${e.segment.id}`, { headers: { 'Authorization': 'Bearer ' + token } });
+          const s = await r.json();
+          return { ...e, segStats: s.athlete_segment_stats };
+        } catch { return { ...e, segStats: null }; }
+      }));
+      STATE.segCache[act.id] = enriched;
+    } catch (e) {}
+  }
+  // Redibujar pistas frecuentes y score con datos nuevos
+  renderPistasFrecuentes();
+  if (STATE.garminData?.activities) {
+    const nowY = new Date().getFullYear(), nowM = new Date().getMonth();
+    const all = STATE.garminData.activities;
+    const thisMonth = all.filter(a => { if (!a.startTimeLocal) return false; const d = new Date(a.startTimeLocal); return d.getMonth() === nowM && d.getFullYear() === nowY; });
+    renderScoreMes(thisMonth, all);
+  }
 }
 </script>
 </body>
