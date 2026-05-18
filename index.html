@@ -349,9 +349,7 @@
   <div class="section-title">Tus pistas · Frecuentes & más desafiantes</div>
   <div id="pistas-container"><div class="loading"><div class="spinner"></div>Carga actividades para ver tus pistas</div></div>
 
-  <!-- Salidas del mes -->
-  <div class="section-title">Salidas del mes</div>
-  <div id="records-table-container"><div class="loading"><div class="spinner"></div>Carga actividades para ver records</div></div>
+
 
   <!-- MEJORA 4: Score del mes -->
   <div class="section-title">Score del mes</div>
@@ -648,10 +646,14 @@ async function loadComparison(currentId, currentEfforts) {
   const curJumps = curGarmin?.mtbDynamics?.jumpCount;
   const prevJumps = prevGarmin?.mtbDynamics?.jumpCount;
 
+  // Descenso: preferir Garmin (más preciso), fallback a Strava
+  const curDesc = curGarmin?.elevationLoss || curAct.total_elevation_loss || 0;
+  const prevDesc = prevGarmin?.elevationLoss || prev.act.total_elevation_loss || 0;
+
   const rows = [
-    { label: 'Distancia',  cur: (curAct.distance / 1000).toFixed(1) + ' km', prev: (prev.act.distance / 1000).toFixed(1) + ' km', better: curAct.distance >= prev.act.distance },
-    { label: 'Descenso',   cur: Math.round(curAct.total_elevation_loss || 0) + ' m', prev: Math.round(prev.act.total_elevation_loss || 0) + ' m', better: (curAct.total_elevation_loss || 0) >= (prev.act.total_elevation_loss || 0) },
-    { label: 'Vel. máxima',cur: curMaxSpd.toFixed(1) + ' km/h', prev: prevMaxSpd.toFixed(1) + ' km/h', better: curMaxSpd >= prevMaxSpd },
+    { label: 'Distancia',   cur: (curAct.distance / 1000).toFixed(1) + ' km', prev: (prev.act.distance / 1000).toFixed(1) + ' km', better: curAct.distance >= prev.act.distance },
+    { label: 'Descenso',    cur: Math.round(curDesc) + ' m', prev: Math.round(prevDesc) + ' m', better: curDesc >= prevDesc },
+    { label: 'Vel. máxima', cur: curMaxSpd.toFixed(1) + ' km/h', prev: prevMaxSpd.toFixed(1) + ' km/h', better: curMaxSpd >= prevMaxSpd },
   ];
   if (curFlow && prevFlow) rows.push({ label: 'Flow', cur: curFlow.toFixed(2), prev: prevFlow.toFixed(2), better: curFlow <= prevFlow });
   if (curJumps && prevJumps) rows.push({ label: 'Jumps', cur: String(curJumps), prev: String(prevJumps), better: curJumps >= prevJumps });
@@ -778,18 +780,8 @@ function updateRecords() {
   const axFlw = all.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => a.mtbDynamics.avgFlow < b ? a.mtbDynamics.avgFlow : b, Infinity);
   if (mxFlw.val < Infinity) { document.getElementById('rec-flow').innerHTML = mxFlw.val.toFixed(2); document.getElementById('rec-flow-date').textContent = new Date(mxFlw.date).toLocaleDateString('es-CL'); document.getElementById('rec-flow-pr').textContent = 'PR histórico: ' + axFlw.toFixed(2); }
 
-  // Tabla salidas del mes
-  if (thisMonth.length > 0) {
-    let html = '<table class="records-table"><thead><tr><th>Fecha</th><th>Distancia</th><th>Ascenso</th><th>Descenso</th><th>Flow</th><th>Vel. Máx</th></tr></thead><tbody>';
-    thisMonth.forEach(a => {
-      html += `<tr><td>${new Date(a.startTimeLocal).toLocaleDateString('es-CL')}</td><td style="font-family:'DM Mono',monospace">${a.distance ? (a.distance / 1000).toFixed(1) + ' km' : '—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationGain ? Math.round(a.elevationGain) + ' m' : '—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationLoss ? Math.round(a.elevationLoss) + ' m' : '—'}</td><td style="font-family:'DM Mono',monospace">${a.mtbDynamics?.avgFlow ? a.mtbDynamics.avgFlow.toFixed(2) : '—'}</td><td style="font-family:'DM Mono',monospace">${a.maxSpeed ? (a.maxSpeed * 3.6).toFixed(1) + ' km/h' : '—'}</td></tr>`;
-    });
-    document.getElementById('records-table-container').innerHTML = html + '</tbody></table>';
-  } else {
-    document.getElementById('records-table-container').innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;">Sin salidas este mes en datos Garmin</div>';
-  }
 
-  // Pistas y score (pueden necesitar datos de segmentos aún no cargados; se actualizarán al cargar actividades)
+  // Pistas y score
   renderPistasFrecuentes();
   renderScoreMes(thisMonth, all);
 }
@@ -834,35 +826,39 @@ function renderPistasFrecuentes() {
 
   let html = '<div class="pistas-list">';
   frequent.forEach(seg => {
-    // Pill según delta
-    let pillCls = 'ok', pillTxt = 'Cómodo';
-    let deltaCls = 'ok', deltaStr = '+' + formatTime(seg.delta);
-    if (seg.delta <= 0)  { pillCls = 'fire';  pillTxt = '🔥 Muy apretado'; deltaCls = 'fire';  deltaStr = '🏆 PR'; }
-    else if (seg.delta <= 8)  { pillCls = 'fire';  pillTxt = '🔥 Muy apretado'; deltaCls = 'fire'; }
-    else if (seg.delta <= 25) { pillCls = 'close'; pillTxt = '⚡ Cerca del PR';  deltaCls = 'close'; }
-
-    // Tendencia: últimos 5 intentos
-    const last5 = seg.entries.slice(-5);
-    const trendHTML = last5.map((e, i) => {
-      if (i === 0) return `<div class="td td-eq" title="${formatTime(e.time)}">·</div>`;
-      if (e.isPR) return `<div class="td td-pr" title="PR ${formatTime(e.time)}">★</div>`;
-      const diff = e.time - last5[i - 1].time;
-      if (diff < -2) return `<div class="td td-up" title="${formatTime(e.time)}">↑</div>`;
-      if (diff > 2)  return `<div class="td td-dn" title="${formatTime(e.time)}">↓</div>`;
-      return `<div class="td td-eq" title="${formatTime(e.time)}">→</div>`;
-    }).join('');
-
+    // Color gradiente según cercanía al PR
+    let pillTxt, pillStyle, deltaStr, deltaStyle;
+    if (seg.delta <= 0) {
+      pillTxt = '✓ En PR';
+      pillStyle = 'color:#2d6e2d;border-color:rgba(45,110,45,0.35);background:rgba(45,110,45,0.1);';
+      deltaStr = '🏆 PR'; deltaStyle = 'color:#2d6e2d;';
+    } else if (seg.delta <= 5) {
+      pillTxt = '🔥 Muy apretado';
+      pillStyle = 'color:#3a7a3a;border-color:rgba(58,122,58,0.35);background:rgba(58,122,58,0.1);';
+      deltaStr = '+' + formatTime(seg.delta); deltaStyle = 'color:#3a7a3a;';
+    } else if (seg.delta <= 15) {
+      pillTxt = '🔥 Muy apretado';
+      pillStyle = 'color:#6a9e3a;border-color:rgba(106,158,58,0.35);background:rgba(106,158,58,0.1);';
+      deltaStr = '+' + formatTime(seg.delta); deltaStyle = 'color:#6a9e3a;';
+    } else if (seg.delta <= 30) {
+      pillTxt = '⚡ Cerca del PR';
+      pillStyle = 'color:var(--yellow);border-color:rgba(176,122,32,0.3);background:rgba(176,122,32,0.08);';
+      deltaStr = '+' + formatTime(seg.delta); deltaStyle = 'color:var(--yellow);';
+    } else {
+      pillTxt = 'Cómodo';
+      pillStyle = 'color:var(--muted);border-color:var(--border);background:var(--bg2);';
+      deltaStr = '+' + formatTime(seg.delta); deltaStyle = 'color:var(--muted);';
+    }
     html += `<div class="pista-card">
       <div class="pista-header">
         <div class="pista-name">${seg.name}</div>
-        <div class="pista-pill ${pillCls}">${pillTxt}</div>
+        <div class="pista-pill" style="${pillStyle}">${pillTxt}</div>
       </div>
       <div class="pista-stats">
         <div class="pista-stat"><div class="pista-stat-lbl">Intentos</div><div class="pista-stat-val">${seg.count}×</div></div>
         <div class="pista-stat"><div class="pista-stat-lbl">Último</div><div class="pista-stat-val">${formatTime(seg.latestTime)}</div></div>
         <div class="pista-stat"><div class="pista-stat-lbl">PR</div><div class="pista-stat-val">${seg.pr ? formatTime(seg.pr) : '—'}</div></div>
-        <div class="pista-stat"><div class="pista-stat-lbl">Delta</div><div class="pista-delta ${deltaCls}">${deltaStr}</div></div>
-        <div class="pista-stat"><div class="pista-stat-lbl">Últimos ${last5.length}</div><div class="trend-row">${trendHTML}</div></div>
+        <div class="pista-stat"><div class="pista-stat-lbl">Delta</div><div class="pista-delta" style="${deltaStyle}">${deltaStr}</div></div>
       </div>
     </div>`;
   });
@@ -903,9 +899,14 @@ function renderScoreMes(thisMonth, all) {
   const distScore = Math.round(25 * Math.min(totalDist / maxDist, 1));
 
   // PRs: contar salidas del mes que tengan al menos un PR en cache
+  // Cruzar por fecha ya que Garmin y Strava usan IDs distintos
   let prsCount = 0;
-  thisMonth.forEach(a => {
-    const efforts = STATE.segCache[a.activityId || a.id];
+  thisMonth.forEach(garminAct => {
+    const gDate = new Date(garminAct.startTimeLocal).toDateString();
+    // Buscar la actividad Strava del mismo día
+    const stravaAct = STATE.activities.find(a => new Date(a.start_date_local).toDateString() === gDate);
+    if (!stravaAct) return;
+    const efforts = STATE.segCache[stravaAct.id];
     if (efforts && efforts.some(e => e.segStats?.pr_elapsed_time && e.elapsed_time <= e.segStats.pr_elapsed_time)) prsCount++;
   });
   const prScore = Math.min(prsCount * 8, 25);
