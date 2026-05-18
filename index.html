@@ -109,6 +109,16 @@
   .best-jump-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; margin-bottom: 3px; }
   .best-jump-val { font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 700; }
 
+  /* ── MEJORA 2: COMPARACIÓN ── */
+  .comparison-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); margin-top: 14px; }
+  .comp-table { width: 100%; border-collapse: collapse; }
+  .comp-table th { text-align: left; font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  .comp-table td { padding: 8px 8px; border-bottom: 1px solid var(--bg2); font-size: 0.8rem; font-family: 'DM Mono', monospace; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-better { color: var(--green); font-weight: 600; }
+  .comp-worse  { color: var(--red);   font-weight: 600; }
+  .comp-same   { color: var(--muted); }
+
   /* RECORDS */
   .records-period { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
   .records-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
@@ -125,6 +135,45 @@
   .records-table th { text-align: left; font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
   .records-table td { padding: 9px 10px; border-bottom: 1px solid var(--bg2); font-size: 0.82rem; }
   .records-table tr:hover td { background: var(--bg2); }
+
+  /* ── MEJORA 1: PISTAS FRECUENTES ── */
+  .pistas-list { display: flex; flex-direction: column; gap: 10px; }
+  .pista-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); }
+  .pista-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .pista-name { font-size: 0.88rem; font-weight: 600; color: var(--text); flex: 1; margin-right: 8px; }
+  .pista-pill { font-family: 'DM Mono', monospace; font-size: 0.6rem; border-radius: 100px; padding: 2px 9px; white-space: nowrap; border: 1px solid; }
+  .pista-pill.fire  { color: var(--red);    border-color: rgba(192,64,64,0.3);  background: rgba(192,64,64,0.08); }
+  .pista-pill.close { color: var(--yellow); border-color: rgba(176,122,32,0.3); background: rgba(176,122,32,0.08); }
+  .pista-pill.ok    { color: var(--accent3);border-color: rgba(90,122,90,0.3);  background: rgba(90,122,90,0.08); }
+  .pista-stats { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+  .pista-stat { display: flex; flex-direction: column; gap: 1px; }
+  .pista-stat-lbl { font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .pista-stat-val { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--text); font-weight: 500; }
+  .pista-delta { font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; }
+  .pista-delta.fire  { color: var(--red); }
+  .pista-delta.close { color: var(--yellow); }
+  .pista-delta.ok    { color: var(--accent3); }
+  /* mini trend dots */
+  .trend-row { display: flex; align-items: center; gap: 3px; }
+  .td { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
+  .td-up  { background: rgba(74,122,74,0.15); color: var(--green); }
+  .td-dn  { background: rgba(192,64,64,0.12); color: var(--red); }
+  .td-eq  { background: var(--bg3); color: var(--muted); }
+  .td-pr  { background: rgba(176,122,32,0.2); color: var(--yellow); }
+
+  /* ── MEJORA 4: SCORE DEL MES ── */
+  .score-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 22px; }
+  .score-circle { width: 82px; height: 82px; border-radius: 50%; border: 3px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
+  .score-num { font-family: 'Inter', sans-serif; font-size: 1.9rem; font-weight: 700; line-height: 1; }
+  .score-max { font-family: 'DM Mono', monospace; font-size: 0.54rem; color: var(--muted); }
+  .score-right { flex: 1; }
+  .score-label { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 10px; }
+  .score-bars { display: flex; flex-direction: column; gap: 5px; }
+  .sbar-row { display: flex; align-items: center; gap: 8px; }
+  .sbar-lbl { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--muted); width: 76px; flex-shrink: 0; }
+  .sbar-track { flex: 1; height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+  .sbar-fill { height: 100%; border-radius: 2px; transition: width 0.9s ease; }
+  .sbar-val { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text2); width: 32px; text-align: right; flex-shrink: 0; }
 
   /* SETUP */
   .setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -162,7 +211,7 @@
   .quick-qs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .quick-q { background: var(--bg2); border: 1px solid var(--border); border-radius: 100px; padding: 4px 12px; font-size: 0.72rem; color: var(--text2); cursor: pointer; transition: all 0.15s; }
   .quick-q:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .ai-messages { min-height: 80px; max-height: 280px; overflow-y: auto; margin-bottom: 12px; }
+  .ai-messages { min-height: 80px; max-height: 300px; overflow-y: auto; margin-bottom: 12px; }
   .ai-msg { margin-bottom: 10px; overflow: hidden; }
   .ai-msg-user { background: var(--accent); color: #fff; border-radius: 10px 10px 2px 10px; padding: 8px 12px; font-size: 0.82rem; float: right; clear: both; max-width: 80%; }
   .ai-msg-bot { background: var(--bg2); border: 1px solid var(--border); border-radius: 2px 10px 10px 10px; padding: 10px 12px; font-size: 0.82rem; color: var(--text2); line-height: 1.6; float: left; clear: both; max-width: 90%; }
@@ -187,6 +236,9 @@
     .dyn-grid { grid-template-columns: 1fr 1fr; }
     .kpi-value { font-size: 1.6rem; }
     main { padding: 12px; }
+    .pista-stats { gap: 12px; }
+    .score-card { flex-direction: column; }
+    .sbar-lbl { width: 60px; }
   }
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg2); }
@@ -218,7 +270,7 @@
 
 <main>
 
-<!-- SESIÓN -->
+<!-- ═══════════ SESIÓN ═══════════ -->
 <div class="tab-panel active" id="tab-session">
   <div class="activity-bar">
     <select class="activity-select" id="activity-select" onchange="loadActivity(this.value)">
@@ -272,21 +324,41 @@
       <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);margin-top:10px;" id="garmin-sync-time">Sin datos Garmin</div>
     </div>
   </div>
+
+  <!-- MEJORA 2: Comparación con salidas anteriores -->
+  <div id="comparison-container" style="display:none;">
+    <div class="comparison-block">
+      <div class="card-title">Comparado con salidas anteriores en esta ruta</div>
+      <div id="comparison-content"></div>
+    </div>
+  </div>
 </div>
 
-<!-- RECORDS -->
+<!-- ═══════════ RECORDS ═══════════ -->
 <div class="tab-panel" id="tab-records">
   <div class="records-period">📅 <span id="records-month-label">—</span></div>
+
+  <!-- KPIs del mes -->
   <div class="records-grid">
     <div class="record-card"><div class="record-icon">⚡</div><div class="record-label">Vel. Máxima del mes</div><div class="record-value" id="rec-maxspeed">—<span class="record-unit"> km/h</span></div><div class="record-date" id="rec-maxspeed-date">—</div><div class="record-pr" id="rec-maxspeed-pr">PR histórico: —</div></div>
     <div class="record-card"><div class="record-icon">🦅</div><div class="record-label">Mejor salto del mes</div><div class="record-value" id="rec-jump">—<span class="record-unit"> m</span></div><div class="record-date" id="rec-jump-date">—</div><div class="record-pr" id="rec-jump-pr">PR histórico: —</div></div>
     <div class="record-card"><div class="record-icon">🌊</div><div class="record-label">Mejor Flow del mes</div><div class="record-value" id="rec-flow">—</div><div class="record-date" id="rec-flow-date">—</div><div class="record-pr" id="rec-flow-pr">PR histórico: —</div></div>
   </div>
+
+  <!-- MEJORA 1: Pistas frecuentes con tendencia -->
+  <div class="section-title">Tus pistas · Frecuentes & más desafiantes</div>
+  <div id="pistas-container"><div class="loading"><div class="spinner"></div>Carga actividades para ver tus pistas</div></div>
+
+  <!-- Salidas del mes -->
   <div class="section-title">Salidas del mes</div>
   <div id="records-table-container"><div class="loading"><div class="spinner"></div>Carga actividades para ver records</div></div>
+
+  <!-- MEJORA 4: Score del mes -->
+  <div class="section-title">Score del mes</div>
+  <div id="score-container"><div class="loading"><div class="spinner"></div>Calculando score...</div></div>
 </div>
 
-<!-- SETUP BICI -->
+<!-- ═══════════ SETUP BICI ═══════════ -->
 <div class="tab-panel" id="tab-setup">
   <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
     <button class="btn-save" onclick="saveSetup()">💾 Guardar setup</button>
@@ -338,7 +410,7 @@
   </div>
 </div>
 
-<!-- RECOMENDACIONES -->
+<!-- ═══════════ RECOMENDACIONES ═══════════ -->
 <div class="tab-panel" id="tab-recs">
   <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap;">
     <button class="btn-primary" onclick="generateAnalysis()">⚡ Generar análisis</button>
@@ -354,6 +426,7 @@
     <div class="tech-grid" id="tech-cards"></div>
   </div>
 
+  <!-- MEJORA 3: Chat con contexto de sesión inyectado automáticamente -->
   <div class="ai-chat">
     <div class="ai-chat-title">🤖 Coach de técnica enduro</div>
     <div class="quick-qs">
@@ -364,7 +437,7 @@
       <span class="quick-q" onclick="sendQuickQ(this)">Técnica de saltos para enduro</span>
     </div>
     <div class="ai-messages" id="ai-messages">
-      <div class="ai-msg"><div class="ai-msg-bot">Hola Guillermo 👋 Soy tu coach de técnica enduro. Carga una actividad y genera el análisis, o pregúntame directamente sobre pilotaje, setup o entrenamiento.</div></div>
+      <div class="ai-msg"><div class="ai-msg-bot">Hola Guillermo 👋 Soy tu coach de técnica enduro. Carga una actividad para que pueda analizar tu sesión específica, o pregúntame directamente sobre pilotaje, setup o entrenamiento.</div></div>
     </div>
     <div class="ai-input-row">
       <input class="ai-input" id="ai-input" placeholder="Pregunta sobre técnica, setup o tu salida..." onkeypress="if(event.key==='Enter')sendAI()">
@@ -377,322 +450,656 @@
 
 <script>
 const STATE = {
-  strava: { clientId:'233784', clientSecret:'0eb0218f66305ae68c0623128ee7c75d520d46b8', refreshToken:'ba290bd4d3ae4c0ab51d9ec4223d7125efd0d816', accessToken:null, tokenExpiry:0 },
-  activities: [], selectedActivity: null, garminData: null, aiHistory: []
+  strava: {
+    clientId: '233784',
+    clientSecret: '0eb0218f66305ae68c0623128ee7c75d520d46b8',
+    refreshToken: 'ba290bd4d3ae4c0ab51d9ec4223d7125efd0d816',
+    accessToken: null, tokenExpiry: 0
+  },
+  activities: [],
+  selectedActivity: null,
+  garminData: null,
+  aiHistory: [],
+  sessionCtx: null,           // contexto de la sesión activa para el chat
+  segCache: {}                // activityId -> enriched efforts[]
 };
+
 const GARMIN_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main/garmin_data.json';
+const ANTHROPIC_KEY = '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';
 
-document.addEventListener('DOMContentLoaded', () => { loadSetup(); loadGarminData(); setStatus('strava',true); updateRecordsMonth(); syncAll(); });
+document.addEventListener('DOMContentLoaded', () => {
+  loadSetup();
+  loadGarminData();
+  setStatus('strava', true);
+  updateRecordsMonth();
+  syncAll();
+});
 
+/* ── TABS ── */
 function switchTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
 }
 
-// STRAVA
+/* ── STRAVA AUTH ── */
 async function getStravaToken() {
-  const now = Date.now()/1000;
-  if (STATE.strava.accessToken && STATE.strava.tokenExpiry > now+60) return STATE.strava.accessToken;
-  const res = await fetch('https://www.strava.com/oauth/token', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ client_id:STATE.strava.clientId, client_secret:STATE.strava.clientSecret, refresh_token:STATE.strava.refreshToken, grant_type:'refresh_token' }) });
+  const now = Date.now() / 1000;
+  if (STATE.strava.accessToken && STATE.strava.tokenExpiry > now + 60) return STATE.strava.accessToken;
+  const res = await fetch('https://www.strava.com/oauth/token', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ client_id: STATE.strava.clientId, client_secret: STATE.strava.clientSecret, refresh_token: STATE.strava.refreshToken, grant_type: 'refresh_token' })
+  });
   const data = await res.json();
   if (!data.access_token) throw new Error('Token refresh failed');
-  STATE.strava.accessToken = data.access_token; STATE.strava.tokenExpiry = data.expires_at;
+  STATE.strava.accessToken = data.access_token;
+  STATE.strava.tokenExpiry = data.expires_at;
   return data.access_token;
 }
 
+/* ── FETCH ACTIVITIES ── */
 async function fetchStravaActivities() {
   const select = document.getElementById('activity-select');
   select.innerHTML = '<option value="">Cargando...</option>';
   try {
     const token = await getStravaToken();
-    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=30', { headers:{'Authorization':'Bearer '+token} });
+    // Traer más actividades para tener historial rico de segmentos
+    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=60', { headers: { 'Authorization': 'Bearer ' + token } });
     const acts = await res.json();
     if (!Array.isArray(acts)) throw new Error('No activities');
-    const filtered = acts.filter(a => ['MountainBikeRide','EBikeRide'].includes(a.type) || ['MountainBikeRide','EBikeRide'].includes(a.sport_type));
+    const filtered = acts.filter(a => ['MountainBikeRide', 'EBikeRide'].includes(a.type) || ['MountainBikeRide', 'EBikeRide'].includes(a.sport_type));
     STATE.activities = filtered.length ? filtered : acts;
     select.innerHTML = '<option value="">— Selecciona una actividad —</option>';
     STATE.activities.forEach(a => {
       const date = new Date(a.start_date_local).toLocaleDateString('es-CL');
-      select.innerHTML += `<option value="${a.id}">${date} · ${a.name} · ${(a.distance/1000).toFixed(1)}km · ${Math.round(a.total_elevation_gain)}m↑</option>`;
+      select.innerHTML += `<option value="${a.id}">${date} · ${a.name} · ${(a.distance / 1000).toFixed(1)}km · ${Math.round(a.total_elevation_gain)}m↑</option>`;
     });
-    setStatus('strava',true);
-  } catch(e) { select.innerHTML = `<option value="">Error: ${e.message}</option>`; setStatus('strava',false); }
+    setStatus('strava', true);
+  } catch (e) {
+    select.innerHTML = `<option value="">Error: ${e.message}</option>`;
+    setStatus('strava', false);
+  }
 }
 
+/* ── LOAD ACTIVITY ── */
 async function loadActivity(id) {
   if (!id) return;
-  const act = STATE.activities.find(a => a.id==id);
+  const act = STATE.activities.find(a => a.id == id);
   if (!act) return;
   STATE.selectedActivity = act;
-  const dist = (act.distance/1000).toFixed(1);
-  const avgSpd = (act.average_speed*3.6).toFixed(1);
-  const maxSpd = (act.max_speed*3.6).toFixed(1);
-  document.getElementById('kpi-dist').innerHTML = dist+'<span class="kpi-unit"> km</span>';
-  document.getElementById('kpi-dist-sub').textContent = 'vel media: '+avgSpd+' km/h';
-  document.getElementById('kpi-speed').innerHTML = maxSpd+'<span class="kpi-unit"> km/h</span>';
+  const dist = (act.distance / 1000).toFixed(1);
+  const avgSpd = (act.average_speed * 3.6).toFixed(1);
+  const maxSpd = (act.max_speed * 3.6).toFixed(1);
+  document.getElementById('kpi-dist').innerHTML = dist + '<span class="kpi-unit"> km</span>';
+  document.getElementById('kpi-dist-sub').textContent = 'vel media: ' + avgSpd + ' km/h';
+  document.getElementById('kpi-speed').innerHTML = maxSpd + '<span class="kpi-unit"> km/h</span>';
   document.getElementById('kpi-speed-sub').textContent = 'Strava';
   document.getElementById('kpi-time').textContent = formatTime(act.moving_time);
-  document.getElementById('kpi-time-sub').textContent = 'total: '+formatTime(act.elapsed_time);
-  document.getElementById('kpi-elev').innerHTML = Math.round(act.total_elevation_gain)+'<span class="kpi-unit"> m</span>';
-  document.getElementById('kpi-elev-sub').textContent = 'descenso: '+Math.round(act.total_elevation_loss||0)+'m';
+  document.getElementById('kpi-time-sub').textContent = 'total: ' + formatTime(act.elapsed_time);
+  document.getElementById('kpi-elev').innerHTML = Math.round(act.total_elevation_gain) + '<span class="kpi-unit"> m</span>';
+  document.getElementById('kpi-elev-sub').textContent = 'descenso: ' + Math.round(act.total_elevation_loss || 0) + 'm';
+  document.getElementById('comparison-container').style.display = 'none';
   await loadSegments(id);
   await loadGarminDataForActivity(act);
+  // MEJORA 3: inyectar contexto al chat
+  injectSessionContext(act);
 }
 
+/* ── SEGMENTOS ── */
 async function loadSegments(activityId) {
   const c = document.getElementById('segments-container');
   c.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando...</div>';
   try {
     const token = await getStravaToken();
-    const res = await fetch(`https://www.strava.com/api/v3/activities/${activityId}?include_all_efforts=true`, { headers:{'Authorization':'Bearer '+token} });
+    const res = await fetch(`https://www.strava.com/api/v3/activities/${activityId}?include_all_efforts=true`, { headers: { 'Authorization': 'Bearer ' + token } });
     const data = await res.json();
-    const efforts = data.segment_efforts||[];
+    const efforts = data.segment_efforts || [];
     if (!efforts.length) { c.innerHTML = '<div style="color:var(--muted);padding:16px;font-size:0.82rem;">Sin segmentos</div>'; return; }
     c.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando PRs...</div>';
+
     const enriched = await Promise.all(efforts.map(async e => {
-      try { const r = await fetch(`https://www.strava.com/api/v3/segments/${e.segment.id}`,{headers:{'Authorization':'Bearer '+token}}); const s = await r.json(); return {...e,segStats:s.athlete_segment_stats}; }
-      catch { return {...e,segStats:null}; }
+      try {
+        const r = await fetch(`https://www.strava.com/api/v3/segments/${e.segment.id}`, { headers: { 'Authorization': 'Bearer ' + token } });
+        const s = await r.json();
+        return { ...e, segStats: s.athlete_segment_stats };
+      } catch { return { ...e, segStats: null }; }
     }));
-    // Best segment = smallest positive delta
-    let bestIdx=-1, bestDelta=Infinity;
-    enriched.forEach((e,i) => { if (e.segStats?.pr_elapsed_time) { const d=e.elapsed_time-e.segStats.pr_elapsed_time; if(d<bestDelta){bestDelta=d;bestIdx=i;} } });
-    let html = '<table class="seg-table"><thead><tr><th>Segmento</th><th>Tiempo</th><th>PR · Delta</th></tr></thead><tbody>';
-    enriched.forEach((e,i) => {
-      const time=formatTime(e.elapsed_time), st=e.segStats;
-      const prTime=st?.pr_elapsed_time?formatTime(st.pr_elapsed_time):'—';
-      let delta='',cls='t-normal',timeColor='var(--text)';
-      if(st?.pr_elapsed_time){const diff=e.elapsed_time-st.pr_elapsed_time;
-        if(diff<=0){delta='<span class="badge-pr">🏆 PR</span>';cls='t-pr';timeColor='var(--green)';}
-        else if(diff<=15){delta=`<span style="color:#e8a020;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`;timeColor='#e8a020';}
-        else if(diff<=60){delta=`<span style="color:#d4703a;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`;timeColor='#d4703a';}
-        else{delta=`<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`;timeColor='var(--red)';}
+
+    // Guardar en cache para pistas frecuentes y comparación
+    STATE.segCache[activityId] = enriched;
+
+    // Mejor segmento = delta positivo más pequeño
+    let bestIdx = -1, bestDelta = Infinity;
+    enriched.forEach((e, i) => {
+      if (e.segStats?.pr_elapsed_time) {
+        const d = e.elapsed_time - e.segStats.pr_elapsed_time;
+        if (d < bestDelta) { bestDelta = d; bestIdx = i; }
       }
-      const isBest=i===bestIdx&&bestDelta>0;
-      html+=`<tr${isBest?' class="best-seg"':''}>
-        <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;" title="${e.name}">${isBest?'<span class="badge-best">⭐</span> ':''}${e.name}</td>
+    });
+
+    let html = '<table class="seg-table"><thead><tr><th>Segmento</th><th>Tiempo</th><th>PR · Delta</th></tr></thead><tbody>';
+    enriched.forEach((e, i) => {
+      const time = formatTime(e.elapsed_time), st = e.segStats;
+      const prTime = st?.pr_elapsed_time ? formatTime(st.pr_elapsed_time) : '—';
+      let delta = '', timeColor = 'var(--text)';
+      if (st?.pr_elapsed_time) {
+        const diff = e.elapsed_time - st.pr_elapsed_time;
+        if (diff <= 0) { delta = '<span class="badge-pr">🏆 PR</span>'; timeColor = 'var(--green)'; }
+        else if (diff <= 15) { delta = `<span style="color:#e8a020;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; timeColor = '#e8a020'; }
+        else if (diff <= 60) { delta = `<span style="color:#d4703a;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; timeColor = '#d4703a'; }
+        else { delta = `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; timeColor = 'var(--red)'; }
+      }
+      const isBest = i === bestIdx && bestDelta > 0;
+      html += `<tr${isBest ? ' class="best-seg"' : ''}>
+        <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;" title="${e.name}">${isBest ? '<span class="badge-best">⭐</span> ' : ''}${e.name}</td>
         <td><div style="font-family:'DM Mono',monospace;color:${timeColor}">${time}</div></td>
         <td><div style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.75rem;">${prTime}</div><div style="margin-top:2px;">${delta}</div></td>
       </tr>`;
     });
-    c.innerHTML = html+'</tbody></table>';
-  } catch(e) { c.innerHTML = `<div style="color:var(--red);font-size:0.8rem;padding:8px;">Error: ${e.message}</div>`; }
+    c.innerHTML = html + '</tbody></table>';
+
+    // Disparar comparación con salidas anteriores
+    loadComparison(activityId, enriched);
+    // Actualizar pistas frecuentes en Records
+    renderPistasFrecuentes();
+
+  } catch (e) { c.innerHTML = `<div style="color:var(--red);font-size:0.8rem;padding:8px;">Error: ${e.message}</div>`; }
 }
 
-// GARMIN
+/* ══════════════════════════════════════════════
+   MEJORA 2: COMPARACIÓN CON SALIDAS ANTERIORES
+══════════════════════════════════════════════ */
+async function loadComparison(currentId, currentEfforts) {
+  if (!currentEfforts.length) return;
+  const segIds = new Set(currentEfforts.map(e => e.segment.id));
+  const token = await getStravaToken();
+  const others = STATE.activities.filter(a => a.id != currentId).slice(0, 12);
+  const matches = [];
+
+  for (const act of others) {
+    try {
+      let efforts = STATE.segCache[act.id];
+      if (!efforts) {
+        const r = await fetch(`https://www.strava.com/api/v3/activities/${act.id}?include_all_efforts=true`, { headers: { 'Authorization': 'Bearer ' + token } });
+        const d = await r.json();
+        efforts = d.segment_efforts || [];
+        STATE.segCache[act.id] = efforts;
+      }
+      const common = efforts.filter(e => segIds.has(e.segment.id));
+      if (common.length >= 2) matches.push({ act, efforts, commonCount: common.length });
+    } catch (e) {}
+    if (matches.length >= 3) break;
+  }
+
+  if (!matches.length) return;
+  matches.sort((a, b) => b.commonCount - a.commonCount);
+  const prev = matches[0];
+  const curAct = STATE.selectedActivity;
+
+  // Garmin para ambas actividades
+  const curGarmin = getGarminForAct(curAct);
+  const prevGarmin = getGarminForAct(prev.act);
+
+  const curMaxSpd = curGarmin?.maxSpeed ? curGarmin.maxSpeed * 3.6 : curAct.max_speed * 3.6;
+  const prevMaxSpd = prevGarmin?.maxSpeed ? prevGarmin.maxSpeed * 3.6 : prev.act.max_speed * 3.6;
+  const curFlow = curGarmin?.mtbDynamics?.avgFlow;
+  const prevFlow = prevGarmin?.mtbDynamics?.avgFlow;
+  const curJumps = curGarmin?.mtbDynamics?.jumpCount;
+  const prevJumps = prevGarmin?.mtbDynamics?.jumpCount;
+
+  const rows = [
+    { label: 'Distancia',  cur: (curAct.distance / 1000).toFixed(1) + ' km', prev: (prev.act.distance / 1000).toFixed(1) + ' km', better: curAct.distance >= prev.act.distance },
+    { label: 'Descenso',   cur: Math.round(curAct.total_elevation_loss || 0) + ' m', prev: Math.round(prev.act.total_elevation_loss || 0) + ' m', better: (curAct.total_elevation_loss || 0) >= (prev.act.total_elevation_loss || 0) },
+    { label: 'Vel. máxima',cur: curMaxSpd.toFixed(1) + ' km/h', prev: prevMaxSpd.toFixed(1) + ' km/h', better: curMaxSpd >= prevMaxSpd },
+  ];
+  if (curFlow && prevFlow) rows.push({ label: 'Flow', cur: curFlow.toFixed(2), prev: prevFlow.toFixed(2), better: curFlow <= prevFlow });
+  if (curJumps && prevJumps) rows.push({ label: 'Jumps', cur: String(curJumps), prev: String(prevJumps), better: curJumps >= prevJumps });
+
+  // Segmentos compartidos
+  const sharedSegs = currentEfforts.filter(e => segIds.has(e.segment.id) && prev.efforts.find(pe => pe.segment.id === e.segment.id));
+
+  const prevDate = new Date(prev.act.start_date_local).toLocaleDateString('es-CL');
+  let html = `<p style="font-size:0.78rem;color:var(--muted);margin-bottom:10px;">vs. <strong>${prev.act.name}</strong> · ${prevDate} · ${prev.commonCount} segmentos en común</p>`;
+  html += '<table class="comp-table"><thead><tr><th>Métrica</th><th>Esta salida</th><th>Anterior</th><th></th></tr></thead><tbody>';
+  rows.forEach(r => {
+    const icon = r.better ? '↑' : '↓';
+    const cls  = r.better ? 'comp-better' : 'comp-worse';
+    html += `<tr><td>${r.label}</td><td>${r.cur}</td><td style="color:var(--muted)">${r.prev}</td><td class="${cls}">${icon}</td></tr>`;
+  });
+
+  if (sharedSegs.length) {
+    html += `<tr><td colspan="4" style="padding-top:10px;font-family:'DM Mono',monospace;font-size:0.57rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted)">Segmentos compartidos</td></tr>`;
+    sharedSegs.slice(0, 5).forEach(e => {
+      const pe = prev.efforts.find(p => p.segment.id === e.segment.id);
+      if (!pe) return;
+      const diff = e.elapsed_time - pe.elapsed_time;
+      const cls  = diff <= 0 ? 'comp-better' : 'comp-worse';
+      const icon = diff <= 0 ? '↑' : '↓';
+      const dStr = diff === 0 ? '=' : (diff > 0 ? '+' : '') + formatTime(Math.abs(diff));
+      html += `<tr><td style="color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:130px;">${e.name}</td><td>${formatTime(e.elapsed_time)}</td><td style="color:var(--muted)">${formatTime(pe.elapsed_time)}</td><td class="${cls}">${icon} ${dStr}</td></tr>`;
+    });
+  }
+  html += '</tbody></table>';
+
+  document.getElementById('comparison-content').innerHTML = html;
+  document.getElementById('comparison-container').style.display = 'block';
+}
+
+/* ── GARMIN ── */
 async function fetchGarminData() {
-  for (const url of ['garmin_data.json?t='+Date.now(), GARMIN_URL+'?t='+Date.now()]) {
-    try { const r=await fetch(url); if(r.ok){const d=await r.json();STATE.garminData=d;return d;} } catch(e){}
+  for (const url of ['garmin_data.json?t=' + Date.now(), GARMIN_URL + '?t=' + Date.now()]) {
+    try { const r = await fetch(url); if (r.ok) { const d = await r.json(); STATE.garminData = d; return d; } } catch (e) {}
   }
   throw new Error('Sin datos Garmin');
+}
+
+function getGarminForAct(act) {
+  if (!STATE.garminData?.activities) return null;
+  const sd = new Date(act.start_date_local).toDateString();
+  const sameDay = STATE.garminData.activities.filter(a => a.startTimeLocal && new Date(a.startTimeLocal).toDateString() === sd);
+  return sameDay.find(a => a.mtbDynamics?.jumpCount) || sameDay[0] || null;
 }
 
 async function loadGarminData() {
   try {
     const data = await fetchGarminData();
-    setStatus('garmin',true);
+    setStatus('garmin', true);
     const el = document.getElementById('garmin-sync-time');
-    if(el) el.textContent = 'Sync: '+new Date(data.lastSync).toLocaleString('es-CL');
-    if(STATE.selectedActivity) await loadGarminDataForActivity(STATE.selectedActivity);
+    if (el) el.textContent = 'Sync: ' + new Date(data.lastSync).toLocaleString('es-CL');
+    if (STATE.selectedActivity) await loadGarminDataForActivity(STATE.selectedActivity);
     updateRecords();
-  } catch(e) { setStatus('garmin',false); }
+  } catch (e) { setStatus('garmin', false); }
 }
 
 async function loadGarminDataForActivity(act) {
-  if (!STATE.garminData) {
-    try { await fetchGarminData(); } catch(e) { return; }
-  }
-  const sd = new Date(act.start_date_local).toDateString();
-  // Prefer EBike activities with MTB dynamics when multiple activities on same day
-  const sameDay = STATE.garminData.activities?.filter(a => a.startTimeLocal && new Date(a.startTimeLocal).toDateString()===sd) || [];
-  const ga = sameDay.find(a => a.mtbDynamics?.jumpCount) || sameDay[0];
-  const dyn = ga?.mtbDynamics||null;
-  if (dyn && Object.keys(dyn).length>0) {
-    renderGarminDynamics(dyn,ga,ga?.bestJump);
-    if(ga?.maxSpeed){ document.getElementById('kpi-speed').innerHTML=(ga.maxSpeed*3.6).toFixed(1)+'<span class="kpi-unit"> km/h</span>'; document.getElementById('kpi-speed-sub').textContent='Garmin'; }
-    const el=document.getElementById('garmin-sync-time'); if(el) el.textContent='Garmin · '+new Date(act.start_date_local).toLocaleDateString('es-CL');
+  if (!STATE.garminData) { try { await fetchGarminData(); } catch (e) { return; } }
+  const ga = getGarminForAct(act);
+  const dyn = ga?.mtbDynamics || null;
+  if (dyn && Object.keys(dyn).length > 0) {
+    renderGarminDynamics(dyn, ga, ga?.bestJump);
+    if (ga?.maxSpeed) { document.getElementById('kpi-speed').innerHTML = (ga.maxSpeed * 3.6).toFixed(1) + '<span class="kpi-unit"> km/h</span>'; document.getElementById('kpi-speed-sub').textContent = 'Garmin'; }
+    const el = document.getElementById('garmin-sync-time'); if (el) el.textContent = 'Garmin · ' + new Date(act.start_date_local).toLocaleDateString('es-CL');
   } else {
-    const el=document.getElementById('garmin-sync-time'); if(el) el.textContent='Sin datos Garmin para esta fecha';
+    const el = document.getElementById('garmin-sync-time'); if (el) el.textContent = 'Sin datos Garmin para esta fecha';
   }
 }
 
 function renderGarminDynamics(dyn, act, bestJump) {
-  const set=(id,val)=>{const el=document.getElementById(id);if(el&&val!=null)el.innerHTML=String(val);};
-  set('dyn-jumps', dyn.jumpCount??'—');
-  if(dyn.eBikeBatteryUsage!=null){set('dyn-battery',dyn.eBikeBatteryUsage+'%');set('dyn-battery-rem','restante: '+(dyn.eBikeBatteryRemaining??'—')+'%');}
-  if(dyn.activityTrainingLoad) set('dyn-load',dyn.activityTrainingLoad.toFixed(0));
-  const labels={'AEROBIC_BASE':'Base Aeróbica','IMPROVING_AEROBIC_ENDURANCE':'Mejorando Resistencia','MAINTAINING_AEROBIC_BASE':'Manteniendo Base','OVERREACHING':'Sobrecarga','RECOVERY':'Recuperación'};
-  if(dyn.trainingEffectLabel) set('dyn-fx',labels[dyn.trainingEffectLabel]||dyn.trainingEffectLabel);
-  if(act?.avgHR) set('dyn-hr',Math.round(act.avgHR)+'<span style="font-size:0.8rem"> ppm</span>');
-  if(act?.avgTemperature) set('dyn-temp','temp: '+Math.round(act.avgTemperature)+'°C');
-  if(dyn.avgFlow!=null){document.getElementById('bar-flow').style.width=Math.min((dyn.avgFlow/10)*100,100)+'%';set('val-flow',dyn.avgFlow.toFixed(2));}
-  if(dyn.grit!=null){document.getElementById('bar-grit').style.width=Math.min((dyn.grit/200)*100,100)+'%';set('val-grit',dyn.grit.toFixed(1));}
-  if(dyn.jumpCount&&dyn.jumpCount>0){
-    const card=document.getElementById('best-jump-card'); card.style.display='block';
-    const bj=bestJump;
-    if(bj){
-      set('best-jump-val', bj.distance+'m · score '+bj.score);
-      set('best-jump-sub', bj.hangTime+'s en el aire · '+bj.speed+' km/h · '+dyn.jumpCount+' saltos totales');
-    } else {
-      set('best-jump-val', dyn.jumpCount+' saltos totales');
-      set('best-jump-sub', (dyn.avgFlow?'Flow: '+dyn.avgFlow.toFixed(2):'')+' · Grit: '+(dyn.grit?.toFixed(1)||'—'));
-    }
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.innerHTML = String(val); };
+  set('dyn-jumps', dyn.jumpCount ?? '—');
+  if (dyn.eBikeBatteryUsage != null) { set('dyn-battery', dyn.eBikeBatteryUsage + '%'); set('dyn-battery-rem', 'restante: ' + (dyn.eBikeBatteryRemaining ?? '—') + '%'); }
+  if (dyn.activityTrainingLoad) set('dyn-load', dyn.activityTrainingLoad.toFixed(0));
+  const labels = { 'AEROBIC_BASE': 'Base Aeróbica', 'IMPROVING_AEROBIC_ENDURANCE': 'Mejorando Resistencia', 'MAINTAINING_AEROBIC_BASE': 'Manteniendo Base', 'OVERREACHING': 'Sobrecarga', 'RECOVERY': 'Recuperación' };
+  if (dyn.trainingEffectLabel) set('dyn-fx', labels[dyn.trainingEffectLabel] || dyn.trainingEffectLabel);
+  if (act?.avgHR) set('dyn-hr', Math.round(act.avgHR) + '<span style="font-size:0.8rem"> ppm</span>');
+  if (act?.avgTemperature) set('dyn-temp', 'temp: ' + Math.round(act.avgTemperature) + '°C');
+  if (dyn.avgFlow != null) { document.getElementById('bar-flow').style.width = Math.min((dyn.avgFlow / 10) * 100, 100) + '%'; set('val-flow', dyn.avgFlow.toFixed(2)); }
+  if (dyn.grit != null) { document.getElementById('bar-grit').style.width = Math.min((dyn.grit / 200) * 100, 100) + '%'; set('val-grit', dyn.grit.toFixed(1)); }
+  if (dyn.jumpCount && dyn.jumpCount > 0) {
+    const card = document.getElementById('best-jump-card'); card.style.display = 'block';
+    if (bestJump) { set('best-jump-val', bestJump.distance + 'm · score ' + bestJump.score); set('best-jump-sub', bestJump.hangTime + 's en el aire · ' + bestJump.speed + ' km/h · ' + dyn.jumpCount + ' saltos totales'); }
+    else { set('best-jump-val', dyn.jumpCount + ' saltos totales'); set('best-jump-sub', (dyn.avgFlow ? 'Flow: ' + dyn.avgFlow.toFixed(2) : '') + ' · Grit: ' + (dyn.grit?.toFixed(1) || '—')); }
   }
 }
 
-// RECORDS
+/* ── RECORDS ── */
 function updateRecordsMonth() {
-  const now=new Date();
-  const label=now.toLocaleDateString('es-CL',{month:'long',year:'numeric'});
-  document.getElementById('records-month-label').textContent=label.charAt(0).toUpperCase()+label.slice(1);
+  const now = new Date();
+  const label = now.toLocaleDateString('es-CL', { month: 'long', year: 'numeric' });
+  document.getElementById('records-month-label').textContent = label.charAt(0).toUpperCase() + label.slice(1);
 }
 
 function updateRecords() {
-  if(!STATE.garminData?.activities) return;
+  if (!STATE.garminData?.activities) return;
   updateRecordsMonth();
-  const now=new Date();
-  const nowY=new Date().getFullYear();const nowM=new Date().getMonth();const thisMonth=STATE.garminData.activities.filter(a=>{if(!a.startTimeLocal)return false;const d=new Date(a.startTimeLocal);return d.getMonth()===nowM&&d.getFullYear()===nowY;});
-  const all=STATE.garminData.activities;
-  const best=(arr,fn)=>arr.reduce((b,a)=>{const v=fn(a);return v>b.val?{val:v,date:a.startTimeLocal}:b},{val:0,date:null});
-  const bestAll=(arr,fn)=>arr.reduce((b,a)=>{const v=fn(a);return v>b?v:b},0);
+  const nowY = new Date().getFullYear(), nowM = new Date().getMonth();
+  const all = STATE.garminData.activities;
+  const thisMonth = all.filter(a => { if (!a.startTimeLocal) return false; const d = new Date(a.startTimeLocal); return d.getMonth() === nowM && d.getFullYear() === nowY; });
+  const best = (arr, fn) => arr.reduce((b, a) => { const v = fn(a); return v > b.val ? { val: v, date: a.startTimeLocal } : b; }, { val: 0, date: null });
+  const bestAll = (arr, fn) => arr.reduce((b, a) => { const v = fn(a); return v > b ? v : b; }, 0);
 
-  const mxSpd=best(thisMonth,a=>a.maxSpeed?a.maxSpeed*3.6:0);
-  const axSpd=bestAll(all,a=>a.maxSpeed?a.maxSpeed*3.6:0);
-  if(mxSpd.val>0){document.getElementById('rec-maxspeed').innerHTML=mxSpd.val.toFixed(1)+'<span class="record-unit"> km/h</span>';document.getElementById('rec-maxspeed-date').textContent=new Date(mxSpd.date).toLocaleDateString('es-CL');document.getElementById('rec-maxspeed-pr').textContent='PR histórico: '+axSpd.toFixed(1)+' km/h';}
-
-  const mxJmp=best(thisMonth,a=>a.bestJump?.score||0);
-  const axJmp=bestAll(all,a=>a.bestJump?.score||0);
-  if(mxJmp.val>0){
-    const bj=thisMonth.find(a=>a.startTimeLocal===mxJmp.date)?.bestJump;
-    document.getElementById('rec-jump').innerHTML=(bj?.distance||'—')+'<span class="record-unit"> m</span>';
-    document.getElementById('rec-jump-date').textContent=new Date(mxJmp.date).toLocaleDateString('es-CL')+' · score '+mxJmp.val;
-    const bjAll=all.find(a=>a.bestJump?.score===axJmp)?.bestJump;
-    document.getElementById('rec-jump-pr').textContent='PR histórico: '+(bjAll?.distance||'—')+'m · score '+axJmp;
+  // Vel máxima
+  const mxSpd = best(thisMonth, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
+  const axSpd = bestAll(all, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
+  if (mxSpd.val > 0) { document.getElementById('rec-maxspeed').innerHTML = mxSpd.val.toFixed(1) + '<span class="record-unit"> km/h</span>'; document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL'); document.getElementById('rec-maxspeed-pr').textContent = 'PR histórico: ' + axSpd.toFixed(1) + ' km/h'; }
+  // Jumps
+  const mxJmp = best(thisMonth, a => a.bestJump?.score || 0);
+  const axJmp = bestAll(all, a => a.bestJump?.score || 0);
+  if (mxJmp.val > 0) {
+    const bj = thisMonth.find(a => a.startTimeLocal === mxJmp.date)?.bestJump;
+    document.getElementById('rec-jump').innerHTML = (bj?.distance || '—') + '<span class="record-unit"> m</span>';
+    document.getElementById('rec-jump-date').textContent = new Date(mxJmp.date).toLocaleDateString('es-CL') + ' · score ' + mxJmp.val;
+    const bjAll = all.find(a => a.bestJump?.score === axJmp)?.bestJump;
+    document.getElementById('rec-jump-pr').textContent = 'PR histórico: ' + (bjAll?.distance || '—') + 'm · score ' + axJmp;
   }
+  // Flow
+  const mxFlw = thisMonth.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => { const v = a.mtbDynamics.avgFlow; return v < b.val ? { val: v, date: a.startTimeLocal } : b; }, { val: Infinity, date: null });
+  const axFlw = all.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => a.mtbDynamics.avgFlow < b ? a.mtbDynamics.avgFlow : b, Infinity);
+  if (mxFlw.val < Infinity) { document.getElementById('rec-flow').innerHTML = mxFlw.val.toFixed(2); document.getElementById('rec-flow-date').textContent = new Date(mxFlw.date).toLocaleDateString('es-CL'); document.getElementById('rec-flow-pr').textContent = 'PR histórico: ' + axFlw.toFixed(2); }
 
-  const mxFlw=thisMonth.filter(a=>a.mtbDynamics?.avgFlow>0).reduce((b,a)=>{const v=a.mtbDynamics.avgFlow;return v<b.val?{val:v,date:a.startTimeLocal}:b},{val:Infinity,date:null});
-  const axFlw=all.filter(a=>a.mtbDynamics?.avgFlow>0).reduce((b,a)=>a.mtbDynamics.avgFlow<b?a.mtbDynamics.avgFlow:b,Infinity);
-  if(mxFlw.val>0){document.getElementById('rec-flow').innerHTML=mxFlw.val.toFixed(2);document.getElementById('rec-flow-date').textContent=new Date(mxFlw.date).toLocaleDateString('es-CL');document.getElementById('rec-flow-pr').textContent='PR histórico: '+axFlw.toFixed(2);}
-
-  if(thisMonth.length>0){
-    let html='<table class="records-table"><thead><tr><th>Fecha</th><th>Distancia</th><th>Ascenso</th><th>Descenso</th><th>Flow</th><th>Vel. Máx</th></tr></thead><tbody>';
-    thisMonth.forEach(a=>{
-      html+=`<tr><td>${new Date(a.startTimeLocal).toLocaleDateString('es-CL')}</td><td style="font-family:'DM Mono',monospace">${a.distance?(a.distance/1000).toFixed(1)+' km':'—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationGain?Math.round(a.elevationGain)+' m':'—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationLoss?Math.round(a.elevationLoss)+' m':'—'}</td><td style="font-family:'DM Mono',monospace">${a.mtbDynamics?.avgFlow?a.mtbDynamics.avgFlow.toFixed(2):'—'}</td><td style="font-family:'DM Mono',monospace">${a.maxSpeed?(a.maxSpeed*3.6).toFixed(1)+' km/h':'—'}</td></tr>`;
+  // Tabla salidas del mes
+  if (thisMonth.length > 0) {
+    let html = '<table class="records-table"><thead><tr><th>Fecha</th><th>Distancia</th><th>Ascenso</th><th>Descenso</th><th>Flow</th><th>Vel. Máx</th></tr></thead><tbody>';
+    thisMonth.forEach(a => {
+      html += `<tr><td>${new Date(a.startTimeLocal).toLocaleDateString('es-CL')}</td><td style="font-family:'DM Mono',monospace">${a.distance ? (a.distance / 1000).toFixed(1) + ' km' : '—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationGain ? Math.round(a.elevationGain) + ' m' : '—'}</td><td style="font-family:'DM Mono',monospace">${a.elevationLoss ? Math.round(a.elevationLoss) + ' m' : '—'}</td><td style="font-family:'DM Mono',monospace">${a.mtbDynamics?.avgFlow ? a.mtbDynamics.avgFlow.toFixed(2) : '—'}</td><td style="font-family:'DM Mono',monospace">${a.maxSpeed ? (a.maxSpeed * 3.6).toFixed(1) + ' km/h' : '—'}</td></tr>`;
     });
-    document.getElementById('records-table-container').innerHTML=html+'</tbody></table>';
+    document.getElementById('records-table-container').innerHTML = html + '</tbody></table>';
   } else {
-    document.getElementById('records-table-container').innerHTML='<div style="color:var(--muted);font-size:0.82rem;padding:16px;">Sin salidas este mes en datos Garmin</div>';
+    document.getElementById('records-table-container').innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;">Sin salidas este mes en datos Garmin</div>';
   }
+
+  // Pistas y score (pueden necesitar datos de segmentos aún no cargados; se actualizarán al cargar actividades)
+  renderPistasFrecuentes();
+  renderScoreMes(thisMonth, all);
 }
 
-// SETUP
+/* ══════════════════════════════════════════════
+   MEJORA 1: PISTAS FRECUENTES + TENDENCIA ↑↓
+══════════════════════════════════════════════ */
+function renderPistasFrecuentes() {
+  const container = document.getElementById('pistas-container');
+  // Agregar segmentos del cache
+  const segMap = {}; // segId -> { name, entries: [{actId, time, date, isPR}] }
+  Object.entries(STATE.segCache).forEach(([actId, efforts]) => {
+    const act = STATE.activities.find(a => a.id == actId);
+    efforts.forEach(e => {
+      if (!segMap[e.segment.id]) segMap[e.segment.id] = { name: e.name, entries: [] };
+      segMap[e.segment.id].entries.push({
+        actId, time: e.elapsed_time,
+        date: act?.start_date_local || '',
+        pr: e.segStats?.pr_elapsed_time || null,
+        isPR: e.segStats?.pr_elapsed_time && e.elapsed_time <= e.segStats.pr_elapsed_time
+      });
+    });
+  });
+
+  // Filtrar: min 2 intentos y que tenga PR conocido
+  const frequent = Object.entries(segMap)
+    .filter(([, v]) => v.entries.length >= 2 && v.entries.some(e => e.pr))
+    .map(([id, v]) => {
+      v.entries.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const latest = v.entries[v.entries.length - 1];
+      const delta = latest.pr ? latest.time - latest.pr : null;
+      return { id, name: v.name, count: v.entries.length, entries: v.entries, latestTime: latest.time, pr: latest.pr, delta };
+    })
+    .filter(s => s.delta !== null)
+    .sort((a, b) => b.count !== a.count ? b.count - a.count : a.delta - b.delta)
+    .slice(0, 5);
+
+  if (!frequent.length) {
+    container.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;">Carga actividades para ver tus pistas frecuentes — los datos aparecen al navegar tus salidas.</div>';
+    return;
+  }
+
+  let html = '<div class="pistas-list">';
+  frequent.forEach(seg => {
+    // Pill según delta
+    let pillCls = 'ok', pillTxt = 'Cómodo';
+    let deltaCls = 'ok', deltaStr = '+' + formatTime(seg.delta);
+    if (seg.delta <= 0)  { pillCls = 'fire';  pillTxt = '🔥 Muy apretado'; deltaCls = 'fire';  deltaStr = '🏆 PR'; }
+    else if (seg.delta <= 8)  { pillCls = 'fire';  pillTxt = '🔥 Muy apretado'; deltaCls = 'fire'; }
+    else if (seg.delta <= 25) { pillCls = 'close'; pillTxt = '⚡ Cerca del PR';  deltaCls = 'close'; }
+
+    // Tendencia: últimos 5 intentos
+    const last5 = seg.entries.slice(-5);
+    const trendHTML = last5.map((e, i) => {
+      if (i === 0) return `<div class="td td-eq" title="${formatTime(e.time)}">·</div>`;
+      if (e.isPR) return `<div class="td td-pr" title="PR ${formatTime(e.time)}">★</div>`;
+      const diff = e.time - last5[i - 1].time;
+      if (diff < -2) return `<div class="td td-up" title="${formatTime(e.time)}">↑</div>`;
+      if (diff > 2)  return `<div class="td td-dn" title="${formatTime(e.time)}">↓</div>`;
+      return `<div class="td td-eq" title="${formatTime(e.time)}">→</div>`;
+    }).join('');
+
+    html += `<div class="pista-card">
+      <div class="pista-header">
+        <div class="pista-name">${seg.name}</div>
+        <div class="pista-pill ${pillCls}">${pillTxt}</div>
+      </div>
+      <div class="pista-stats">
+        <div class="pista-stat"><div class="pista-stat-lbl">Intentos</div><div class="pista-stat-val">${seg.count}×</div></div>
+        <div class="pista-stat"><div class="pista-stat-lbl">Último</div><div class="pista-stat-val">${formatTime(seg.latestTime)}</div></div>
+        <div class="pista-stat"><div class="pista-stat-lbl">PR</div><div class="pista-stat-val">${seg.pr ? formatTime(seg.pr) : '—'}</div></div>
+        <div class="pista-stat"><div class="pista-stat-lbl">Delta</div><div class="pista-delta ${deltaCls}">${deltaStr}</div></div>
+        <div class="pista-stat"><div class="pista-stat-lbl">Últimos ${last5.length}</div><div class="trend-row">${trendHTML}</div></div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   MEJORA 4: SCORE DEL MES
+══════════════════════════════════════════════ */
+function renderScoreMes(thisMonth, all) {
+  const container = document.getElementById('score-container');
+  if (!thisMonth.length) {
+    container.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;">Sin datos del mes para calcular score.</div>';
+    return;
+  }
+
+  // Flow: menor = mejor fluidez (Garmin MTB Dynamics, lower = smoother)
+  const flowArr = thisMonth.filter(a => a.mtbDynamics?.avgFlow > 0);
+  const avgFlow = flowArr.length ? flowArr.reduce((s, a) => s + a.mtbDynamics.avgFlow, 0) / flowArr.length : null;
+  const allFlows = all.filter(a => a.mtbDynamics?.avgFlow > 0).map(a => a.mtbDynamics.avgFlow);
+  const minFlow = allFlows.length ? Math.min(...allFlows) : 3;
+  const maxFlow = allFlows.length ? Math.max(...allFlows) : 8;
+  const flowScore = avgFlow != null ? Math.round(25 * Math.max(0, (maxFlow - avgFlow) / Math.max(maxFlow - minFlow, 0.1))) : 0;
+
+  // Descenso total del mes
+  const totalDesc = thisMonth.reduce((s, a) => s + (a.elevationLoss || 0), 0);
+  const monthDescMap = {};
+  all.forEach(a => { if (!a.startTimeLocal) return; const k = new Date(a.startTimeLocal).getFullYear() + '-' + new Date(a.startTimeLocal).getMonth(); monthDescMap[k] = (monthDescMap[k] || 0) + (a.elevationLoss || 0); });
+  const maxDesc = Math.max(...Object.values(monthDescMap), 1);
+  const descScore = Math.round(25 * Math.min(totalDesc / maxDesc, 1));
+
+  // Distancia total del mes
+  const totalDist = thisMonth.reduce((s, a) => s + (a.distance || 0), 0) / 1000;
+  const monthDistMap = {};
+  all.forEach(a => { if (!a.startTimeLocal) return; const k = new Date(a.startTimeLocal).getFullYear() + '-' + new Date(a.startTimeLocal).getMonth(); monthDistMap[k] = (monthDistMap[k] || 0) + (a.distance || 0) / 1000; });
+  const maxDist = Math.max(...Object.values(monthDistMap), 1);
+  const distScore = Math.round(25 * Math.min(totalDist / maxDist, 1));
+
+  // PRs: contar salidas del mes que tengan al menos un PR en cache
+  let prsCount = 0;
+  thisMonth.forEach(a => {
+    const efforts = STATE.segCache[a.activityId || a.id];
+    if (efforts && efforts.some(e => e.segStats?.pr_elapsed_time && e.elapsed_time <= e.segStats.pr_elapsed_time)) prsCount++;
+  });
+  const prScore = Math.min(prsCount * 8, 25);
+
+  const total = flowScore + descScore + distScore + prScore;
+  let label = 'Bajo · Sigue pedaleando 🚵', circleColor = 'var(--muted)';
+  if (total >= 80) { label = 'Elite 🏆'; circleColor = 'var(--yellow)'; }
+  else if (total >= 60) { label = 'Alto 🔥'; circleColor = 'var(--green)'; }
+  else if (total >= 40) { label = 'Medio ⚡'; circleColor = 'var(--accent2)'; }
+
+  const bars = [
+    { label: 'Flow',      val: flowScore, color: 'var(--accent3)' },
+    { label: 'Descenso',  val: descScore, color: 'var(--accent2)' },
+    { label: 'Distancia', val: distScore, color: 'var(--accent)' },
+    { label: 'PRs',       val: prScore,   color: '#7a5a8a' },
+  ];
+
+  container.innerHTML = `<div class="score-card">
+    <div class="score-circle" style="border-color:${circleColor}">
+      <div class="score-num" style="color:${circleColor}">${total}</div>
+      <div class="score-max">/100</div>
+    </div>
+    <div class="score-right">
+      <div class="score-label" style="color:${circleColor}">${label}</div>
+      <div class="score-bars">
+        ${bars.map(b => `<div class="sbar-row">
+          <div class="sbar-lbl">${b.label}</div>
+          <div class="sbar-track"><div class="sbar-fill" style="width:${b.val * 4}%;background:${b.color}"></div></div>
+          <div class="sbar-val">${b.val}/25</div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   MEJORA 3: CHAT CON CONTEXTO DE SESIÓN
+══════════════════════════════════════════════ */
+function injectSessionContext(act) {
+  const ga = getGarminForAct(act);
+  const dyn = ga?.mtbDynamics || {};
+  STATE.sessionCtx = {
+    name: act.name,
+    date: new Date(act.start_date_local).toLocaleDateString('es-CL'),
+    dist: (act.distance / 1000).toFixed(1),
+    elev: Math.round(act.total_elevation_gain),
+    desc: Math.round(act.total_elevation_loss || 0),
+    maxSpd: ga?.maxSpeed ? (ga.maxSpeed * 3.6).toFixed(1) : (act.max_speed * 3.6).toFixed(1),
+    avgSpd: (act.average_speed * 3.6).toFixed(1),
+    movTime: formatTime(act.moving_time),
+    flow: dyn.avgFlow ? dyn.avgFlow.toFixed(2) : null,
+    grit: dyn.grit ? dyn.grit.toFixed(1) : null,
+    jumps: dyn.jumpCount || null,
+    battery: dyn.eBikeBatteryUsage || null,
+    batteryRem: dyn.eBikeBatteryRemaining || null,
+    hr: ga?.avgHR ? Math.round(ga.avgHR) : null,
+    load: dyn.activityTrainingLoad ? dyn.activityTrainingLoad.toFixed(0) : null,
+    bestJump: ga?.bestJump || null
+  };
+  // Resetear historial del chat con saludo contextual
+  STATE.aiHistory = [];
+  const msgs = document.getElementById('ai-messages');
+  msgs.innerHTML = '';
+  const s = STATE.sessionCtx;
+  let greeting = `✅ Sesión cargada: <strong>${s.name}</strong> · ${s.date}<br>`;
+  greeting += `${s.dist} km · ↑${s.elev}m · ↓${s.desc}m · Vel. máx ${s.maxSpd} km/h`;
+  if (s.flow) greeting += ` · Flow ${s.flow}`;
+  if (s.grit) greeting += ` · Grit ${s.grit}`;
+  if (s.jumps) greeting += ` · ${s.jumps} saltos`;
+  if (s.hr) greeting += ` · FC ${s.hr} ppm`;
+  greeting += `<br><span style="font-size:0.74rem;opacity:0.7;margin-top:2px;display:block;">Ya tengo el contexto completo — pregúntame sobre esta salida o lo que quieras 👇</span>`;
+  addAIMsg(greeting, 'bot');
+}
+
+function buildSystemPrompt() {
+  const setup = JSON.parse(localStorage.getItem('mtb_setup_v2') || '{}');
+  let sys = `Eres un experto coach de enduro MTB. El piloto es Guillermo González, 94 kg con equipación, Santiago Chile (cerros La Buitrera, El Gringo, Lomo Vetado, Mampato).
+Bici: Specialized Kenevo S4 2021 e-MTB enduro, 180 mm travel.
+Setup actual: Horquilla RockShox ZEB ${setup['fork-psi'] || 81} PSI, ${setup['fork-tokens'] || 2} tokens, rebote ${setup['fork-reb'] || 8} clics, LSC ${setup['fork-lsc'] || 7} clics. Öhlins TTX22M coil ${setup['shock-spring'] || '500 lbs'}, rebote ${setup['shock-reb'] || 4} clics, LSC ${setup['shock-lsc'] || 8} clics. Neumáticos Schwalbe 1.4 bar.`;
+
+  if (STATE.sessionCtx) {
+    const s = STATE.sessionCtx;
+    sys += `\n\nSESIÓN ACTIVA (${s.name} · ${s.date}):
+• Distancia: ${s.dist} km | Ascenso: ${s.elev} m | Descenso: ${s.desc} m
+• Vel. máxima: ${s.maxSpd} km/h | Media: ${s.avgSpd} km/h | Tiempo mov.: ${s.movTime}`;
+    if (s.flow)    sys += `\n• Flow: ${s.flow} | Grit: ${s.grit || '—'} | Jumps: ${s.jumps || '—'}`;
+    if (s.battery) sys += `\n• Batería: ${s.battery}% usada | ${s.batteryRem}% restante`;
+    if (s.hr)      sys += `\n• FC media: ${s.hr} ppm | Training Load: ${s.load || '—'}`;
+    if (s.bestJump) sys += `\n• Mejor salto: ${s.bestJump.distance} m · score ${s.bestJump.score} · ${s.bestJump.hangTime}s aire`;
+    sys += `\n\nCuando respondas sobre esta sesión usa los datos concretos de arriba. Si preguntan por algo que no está en los datos, indícalo claramente.`;
+  }
+  sys += '\n\nResponde siempre en español, de forma concisa y práctica con consejos específicos de técnica enduro.';
+  return sys;
+}
+
+function sendQuickQ(el) { document.getElementById('ai-input').value = el.textContent; sendAI(); }
+
+async function sendAI() {
+  const input = document.getElementById('ai-input');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+  const btn = document.getElementById('ai-send-btn');
+  btn.disabled = true;
+  addAIMsg(q, 'user');
+  STATE.aiHistory.push({ role: 'user', content: q });
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: buildSystemPrompt(),
+        messages: STATE.aiHistory.slice(-10)
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'Error al obtener respuesta.';
+    STATE.aiHistory.push({ role: 'assistant', content: reply });
+    addAIMsg(reply, 'bot');
+  } catch (e) { addAIMsg('Error conectando. Inténtalo de nuevo.', 'bot'); }
+  btn.disabled = false;
+}
+
+function addAIMsg(text, type) {
+  const c = document.getElementById('ai-messages');
+  const d = document.createElement('div');
+  d.className = 'ai-msg';
+  d.innerHTML = `<div class="ai-msg-${type}">${text.replace(/\n/g, '<br>')}</div>`;
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+}
+
+/* ── ANALYSIS ── */
+function generateAnalysis() {
+  const act = STATE.selectedActivity;
+  if (!act) { alert('Carga una actividad primero'); return; }
+  const dist = (act.distance / 1000).toFixed(1), elev = Math.round(act.total_elevation_gain), speed = (act.average_speed * 3.6).toFixed(1), movTime = formatTime(act.moving_time), pauseTime = act.elapsed_time - act.moving_time;
+  const date = new Date(act.start_date_local).toLocaleDateString('es-CL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const elevPerKm = (elev / parseFloat(dist)).toFixed(0);
+  const ga = getGarminForAct(act);
+  const dyn = ga?.mtbDynamics || {};
+  const maxSpeed = ga?.maxSpeed ? (ga.maxSpeed * 3.6).toFixed(1) : (act.max_speed * 3.6).toFixed(1);
+  document.getElementById('rec-analysis-title').textContent = act.name + ' · ' + date;
+  let text = `Salida de ${dist}km con ${elev}m de desnivel (${elevPerKm}m/km), tiempo en movimiento ${movTime}. Velocidad máxima ${maxSpeed} km/h · media ${speed} km/h. `;
+  if (pauseTime > 300) text += `Pausa de ${formatTime(pauseTime)}. `;
+  if (dyn.avgFlow) { text += `Flow ${dyn.avgFlow.toFixed(2)} y Grit ${dyn.grit?.toFixed(1) || '—'} — `; if (dyn.avgFlow > 4.5) text += 'excelente fluidez en bajadas. '; else if (dyn.avgFlow > 3.5) text += 'buena fluidez, con margen de mejora. '; else text += 'fluidez moderada, área de enfoque. '; }
+  if (dyn.eBikeBatteryUsage) text += `Batería: ${dyn.eBikeBatteryUsage}% usada (${dyn.eBikeBatteryRemaining}% restante). `;
+  document.getElementById('rec-analysis-text').textContent = text;
+  document.getElementById('rec-stats').innerHTML = `<div class="rec-stat"><div class="rec-stat-label">Distancia</div><div class="rec-stat-val">${dist}<span style="font-size:0.7rem;color:var(--muted)">km</span></div></div><div class="rec-stat"><div class="rec-stat-label">Desnivel</div><div class="rec-stat-val">${elev}<span style="font-size:0.7rem;color:var(--muted)">m</span></div></div><div class="rec-stat"><div class="rec-stat-label">Flow</div><div class="rec-stat-val">${dyn.avgFlow?.toFixed(2) || '—'}</div></div><div class="rec-stat"><div class="rec-stat-label">Jumps</div><div class="rec-stat-val">${dyn.jumpCount || '—'}</div></div>`;
+  const cards = [];
+  if (dyn.avgFlow && dyn.avgFlow < 3.5) cards.push({ type: 'alert', title: 'Flow bajo — Mejorar fluidez', body: `Flow ${dyn.avgFlow.toFixed(2)}. Mantén velocidad de entrada en curvas, evita frenos bruscos dentro de la curva y trabaja la visión hacia adelante.`, src: 'MTB Dynamics Garmin' });
+  if (dyn.avgFlow && dyn.avgFlow >= 4.5) cards.push({ type: 'ok', title: '✓ Excelente flow', body: `Flow ${dyn.avgFlow.toFixed(2)}. Muy buena lectura del terreno y fluidez. Mantén el mismo ritmo.`, src: 'MTB Dynamics Garmin' });
+  if (dyn.grit && dyn.grit > 80) cards.push({ type: '', title: 'Terreno técnico detectado', body: `Grit ${dyn.grit.toFixed(1)}. En terreno muy técnico, mantén posición baja y centrada, aumenta presión en el manubrio solo en momentos puntuales.`, src: 'Análisis de terreno' });
+  if (dyn.eBikeBatteryUsage && dyn.eBikeBatteryUsage > 80) cards.push({ type: 'alert', title: 'Alto consumo de batería', body: `${dyn.eBikeBatteryUsage}% consumido. Usa Eco en subidas largas y Trail en secciones técnicas para optimizar autonomía.`, src: 'Datos e-bike' });
+  cards.push({ type: '', title: 'Frenado en enduro', body: 'Frena antes de la curva, no dentro. Más freno trasero en tierra suelta, más delantero en compacto. Libera al entrar en curva.', src: 'Técnica enduro' });
+  cards.push({ type: '', title: 'Posición de ataque', body: 'Codos afuera, rodillas flexionadas, peso equilibrado. En grit alto baja el centro de gravedad para mejorar control.', src: 'Técnica enduro' });
+  document.getElementById('tech-cards').innerHTML = cards.map(c => `<div class="tech-card ${c.type}"><div class="tech-title">${c.title}</div><div class="tech-body">${c.body}</div><div class="tech-source">${c.src}</div></div>`).join('');
+  document.getElementById('rec-analysis-container').style.display = 'block';
+}
+
+/* ── SETUP ── */
 function loadSetup() {
-  const saved=localStorage.getItem('mtb_setup_v2');
-  const fields=['fork-psi','fork-tokens','fork-sag','fork-reb','fork-lsc','fork-hsc','shock-spring','shock-preload','shock-sag','shock-reb','shock-lsc','shock-hsc','tire-front','tire-rear','tire-sealant','battery-type','motor-mode'];
-  if(saved){const s=JSON.parse(saved);fields.forEach(id=>{const el=document.getElementById(id);if(el&&s[id])el.value=s[id];});if(s.lastSaved)document.getElementById('setup-saved-time').textContent='Guardado: '+new Date(s.lastSaved).toLocaleString('es-CL');}
-  else{const d={'fork-psi':'81','fork-tokens':'2','fork-sag':'45','fork-reb':'8','fork-lsc':'7','fork-hsc':'3','shock-spring':'500 lbs','shock-preload':'1-2','shock-sag':'~19','shock-reb':'4','shock-lsc':'8','shock-hsc':'II','tire-front':'1.4','tire-rear':'1.4','tire-sealant':'60','battery-type':'500Wh','motor-mode':'Trail'};Object.entries(d).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v;});}
+  const saved = localStorage.getItem('mtb_setup_v2');
+  const fields = ['fork-psi','fork-tokens','fork-sag','fork-reb','fork-lsc','fork-hsc','shock-spring','shock-preload','shock-sag','shock-reb','shock-lsc','shock-hsc','tire-front','tire-rear','tire-sealant','battery-type','motor-mode'];
+  if (saved) { const s = JSON.parse(saved); fields.forEach(id => { const el = document.getElementById(id); if (el && s[id]) el.value = s[id]; }); if (s.lastSaved) document.getElementById('setup-saved-time').textContent = 'Guardado: ' + new Date(s.lastSaved).toLocaleString('es-CL'); }
+  else { const d = {'fork-psi':'81','fork-tokens':'2','fork-sag':'45','fork-reb':'8','fork-lsc':'7','fork-hsc':'3','shock-spring':'500 lbs','shock-preload':'1-2','shock-sag':'~19','shock-reb':'4','shock-lsc':'8','shock-hsc':'II','tire-front':'1.4','tire-rear':'1.4','tire-sealant':'60','battery-type':'500Wh','motor-mode':'Trail'}; Object.entries(d).forEach(([id,v]) => { const el = document.getElementById(id); if (el) el.value = v; }); }
 }
 
 function saveSetup() {
-  const fields=['fork-psi','fork-tokens','fork-sag','fork-reb','fork-lsc','fork-hsc','shock-spring','shock-preload','shock-sag','shock-reb','shock-lsc','shock-hsc','tire-front','tire-rear','tire-sealant','battery-type','motor-mode'];
-  const s={lastSaved:new Date().toISOString()};
-  fields.forEach(id=>{const el=document.getElementById(id);if(el)s[id]=el.value;});
-  localStorage.setItem('mtb_setup_v2',JSON.stringify(s));
-  document.getElementById('setup-saved-time').textContent='Guardado: '+new Date().toLocaleString('es-CL');
+  const fields = ['fork-psi','fork-tokens','fork-sag','fork-reb','fork-lsc','fork-hsc','shock-spring','shock-preload','shock-sag','shock-reb','shock-lsc','shock-hsc','tire-front','tire-rear','tire-sealant','battery-type','motor-mode'];
+  const s = { lastSaved: new Date().toISOString() };
+  fields.forEach(id => { const el = document.getElementById(id); if (el) s[id] = el.value; });
+  localStorage.setItem('mtb_setup_v2', JSON.stringify(s));
+  document.getElementById('setup-saved-time').textContent = 'Guardado: ' + new Date().toLocaleString('es-CL');
 }
 
-// ANALYSIS
-function generateAnalysis() {
-  const act=STATE.selectedActivity;
-  if(!act){alert('Carga una actividad primero');return;}
-  const dist=(act.distance/1000).toFixed(1),elev=Math.round(act.total_elevation_gain),speed=(act.average_speed*3.6).toFixed(1),movTime=formatTime(act.moving_time),pauseTime=act.elapsed_time-act.moving_time;
-  const date=new Date(act.start_date_local).toLocaleDateString('es-CL',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const elevPerKm=(elev/parseFloat(dist)).toFixed(0);
-  const sd=new Date(act.start_date_local).toDateString();
-  const ga=STATE.garminData?.activities?.find(a=>a.startTimeLocal&&new Date(a.startTimeLocal).toDateString()===sd);
-  const dyn=ga?.mtbDynamics||{};
-  const maxSpeed=ga?.maxSpeed?(ga.maxSpeed*3.6).toFixed(1):(act.max_speed*3.6).toFixed(1);
+/* ── UTILS ── */
+function formatTime(s) { const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60; if (h > 0) return `${h}h ${m.toString().padStart(2,'0')}m`; return `${m}m ${sec.toString().padStart(2,'0')}s`; }
+function setStatus(svc, on) { const d = document.getElementById(svc + '-dot'); if (d) d.className = 'status-dot' + (on ? ' on' : ''); }
 
-  document.getElementById('rec-analysis-title').textContent=act.name+' · '+date;
-  let text=`Salida de ${dist}km con ${elev}m de desnivel (${elevPerKm}m/km), tiempo en movimiento ${movTime}. Velocidad máxima ${maxSpeed} km/h · media ${speed} km/h. `;
-  if(pauseTime>300) text+=`Pausa de ${formatTime(pauseTime)}. `;
-  if(dyn.avgFlow){text+=`Flow ${dyn.avgFlow.toFixed(2)} y Grit ${dyn.grit?.toFixed(1)||'—'} — `;if(dyn.avgFlow>4.5)text+='excelente fluidez en bajadas. ';else if(dyn.avgFlow>3.5)text+='buena fluidez, con margen de mejora. ';else text+='fluidez moderada, área de enfoque. ';}
-  if(dyn.eBikeBatteryUsage) text+=`Batería: ${dyn.eBikeBatteryUsage}% usada (${dyn.eBikeBatteryRemaining}% restante). `;
-  document.getElementById('rec-analysis-text').textContent=text;
-  document.getElementById('rec-stats').innerHTML=`<div class="rec-stat"><div class="rec-stat-label">Distancia</div><div class="rec-stat-val">${dist}<span style="font-size:0.7rem;color:var(--muted)">km</span></div></div><div class="rec-stat"><div class="rec-stat-label">Desnivel</div><div class="rec-stat-val">${elev}<span style="font-size:0.7rem;color:var(--muted)">m</span></div></div><div class="rec-stat"><div class="rec-stat-label">Flow</div><div class="rec-stat-val">${dyn.avgFlow?.toFixed(2)||'—'}</div></div><div class="rec-stat"><div class="rec-stat-label">Jumps</div><div class="rec-stat-val">${dyn.jumpCount||'—'}</div></div>`;
-
-  const cards=[];
-  if(dyn.avgFlow&&dyn.avgFlow<3.5) cards.push({type:'alert',title:'Flow bajo — Mejorar fluidez',body:`Flow ${dyn.avgFlow.toFixed(2)}. Mantén velocidad de entrada en curvas, evita frenos bruscos dentro de la curva y trabaja la visión hacia adelante.`,src:'MTB Dynamics Garmin'});
-  if(dyn.avgFlow&&dyn.avgFlow>=4.5) cards.push({type:'ok',title:'✓ Excelente flow',body:`Flow ${dyn.avgFlow.toFixed(2)}. Muy buena lectura del terreno y fluidez. Mantén el mismo ritmo.`,src:'MTB Dynamics Garmin'});
-  if(dyn.grit&&dyn.grit>80) cards.push({type:'',title:'Terreno técnico detectado',body:`Grit ${dyn.grit.toFixed(1)}. En terreno muy técnico, mantén posición baja y centrada, aumenta presión en el manubrio solo en momentos puntuales.`,src:'Análisis de terreno'});
-  if(dyn.eBikeBatteryUsage&&dyn.eBikeBatteryUsage>80) cards.push({type:'alert',title:'Alto consumo de batería',body:`${dyn.eBikeBatteryUsage}% consumido. Usa Eco en subidas largas y Trail en secciones técnicas para optimizar autonomía.`,src:'Datos e-bike'});
-  cards.push({type:'',title:'Frenado en enduro',body:'Frena antes de la curva, no dentro. Más freno trasero en tierra suelta, más delantero en compacto. Libera al entrar en curva.',src:'Técnica enduro'});
-  cards.push({type:'',title:'Posición de ataque',body:'Codos afuera, rodillas flexionadas, peso equilibrado. En grit alto baja el centro de gravedad para mejorar control.',src:'Técnica enduro'});
-
-  document.getElementById('tech-cards').innerHTML=cards.map(c=>`<div class="tech-card ${c.type}"><div class="tech-title">${c.title}</div><div class="tech-body">${c.body}</div><div class="tech-source">${c.src}</div></div>`).join('');
-  document.getElementById('rec-analysis-container').style.display='block';
-}
-
-// AI CHAT
-function sendQuickQ(el){document.getElementById('ai-input').value=el.textContent;sendAI();}
-
-async function sendAI() {
-  const input=document.getElementById('ai-input');
-  const q=input.value.trim();
-  if(!q)return;
-  input.value='';
-  const btn=document.getElementById('ai-send-btn');
-  btn.disabled=true;
-  addAIMsg(q,'user');
-
-  const act=STATE.selectedActivity;
-  const sd=act?new Date(act.start_date_local).toDateString():null;
-  const ga=sd?STATE.garminData?.activities?.find(a=>a.startTimeLocal&&new Date(a.startTimeLocal).toDateString()===sd):null;
-  const dyn=ga?.mtbDynamics||{};
-  const setup=JSON.parse(localStorage.getItem('mtb_setup_v2')||'{}');
-
-  const ctx=`Eres un experto coach de enduro MTB. El piloto es Guillermo González, 94kg con equipación, Santiago Chile (cerros La Buitrera, El Gringo, Lomo Vetado, Mampato).
-Bici: Specialized Kenevo S4 2021 e-MTB enduro, 180mm travel.
-Setup: Horquilla RockShox ZEB ${setup['fork-psi']||81} PSI, ${setup['fork-tokens']||2} tokens, rebote ${setup['fork-reb']||8} clics. Öhlins TTX22M coil ${setup['shock-spring']||'500 lbs'}, rebote ${setup['shock-reb']||4} clics, LSC ${setup['shock-lsc']||8} clics. Neumáticos Schwalbe 1.4 bar.
-${act?`Última salida: ${(act.distance/1000).toFixed(1)}km, ${Math.round(act.total_elevation_gain)}m desnivel.`:''}
-${dyn.avgFlow?`Flow: ${dyn.avgFlow.toFixed(2)}, Grit: ${dyn.grit?.toFixed(1)}, Jumps: ${dyn.jumpCount||'—'}.`:''}
-Responde en español, de forma concisa y práctica con consejos específicos de técnica enduro.`;
-
-  STATE.aiHistory.push({role:'user',content:q});
-  try {
-    const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:ctx,messages:STATE.aiHistory.slice(-6)})});
-    const data=await res.json();
-    const reply=data.content?.[0]?.text||'Error al obtener respuesta.';
-    STATE.aiHistory.push({role:'assistant',content:reply});
-    addAIMsg(reply,'bot');
-  } catch(e){addAIMsg('Error conectando. Inténtalo de nuevo.','bot');}
-  btn.disabled=false;
-}
-
-function addAIMsg(text,type){
-  const c=document.getElementById('ai-messages');
-  const d=document.createElement('div');
-  d.className='ai-msg';
-  d.innerHTML=`<div class="ai-msg-${type}">${text.replace(/\n/g,'<br>')}</div>`;
-  c.appendChild(d);c.scrollTop=c.scrollHeight;
-}
-
-// UTILS
-function formatTime(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;if(h>0)return`${h}h ${m.toString().padStart(2,'0')}m`;return`${m}m ${sec.toString().padStart(2,'0')}s`;}
-function setStatus(svc,on){const d=document.getElementById(svc+'-dot');if(d)d.className='status-dot'+(on?' on':'');}
-async function syncAll(){
+async function syncAll() {
   const btn = document.querySelector('.btn-sync');
-  if(btn) btn.textContent = '↻ Syncing...';
+  if (btn) btn.textContent = '↻ Syncing...';
   await fetchStravaActivities();
   await loadGarminData();
-  // Auto-select latest activity
   const select = document.getElementById('activity-select');
-  if(select && select.options.length > 1) {
-    select.selectedIndex = 1;
-    await loadActivity(select.value);
-  }
-  if(btn) btn.textContent = '↻ Sync';
+  if (select && select.options.length > 1) { select.selectedIndex = 1; await loadActivity(select.value); }
+  if (btn) btn.textContent = '↻ Sync';
 }
 </script>
 </body>
