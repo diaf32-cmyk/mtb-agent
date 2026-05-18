@@ -606,7 +606,7 @@ async function loadComparison(currentId, currentEfforts) {
   if (!currentEfforts.length) return;
   const segIds = new Set(currentEfforts.map(e => e.segment.id));
   const token = await getStravaToken();
-  const others = STATE.activities.filter(a => a.id != currentId).slice(0, 12);
+  const others = STATE.activities.filter(a => a.id != currentId).slice(0, 30);
   const matches = [];
 
   for (const act of others) {
@@ -619,9 +619,9 @@ async function loadComparison(currentId, currentEfforts) {
         STATE.segCache[act.id] = efforts;
       }
       const common = efforts.filter(e => segIds.has(e.segment.id));
-      if (common.length >= 2) matches.push({ act, efforts, commonCount: common.length });
+      if (common.length >= 1) matches.push({ act, efforts, commonCount: common.length });
     } catch (e) {}
-    if (matches.length >= 3) break;
+    if (matches.length >= 5) break;
   }
 
   if (!matches.length) return;
