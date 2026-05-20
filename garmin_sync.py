@@ -106,14 +106,18 @@ def main():
             continue
         print(f"  → Detalle {act_id}...")
         try:
-            detail = client.get_activity_details(act_id)
-            if not detail:
+            detail = client.get_activity_evaluation(act_id)
+            if not isinstance(detail, dict):
                 detail = {}
             # Get jump details via garth
             jump_details = []
             try:
                 jr = client.garth.get("connectapi", f"/activity-service/activity/{act_id}/split_summaries")
-                jump_details = jr.json() if jr.status_code == 200 else []
+                jr_data = jr.json()
+                if isinstance(jr_data, list):
+                    jump_details = jr_data
+                elif isinstance(jr_data, dict):
+                    jump_details = jr_data.get("jumpSummaries", jr_data.get("splits", []))
             except:
                 pass
             summary = extract_summary(detail)

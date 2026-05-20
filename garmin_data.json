@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-05-17T14:27:14.596976",
+  "lastSync": "2026-05-19T21:56:00.137451",
   "activities": [
     {
       "activityId": 22904617919,
@@ -32,12 +32,6 @@
         "eBikeBatteryRemaining": 10,
         "locationName": "Las Condes",
         "maxSpeed": 11.243000030517578
-      },
-      "bestJump": {
-        "score": 70,
-        "distance": 2.73,
-        "hangTime": 0.36,
-        "speed": 27.3
       }
     },
     {
@@ -104,12 +98,6 @@
         "eBikeBatteryRemaining": 35,
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.800000190734863
-      },
-      "bestJump": {
-        "score": 166,
-        "distance": 7.55,
-        "hangTime": 0.816,
-        "speed": 33.3
       }
     },
     {
@@ -143,12 +131,6 @@
         "eBikeBatteryRemaining": 65,
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.54800033569336
-      },
-      "bestJump": {
-        "score": 186,
-        "distance": 9.8,
-        "hangTime": 0.752,
-        "speed": 46.9
       }
     },
     {
@@ -182,12 +164,6 @@
         "eBikeBatteryRemaining": 4,
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.295999526977539
-      },
-      "bestJump": {
-        "score": 160,
-        "distance": 8.1,
-        "hangTime": 0.68,
-        "speed": 42.9
       }
     },
     {
