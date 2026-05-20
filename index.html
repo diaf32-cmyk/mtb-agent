@@ -463,11 +463,14 @@ const STATE = {
 };
 
 const GARMIN_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main/garmin_data.json';
-const ANTHROPIC_KEY = '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';
+const ANTHROPIC_KEY = null; // Key manejada por el proxy /api/chat
 
 document.addEventListener('DOMContentLoaded', () => {
   loadSetup();
+  loadGarminData();
+  setStatus('strava', true);
   updateRecordsMonth();
+  syncAll();
 });
 
 /* ── TABS ── */
@@ -1005,13 +1008,10 @@ async function sendAI() {
   addAIMsg(q, 'user');
   STATE.aiHistory.push({ role: 'user', content: q });
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/api/chat', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
@@ -1089,6 +1089,13 @@ async function syncAll() {
   if (btn) btn.textContent = '↻ Syncing...';
   await fetchStravaActivities();
   await loadGarminData();
+  const select = document.getElementById('activity-select');
+  if (select && select.options.length > 1) {
+    select.selectedIndex = 1;
+    await loadActivity(select.value);
+  }
+  // Precargar segmentos de las últimas 4 actividades para poblar Tus Pistas
+  await preloadSegments();
   if (btn) btn.textContent = '↻ Sync';
 }
 
