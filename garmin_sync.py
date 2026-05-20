@@ -20,8 +20,9 @@ if not EMAIL or not PASSWORD:
                 elif line.startswith("GARMIN_PASSWORD="):
                     PASSWORD = line.split("=", 1)[1].strip('"').strip("'")
 
+from garminconnect import Garmin
+
 def get_client():
-    from garminconnect import Garmin
     import garth
     try:
         # Try loading saved tokens first
@@ -109,26 +110,34 @@ def main():
             detail = client.get_activity_evaluation(act_id)
             if not isinstance(detail, dict):
                 detail = {}
-            # Get jump details via garth
-            jump_details = []
-            try:
-                jr = client.garth.get("connectapi", f"/activity-service/activity/{act_id}/split_summaries")
-                jr_data = jr.json()
-                if isinstance(jr_data, list):
-                    jump_details = jr_data
-                elif isinstance(jr_data, dict):
-                    jump_details = jr_data.get("jumpSummaries", jr_data.get("splits", []))
-            except:
-                pass
             summary = extract_summary(detail)
-            if jump_details:
-                best = max(jump_details, key=lambda j: j.get("score", 0))
-                summary["bestJump"] = {
-                    "score": best.get("score"),
-                    "distance": round(best.get("distance", 0), 2),
-                    "hangTime": round(best.get("hangTime", 0), 3),
-                    "speed": round(best.get("speed", 0) * 3.6, 1)
-                }
+            # Extraer saltos desde archivo FIT (unknown_285 = jump records)
+            try:
+                import fitparse, zipfile, io
+                zip_data = client.download_activity(act_id, dl_fmt=Garmin.ActivityDownloadFormat.ORIGINAL)
+                z = zipfile.ZipFile(io.BytesIO(zip_data))
+                fit_data = z.read(z.namelist()[0])
+                fit = fitparse.FitFile(io.BytesIO(fit_data))
+                jump_records = []
+                for record in fit.get_messages('unknown_285'):
+                    d = {f.name: f.value for f in record}
+                    hang_time = d.get('unknown_0')
+                    speed_raw = d.get('unknown_4')
+                    score = d.get('unknown_7')
+                    dist_raw = d.get('unknown_3')
+                    if score is not None:
+                        jump_records.append({
+                            'score': round(score / 100, 1),
+                            'hangTime': round(hang_time / 10, 3) if hang_time else 0,
+                            'speed': round(speed_raw * 0.36, 1) if speed_raw else 0,
+                            'distance': round(speed_raw * 0.0675, 2) if speed_raw else 0
+                        })
+                if jump_records:
+                    best = max(jump_records, key=lambda j: j['score'])
+                    summary["bestJump"] = best
+                    print(f"     → {len(jump_records)} saltos, mejor: {best['distance']}m score {best['score']}")
+            except Exception as je:
+                pass
             enriched.append(summary)
         except Exception as e:
             print(f"  ⚠ Error: {e}")
