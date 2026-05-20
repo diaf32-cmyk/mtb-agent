@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import json, subprocess, os, sys
+import json, os, sys
 from datetime import datetime
 
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -16,9 +16,9 @@ if not EMAIL or not PASSWORD:
             for line in f:
                 line = line.strip()
                 if line.startswith("GARMIN_EMAIL="):
-                    EMAIL = line.split("=", 1)[1]
+                    EMAIL = line.split("=", 1)[1].strip('"').strip("'")
                 elif line.startswith("GARMIN_PASSWORD="):
-                    PASSWORD = line.split("=", 1)[1]
+                    PASSWORD = line.split("=", 1)[1].strip('"').strip("'")
 
 def get_client():
     from garminconnect import Garmin
@@ -82,11 +82,6 @@ def extract_summary(detail):
         'mtbDynamics': dyn
     }
 
-def run(cmd):
-    import subprocess
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-    return result.stdout.strip()
-
 def main():
     print("\n══════════════════════════════════")
     print("  MTB Agent · Garmin Sync")
@@ -111,16 +106,13 @@ def main():
             continue
         print(f"  → Detalle {act_id}...")
         try:
-            import subprocess as sp2
-            r2 = sp2.run(f"garmin-connect activities get {act_id}", shell=True, capture_output=True, text=True)
-            try:
-                detail = __import__("json").loads(r2.stdout)
-            except:
+            detail = client.get_activity_details(act_id)
+            if not detail:
                 detail = {}
             # Get jump details via garth
             jump_details = []
             try:
-                jr = client.garth.get("connectapi", f"/activity-service/activity/{act_id}/jumpDetails")
+                jr = client.garth.get("connectapi", f"/activity-service/activity/{act_id}/split_summaries")
                 jump_details = jr.json() if jr.status_code == 200 else []
             except:
                 pass
