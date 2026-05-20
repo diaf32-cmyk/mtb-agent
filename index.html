@@ -760,14 +760,14 @@ function updateRecords() {
   const axSpd = bestAll(all, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
   if (mxSpd.val > 0) { document.getElementById('rec-maxspeed').innerHTML = mxSpd.val.toFixed(1) + '<span class="record-unit"> km/h</span>'; document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL'); document.getElementById('rec-maxspeed-pr').textContent = 'PR histórico: ' + axSpd.toFixed(1) + ' km/h'; }
   // Jumps
-  const mxJmp = best(thisMonth, a => a.bestJump?.score || 0);
-  const axJmp = bestAll(all, a => a.bestJump?.score || 0);
+  const mxJmp = best(thisMonth, a => a.bestJump?.distance || 0);
+  const axJmp = bestAll(all, a => a.bestJump?.distance || 0);
   if (mxJmp.val > 0) {
     const bj = thisMonth.find(a => a.startTimeLocal === mxJmp.date)?.bestJump;
     document.getElementById('rec-jump').innerHTML = (bj?.distance || '—') + '<span class="record-unit"> m</span>';
-    document.getElementById('rec-jump-date').textContent = new Date(mxJmp.date).toLocaleDateString('es-CL') + ' · score ' + mxJmp.val;
-    const bjAll = all.find(a => a.bestJump?.score === axJmp)?.bestJump;
-    document.getElementById('rec-jump-pr').textContent = 'PR histórico: ' + (bjAll?.distance || '—') + 'm · score ' + axJmp;
+    document.getElementById('rec-jump-date').textContent = new Date(mxJmp.date).toLocaleDateString('es-CL') + ' · score ' + (bj?.score || '—');
+    const bjAll = all.reduce((b, a) => (a.bestJump?.distance || 0) > (b?.distance || 0) ? a.bestJump : b, null);
+    document.getElementById('rec-jump-pr').textContent = 'PR histórico: ' + (bjAll?.distance || '—') + 'm · score ' + (bjAll?.score || '—');
   }
   // Flow
   const mxFlw = thisMonth.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => { const v = a.mtbDynamics.avgFlow; return v < b.val ? { val: v, date: a.startTimeLocal } : b; }, { val: Infinity, date: null });
