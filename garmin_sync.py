@@ -127,9 +127,9 @@ def main():
                     dist_raw = d.get('unknown_3')
                     if score is not None:
                         jump_records.append({
-                            'score': round(score / 100, 1),
+                            'score': round(score / 69.7, 0),
                             'hangTime': round(hang_time / 10, 3) if hang_time else 0,
-                            'speed': round(speed_raw * 0.36, 1) if speed_raw else 0,
+                            'speed': round(speed_raw * 0.3228, 1) if speed_raw else 0,
                             'distance': round(speed_raw * 0.0675, 2) if speed_raw else 0
                         })
                 if jump_records:
@@ -158,6 +158,18 @@ def main():
             'elevationGain': act.get('elevationGain'),
             'mtbDynamics': {}
         })
+
+    # Preservar actividades históricas del JSON anterior
+    existing_ids = {a['activityId'] for a in enriched if a.get('activityId')}
+    if os.path.exists(OUTPUT_FILE):
+        try:
+            with open(OUTPUT_FILE) as f:
+                old_data = json.load(f)
+            for old_act in old_data.get('activities', []):
+                if old_act.get('activityId') not in existing_ids:
+                    enriched.append(old_act)
+        except:
+            pass
 
     output = {
         'lastSync': datetime.now().isoformat(),

@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-05-19T22:13:11.098628",
+  "lastSync": "2026-05-20T08:26:09.478906",
   "activities": [
     {
       "activityId": 22904617919,
@@ -34,9 +34,9 @@
         "maxSpeed": 11.243000030517578
       },
       "bestJump": {
-        "score": 75.8,
+        "score": 109.0,
         "hangTime": 0.273,
-        "speed": 25.5,
+        "speed": 22.9,
         "distance": 4.78
       }
     },
@@ -106,9 +106,9 @@
         "maxSpeed": 13.800000190734863
       },
       "bestJump": {
-        "score": 118.6,
+        "score": 170.0,
         "hangTime": 0.446,
-        "speed": 33.9,
+        "speed": 30.4,
         "distance": 6.35
       }
     },
@@ -145,9 +145,9 @@
         "maxSpeed": 13.54800033569336
       },
       "bestJump": {
-        "score": 135.5,
+        "score": 194.0,
         "hangTime": 0.466,
-        "speed": 34.0,
+        "speed": 30.5,
         "distance": 6.38
       }
     },
@@ -184,9 +184,9 @@
         "maxSpeed": 13.295999526977539
       },
       "bestJump": {
-        "score": 119.2,
+        "score": 171.0,
         "hangTime": 0.81,
-        "speed": 57.9,
+        "speed": 52.0,
         "distance": 10.86
       }
     },
@@ -196,7 +196,13 @@
       "startTimeLocal": "2026-04-30 09:50:44",
       "distance": 22306.279296875,
       "elevationGain": 966.0,
-      "mtbDynamics": {}
+      "mtbDynamics": {},
+      "bestJump": {
+        "score": 186.0,
+        "distance": 9.81,
+        "hangTime": 0.747,
+        "speed": 46.9
+      }
     },
     {
       "activityId": 22656479850,
