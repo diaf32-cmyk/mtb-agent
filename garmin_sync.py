@@ -173,14 +173,26 @@ def main():
             with open(OUTPUT_FILE) as f:
                 old_data = json.load(f)
             old_map = {a['activityId']: a for a in old_data.get('activities', []) if a.get('activityId')}
-            # Proteger bestJump histórico en actividades ya procesadas
+            # Proteger campos históricos corregidos manualmente
             for act in enriched:
                 aid = act.get('activityId')
                 if aid in old_map:
+                    # Proteger bestJump si el histórico tiene mayor distancia
                     old_jump = old_map[aid].get('bestJump')
                     new_jump = act.get('bestJump')
                     if old_jump and (not new_jump or old_jump.get('distance', 0) > new_jump.get('distance', 0)):
                         act['bestJump'] = old_jump
+                    # Preservar startTimeLocal si fue corregido manualmente
+                    old_time = old_map[aid].get('startTimeLocal', '')
+                    new_time = act.get('startTimeLocal', '')
+                    if old_time and new_time and old_time[:10] != new_time[:10]:
+                        try:
+                            old_dt = datetime.fromisoformat(old_time[:19])
+                            new_dt = datetime.fromisoformat(new_time[:19])
+                            if abs((old_dt - new_dt).days) <= 5:
+                                act['startTimeLocal'] = old_time
+                        except:
+                            pass
             # Agregar actividades históricas que no están en el sync actual
             for old_act in old_data.get('activities', []):
                 if old_act.get('activityId') not in existing_ids:
