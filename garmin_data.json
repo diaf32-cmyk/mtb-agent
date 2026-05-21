@@ -1,6 +1,45 @@
 {
-  "lastSync": "2026-05-20T08:26:09.478906",
+  "lastSync": "2026-05-21T14:47:24.915867",
   "activities": [
+    {
+      "activityId": 22962218472,
+      "activityName": "Guay guay",
+      "startTimeLocal": "2026-05-21T09:59:00.0",
+      "distance": 30883.8,
+      "duration": 10633.248,
+      "movingDuration": 9229.0,
+      "elevationGain": 1509.0,
+      "elevationLoss": 1510.0,
+      "avgSpeed": 2.9040000438690186,
+      "maxSpeed": 14.444000244140627,
+      "avgHR": 115.0,
+      "maxHR": 160.0,
+      "calories": 1081.0,
+      "avgTemperature": 13.359779806962353,
+      "locationName": "Colina",
+      "mtbDynamics": {
+        "grit": 155.8898468017578,
+        "avgFlow": 3.582629680633545,
+        "jumpCount": 67,
+        "waterEstimated": 1326.0,
+        "avgRespirationRate": 24.8700008392334,
+        "trainingEffect": 3.799999952316284,
+        "anaerobicTrainingEffect": 1.100000023841858,
+        "trainingEffectLabel": "AEROBIC_BASE",
+        "activityTrainingLoad": 117.58583068847656,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 89,
+        "eBikeBatteryRemaining": 11,
+        "locationName": "Colina",
+        "maxSpeed": 14.444000244140627
+      },
+      "bestJump": {
+        "score": 189.0,
+        "hangTime": 0.384,
+        "speed": 33.0,
+        "distance": 5.06
+      }
+    },
     {
       "activityId": 22904617919,
       "activityName": "Las varas",
@@ -35,7 +74,7 @@
       },
       "bestJump": {
         "score": 109.0,
-        "hangTime": 0.273,
+        "hangTime": 0.36,
         "speed": 22.9,
         "distance": 4.78
       }
@@ -107,9 +146,9 @@
       },
       "bestJump": {
         "score": 170.0,
-        "hangTime": 0.446,
+        "hangTime": 0.376,
         "speed": 30.4,
-        "distance": 6.35
+        "distance": 4.46
       }
     },
     {
@@ -146,63 +185,26 @@
       },
       "bestJump": {
         "score": 194.0,
-        "hangTime": 0.466,
+        "hangTime": 0.344,
         "speed": 30.5,
-        "distance": 6.38
+        "distance": 4.66
       }
     },
     {
       "activityId": 22811318174,
       "activityName": "\ud83c\udf51\ud83d\udc4c",
-      "startTimeLocal": "2026-05-08T11:09:29.0",
-      "distance": 21850.7,
-      "duration": 7943.056,
-      "movingDuration": 6280.488,
+      "startTimeLocal": "2026-05-08 11:09:29",
+      "distance": 21850.69921875,
       "elevationGain": 928.0,
-      "elevationLoss": 919.0,
-      "avgSpeed": 2.750999927520752,
-      "maxSpeed": 13.295999526977539,
-      "avgHR": 86.0,
-      "maxHR": 159.0,
-      "calories": 496.0,
-      "avgTemperature": 19.581937238267653,
-      "locationName": "Lo Barnechea",
-      "mtbDynamics": {
-        "grit": 101.9671859741211,
-        "avgFlow": 3.6942269802093506,
-        "jumpCount": 63,
-        "waterEstimated": 864.0,
-        "avgRespirationRate": 18.690000534057617,
-        "trainingEffect": 2.0,
-        "anaerobicTrainingEffect": 1.5,
-        "trainingEffectLabel": "AEROBIC_BASE",
-        "activityTrainingLoad": 30.804733276367188,
-        "avgEbikeAssistLevelPercent": 0.0,
-        "eBikeBatteryUsage": 88,
-        "eBikeBatteryRemaining": 4,
-        "locationName": "Lo Barnechea",
-        "maxSpeed": 13.295999526977539
-      },
-      "bestJump": {
-        "score": 160.0,
-        "distance": 8.1,
-        "hangTime": 0.68,
-        "speed": 42.9
-      }
+      "mtbDynamics": {}
     },
     {
       "activityId": 22715298923,
       "activityName": "\ud83c\udf51",
-      "startTimeLocal": "2026-05-09T09:50:44",
+      "startTimeLocal": "2026-04-30 09:50:44",
       "distance": 22306.279296875,
       "elevationGain": 966.0,
-      "mtbDynamics": {},
-      "bestJump": {
-        "score": 186.0,
-        "distance": 9.81,
-        "hangTime": 0.747,
-        "speed": 46.9
-      }
+      "mtbDynamics": {}
     },
     {
       "activityId": 22656479850,
@@ -318,19 +320,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 107.77030944824219,
-    "avgFlow": 5.718075752258301,
-    "jumpCount": 3,
-    "waterEstimated": 1637.0,
-    "avgRespirationRate": 26.010000228881836,
+    "grit": 155.8898468017578,
+    "avgFlow": 3.582629680633545,
+    "jumpCount": 67,
+    "waterEstimated": 1326.0,
+    "avgRespirationRate": 24.8700008392334,
     "trainingEffect": 3.799999952316284,
-    "anaerobicTrainingEffect": 2.5999999046325684,
+    "anaerobicTrainingEffect": 1.100000023841858,
     "trainingEffectLabel": "AEROBIC_BASE",
-    "activityTrainingLoad": 152.1577911376953,
+    "activityTrainingLoad": 117.58583068847656,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 85,
-    "eBikeBatteryRemaining": 10,
-    "locationName": "Las Condes",
-    "maxSpeed": 11.243000030517578
+    "eBikeBatteryUsage": 89,
+    "eBikeBatteryRemaining": 11,
+    "locationName": "Colina",
+    "maxSpeed": 14.444000244140627
   }
 }
