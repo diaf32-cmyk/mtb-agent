@@ -100,6 +100,17 @@ def main():
 
     print(f"  ✓ {len(activities)} actividades encontradas\n")
 
+    # Correcciones manuales permanentes (no sobreescribir nunca)
+    MANUAL_FIXES = {
+        22715298923: {
+            'startTimeLocal': '2026-05-09T09:50:44',
+            'bestJump': {'score': 186.0, 'distance': 9.81, 'hangTime': 0.75, 'speed': 46.9}
+        },
+        22811318174: {
+            'bestJump': {'score': 160.0, 'distance': 8.10, 'hangTime': 0.68, 'speed': 42.9}
+        },
+    }
+
     enriched = []
     for act in activities[:5]:
         act_id = act.get('activityId')
@@ -182,23 +193,23 @@ def main():
                     new_jump = act.get('bestJump')
                     if old_jump and (not new_jump or old_jump.get('distance', 0) > new_jump.get('distance', 0)):
                         act['bestJump'] = old_jump
-                    # Preservar startTimeLocal si fue corregido manualmente
+                    # Preservar startTimeLocal histórico siempre
                     old_time = old_map[aid].get('startTimeLocal', '')
-                    new_time = act.get('startTimeLocal', '')
-                    if old_time and new_time and old_time[:10] != new_time[:10]:
-                        try:
-                            old_dt = datetime.fromisoformat(old_time[:19])
-                            new_dt = datetime.fromisoformat(new_time[:19])
-                            if abs((old_dt - new_dt).days) <= 5:
-                                act['startTimeLocal'] = old_time
-                        except:
-                            pass
+                    if old_time:
+                        act['startTimeLocal'] = old_time
             # Agregar actividades históricas que no están en el sync actual
             for old_act in old_data.get('activities', []):
                 if old_act.get('activityId') not in existing_ids:
                     enriched.append(old_act)
         except:
             pass
+
+    # Aplicar correcciones manuales permanentes
+    for act in enriched:
+        aid = act.get('activityId')
+        if aid in MANUAL_FIXES:
+            for key, val in MANUAL_FIXES[aid].items():
+                act[key] = val
 
     output = {
         'lastSync': datetime.now().isoformat(),
