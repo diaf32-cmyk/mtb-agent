@@ -126,15 +126,22 @@ def main():
                     score = d.get('unknown_7')
                     dist_raw = d.get('unknown_3')
                     if score is not None:
+                        # Distancia: u0 si es > 3m (campo directo), sino u4*0.0675
+                        dist = round(hang_time, 2) if hang_time and hang_time > 3 else round(speed_raw * 0.0675, 2) if speed_raw else 0
+                        # HangTime: u3 si < 2s (segundos), sino u0/10
+                        ht = round(dist_raw, 3) if dist_raw and dist_raw < 2 else round(hang_time / 10, 3) if hang_time else 0
                         jump_records.append({
                             'score': round(score / 69.7, 0),
-                            'hangTime': round(hang_time / 10, 3) if hang_time else 0,
+                            'hangTime': ht,
                             'speed': round(speed_raw * 0.3228, 1) if speed_raw else 0,
-                            'distance': round(speed_raw * 0.0675, 2) if speed_raw else 0
+                            'distance': dist
                         })
                 if jump_records:
                     best = max(jump_records, key=lambda j: j['score'])
-                    summary["bestJump"] = best
+                    # Solo sobreescribir si el nuevo salto es mayor en distancia
+                    existing_jump = summary.get("bestJump")
+                    if not existing_jump or best['distance'] > existing_jump.get('distance', 0):
+                        summary["bestJump"] = best
                     print(f"     → {len(jump_records)} saltos, mejor: {best['distance']}m score {best['score']}")
             except Exception as je:
                 pass
@@ -165,6 +172,16 @@ def main():
         try:
             with open(OUTPUT_FILE) as f:
                 old_data = json.load(f)
+            old_map = {a['activityId']: a for a in old_data.get('activities', []) if a.get('activityId')}
+            # Proteger bestJump histórico en actividades ya procesadas
+            for act in enriched:
+                aid = act.get('activityId')
+                if aid in old_map:
+                    old_jump = old_map[aid].get('bestJump')
+                    new_jump = act.get('bestJump')
+                    if old_jump and (not new_jump or old_jump.get('distance', 0) > new_jump.get('distance', 0)):
+                        act['bestJump'] = old_jump
+            # Agregar actividades históricas que no están en el sync actual
             for old_act in old_data.get('activities', []):
                 if old_act.get('activityId') not in existing_ids:
                     enriched.append(old_act)
