@@ -196,7 +196,13 @@
       "startTimeLocal": "2026-05-08 11:09:29",
       "distance": 21850.69921875,
       "elevationGain": 928.0,
-      "mtbDynamics": {}
+      "mtbDynamics": {},
+      "bestJump": {
+        "score": 160.0,
+        "distance": 8.1,
+        "hangTime": 0.68,
+        "speed": 42.9
+      }
     },
     {
       "activityId": 22715298923,
@@ -204,7 +210,13 @@
       "startTimeLocal": "2026-04-30 09:50:44",
       "distance": 22306.279296875,
       "elevationGain": 966.0,
-      "mtbDynamics": {}
+      "mtbDynamics": {},
+      "bestJump": {
+        "score": 186.0,
+        "distance": 9.81,
+        "hangTime": 0.75,
+        "speed": 46.9
+      }
     },
     {
       "activityId": 22656479850,
