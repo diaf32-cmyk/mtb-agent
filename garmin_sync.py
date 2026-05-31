@@ -113,6 +113,10 @@ def main():
             'startTimeLocal': '2026-05-30T09:59:00',
             'bestJump': {'score': 181.0, 'distance': 9.08, 'hangTime': 0.79, 'speed': 41.3}
         },
+        23070007352: {
+            'startTimeLocal': '2026-05-30T10:05:00',
+            'bestJump': {'score': 181.0, 'distance': 9.08, 'hangTime': 0.79, 'speed': 41.3}
+        },
     }
 
     enriched = []
