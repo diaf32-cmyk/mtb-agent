@@ -34,10 +34,10 @@
         "maxSpeed": 13.352000236511232
       },
       "bestJump": {
-        "score": 192.0,
-        "hangTime": 0.328,
-        "speed": 29.0,
-        "distance": 4.38
+        "score": 181.0,
+        "distance": 9.08,
+        "hangTime": 0.79,
+        "speed": 41.3
       }
     },
     {
