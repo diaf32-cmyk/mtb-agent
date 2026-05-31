@@ -693,8 +693,34 @@ async function fetchGarminData() {
 function getGarminForAct(act) {
   if (!STATE.garminData?.activities) return null;
   const sd = new Date(act.start_date_local).toDateString();
-  const sameDay = STATE.garminData.activities.filter(a => a.startTimeLocal && new Date(a.startTimeLocal).toDateString() === sd);
-  return sameDay.find(a => a.mtbDynamics?.jumpCount) || sameDay[0] || null;
+  const stravaKm = act.distance / 1000;
+
+  // Buscar en ±1 día para cubrir problemas de timezone
+  const actDate = new Date(act.start_date_local);
+  const candidates = STATE.garminData.activities.filter(a => {
+    if (!a.startTimeLocal) return false;
+    const gDate = new Date(a.startTimeLocal);
+    const diffDays = Math.abs((gDate - actDate) / (1000 * 60 * 60 * 24));
+    return diffDays < 1.5; // dentro de 36 horas
+  });
+
+  if (!candidates.length) return null;
+
+  // Si hay uno solo, devolver ese
+  if (candidates.length === 1) return candidates[0];
+
+  // Si hay varios, elegir el de distancia más cercana a Strava
+  const withDist = candidates.filter(a => a.distance > 0);
+  if (withDist.length) {
+    withDist.sort((a, b) => {
+      const da = Math.abs((a.distance / 1000) - stravaKm);
+      const db = Math.abs((b.distance / 1000) - stravaKm);
+      return da - db;
+    });
+    return withDist[0];
+  }
+
+  return candidates.find(a => a.mtbDynamics?.jumpCount) || candidates[0];
 }
 
 async function loadGarminData() {
