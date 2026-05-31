@@ -109,6 +109,9 @@ def main():
         22811318174: {
             'bestJump': {'score': 160.0, 'distance': 8.10, 'hangTime': 0.68, 'speed': 42.9}
         },
+        22962218472: {
+            'bestJump': {'score': 181.0, 'distance': 9.08, 'hangTime': 0.79, 'speed': 41.3}
+        },
     }
 
     enriched = []
