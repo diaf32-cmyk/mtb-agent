@@ -145,15 +145,16 @@ def main():
                     score = d.get('unknown_7')
                     dist_raw = d.get('unknown_3')
                     if score is not None:
-                        # Distancia: u0 si es > 3m (campo directo), sino u4*0.0675
-                        dist = round(hang_time, 2) if hang_time and hang_time > 3 else round(speed_raw * 0.0675, 2) if speed_raw else 0
-                        # HangTime: u3 si < 2s (segundos), sino u0/10
-                        ht = round(dist_raw, 3) if dist_raw and dist_raw < 2 else round(hang_time / 10, 3) if hang_time else 0
+                        # Distancia aproximada: u0 si > 4m, sino u4*0.0675
+                        dist = round(hang_time, 2) if hang_time and hang_time > 4 else round(speed_raw * 0.0675, 2) if speed_raw else 0
+                        # HangTime: u3 siempre
+                        ht = round(dist_raw, 3) if dist_raw else 0
                         jump_records.append({
-                            'score': round(score / 69.7, 0),
+                            'score': round(score / 72, 0),
                             'hangTime': ht,
                             'speed': round(speed_raw * 0.3228, 1) if speed_raw else 0,
-                            'distance': dist
+                            'distance': dist,
+                            'approx': True
                         })
                 if jump_records:
                     best = max(jump_records, key=lambda j: j['score'])
