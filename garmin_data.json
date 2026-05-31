@@ -1,10 +1,10 @@
 {
-  "lastSync": "2026-05-31T12:38:42.104063",
+  "lastSync": "2026-05-31T14:37:01.332435",
   "activities": [
     {
       "activityId": 23070007352,
       "activityName": "\ud83c\udf51",
-      "startTimeLocal": "2026-05-30T10:05:00.0",
+      "startTimeLocal": "2026-05-30T10:05:00",
       "distance": 14954.72,
       "duration": 7675.003,
       "movingDuration": 4154.0,
@@ -73,10 +73,11 @@
         "maxSpeed": 13.109999656677246
       },
       "bestJump": {
-        "score": 178.0,
+        "score": 173.0,
         "hangTime": 0.624,
         "speed": 49.2,
-        "distance": 7.76
+        "distance": 7.76,
+        "approx": true
       }
     },
     {
@@ -112,10 +113,11 @@
         "maxSpeed": 12.465999603271484
       },
       "bestJump": {
-        "score": 186.0,
+        "score": 180.0,
         "hangTime": 0.64,
         "speed": 51.6,
-        "distance": 8.28
+        "distance": 8.28,
+        "approx": true
       }
     },
     {
@@ -190,10 +192,11 @@
         "maxSpeed": 11.243000030517578
       },
       "bestJump": {
-        "score": 109.0,
+        "score": 105.0,
         "hangTime": 0.36,
         "speed": 22.9,
-        "distance": 4.78
+        "distance": 4.78,
+        "approx": true
       }
     },
     {
