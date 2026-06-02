@@ -100,23 +100,11 @@ def main():
 
     print(f"  ✓ {len(activities)} actividades encontradas\n")
 
-    # Correcciones manuales permanentes (no sobreescribir nunca)
+    # Correcciones manuales de fecha (Garmin a veces registra con timezone incorrecto)
     MANUAL_FIXES = {
-        22715298923: {
-            'startTimeLocal': '2026-05-09T09:50:44',
-            'bestJump': {'score': 186.0, 'distance': 9.81, 'hangTime': 0.75, 'speed': 46.9}
-        },
-        22811318174: {
-            'bestJump': {'score': 160.0, 'distance': 8.10, 'hangTime': 0.68, 'speed': 42.9}
-        },
-        22962218472: {
-            'startTimeLocal': '2026-05-30T09:59:00',
-            'bestJump': {'score': 181.0, 'distance': 9.08, 'hangTime': 0.79, 'speed': 41.3}
-        },
-        23070007352: {
-            'startTimeLocal': '2026-05-30T10:05:00',
-            'bestJump': {'score': 181.0, 'distance': 9.08, 'hangTime': 0.79, 'speed': 41.3}
-        },
+        22715298923: {'startTimeLocal': '2026-05-09T09:50:44'},
+        22962218472: {'startTimeLocal': '2026-05-30T09:59:00'},
+        23070007352: {'startTimeLocal': '2026-05-30T10:05:00'},
     }
 
     enriched = []
@@ -144,17 +132,16 @@ def main():
                     speed_raw = d.get('unknown_4')
                     score = d.get('unknown_7')
                     dist_raw = d.get('unknown_3')
-                    if score is not None:
-                        # Distancia aproximada: u0 si > 4m, sino u4*0.0675
-                        dist = round(hang_time, 2) if hang_time and hang_time > 4 else round(speed_raw * 0.0675, 2) if speed_raw else 0
-                        # HangTime: u3 siempre
+                    if score is not None and dist_raw is not None:
+                        dist = round(hang_time, 2) if hang_time else 0
                         ht = round(dist_raw, 3) if dist_raw else 0
+                        spd = round((hang_time / dist_raw) * 3.6, 1) if hang_time and dist_raw > 0 else 0
+                        sc = round(speed_raw) if speed_raw else 0
                         jump_records.append({
-                            'score': round(score / 72, 0),
+                            'score': sc,
                             'hangTime': ht,
-                            'speed': round(speed_raw * 0.3228, 1) if speed_raw else 0,
-                            'distance': dist,
-                            'approx': True
+                            'speed': spd,
+                            'distance': dist
                         })
                 if jump_records:
                     best = max(jump_records, key=lambda j: j['score'])
