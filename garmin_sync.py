@@ -108,7 +108,7 @@ def main():
     }
 
     enriched = []
-    for act in activities[:5]:
+    for act in activities[:10]:
         act_id = act.get('activityId')
         if not act_id:
             continue
@@ -163,7 +163,7 @@ def main():
                 'mtbDynamics': {}
             })
 
-    for act in activities[5:]:
+    for act in activities[10:]:
         enriched.append({
             'activityId': act.get('activityId'),
             'activityName': act.get('activityName'),
