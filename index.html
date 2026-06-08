@@ -128,7 +128,10 @@
   .record-value { font-family: 'Inter', sans-serif; font-size: 1.7rem; font-weight: 700; color: var(--accent); }
   .record-unit { font-size: 0.82rem; color: var(--muted); }
   .record-date { font-size: 0.62rem; color: var(--muted); margin-top: 3px; }
-  .record-pr { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--accent3); margin-top: 3px; }
+  .record-divider { border: none; border-top: 1px solid var(--border); margin: 10px 0 8px; }
+  .record-pr-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 3px; }
+  .record-pr-value { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text2); }
+  .record-pr-date { font-size: 0.58rem; color: var(--muted); margin-top: 2px; }
   .section-title { font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--text2); margin: 18px 0 10px; display: flex; align-items: center; gap: 8px; }
   .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .records-table { width: 100%; border-collapse: collapse; }
@@ -340,18 +343,40 @@
 
   <!-- KPIs del mes -->
   <div class="records-grid">
-    <div class="record-card"><div class="record-icon">⚡</div><div class="record-label">Vel. Máxima del mes</div><div class="record-value" id="rec-maxspeed">—<span class="record-unit"> km/h</span></div><div class="record-date" id="rec-maxspeed-date">—</div><div class="record-pr" id="rec-maxspeed-pr">PR histórico: —</div></div>
-    <div class="record-card"><div class="record-icon">🦅</div><div class="record-label">Mejor salto del mes</div><div class="record-value" id="rec-jump">—<span class="record-unit"> m</span></div><div class="record-date" id="rec-jump-date">—</div><div class="record-pr" id="rec-jump-pr">PR histórico: —</div></div>
-    <div class="record-card"><div class="record-icon">🌊</div><div class="record-label">Mejor Flow del mes</div><div class="record-value" id="rec-flow">—</div><div class="record-date" id="rec-flow-date">—</div><div class="record-pr" id="rec-flow-pr">PR histórico: —</div></div>
+    <div class="record-card">
+      <div class="record-icon">⚡</div>
+      <div class="record-label">Vel. Máxima del mes</div>
+      <div class="record-value" id="rec-maxspeed">—<span class="record-unit"> km/h</span></div>
+      <div class="record-date" id="rec-maxspeed-date">—</div>
+      <hr class="record-divider">
+      <div class="record-pr-label">🏆 PR histórico</div>
+      <div class="record-pr-value" id="rec-maxspeed-pr">—</div>
+      <div class="record-pr-date" id="rec-maxspeed-pr-date">—</div>
+    </div>
+    <div class="record-card">
+      <div class="record-icon">🦅</div>
+      <div class="record-label">Mejor salto del mes</div>
+      <div class="record-value" id="rec-jump">—<span class="record-unit"> m</span></div>
+      <div class="record-date" id="rec-jump-date">—</div>
+      <hr class="record-divider">
+      <div class="record-pr-label">🏆 PR histórico</div>
+      <div class="record-pr-value" id="rec-jump-pr">—</div>
+      <div class="record-pr-date" id="rec-jump-pr-date">—</div>
+    </div>
+    <div class="record-card">
+      <div class="record-icon">🌊</div>
+      <div class="record-label">Mejor Flow del mes</div>
+      <div class="record-value" id="rec-flow">—</div>
+      <div class="record-date" id="rec-flow-date">—</div>
+      <hr class="record-divider">
+      <div class="record-pr-label">🏆 PR histórico</div>
+      <div class="record-pr-value" id="rec-flow-pr">—</div>
+      <div class="record-pr-date" id="rec-flow-pr-date">—</div>
+    </div>
   </div>
 
   <!-- MEJORA 1: Pistas frecuentes con tendencia -->
-  <div class="section-title">Tus pistas · Frecuentes & más desafiantes</div>
-  <div id="pistas-container"><div class="loading"><div class="spinner"></div>Carga actividades para ver tus pistas</div></div>
-
-
-
-  <!-- MEJORA 4: Score del mes -->
+  <!-- Score del mes -->
   <div class="section-title">Score del mes</div>
   <div id="score-container"><div class="loading"><div class="spinner"></div>Calculando score...</div></div>
 </div>
@@ -784,25 +809,35 @@ function updateRecords() {
   // Vel máxima
   const mxSpd = best(thisMonth, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
   const axSpd = bestAll(all, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
-  if (mxSpd.val > 0) { document.getElementById('rec-maxspeed').innerHTML = mxSpd.val.toFixed(1) + '<span class="record-unit"> km/h</span>'; document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL'); document.getElementById('rec-maxspeed-pr').textContent = 'PR histórico: ' + axSpd.toFixed(1) + ' km/h'; }
+  if (mxSpd.val > 0) {
+    document.getElementById('rec-maxspeed').innerHTML = mxSpd.val.toFixed(1) + '<span class="record-unit"> km/h</span>';
+    document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL');
+    document.getElementById('rec-maxspeed-pr').textContent = axSpd.toFixed(1) + ' km/h';
+    const prSpd = all.find(a => a.maxSpeed && Math.abs(a.maxSpeed*3.6 - axSpd) < 0.1);
+    document.getElementById('rec-maxspeed-pr-date').textContent = prSpd?.startTimeLocal ? new Date(prSpd.startTimeLocal).toLocaleDateString('es-CL') : '—';
+  }
   // Jumps
   const mxJmp = best(thisMonth, a => a.bestJump?.distance || 0);
-  const axJmp = bestAll(all, a => a.bestJump?.distance || 0);
   if (mxJmp.val > 0) {
     const bj = thisMonth.find(a => a.startTimeLocal === mxJmp.date)?.bestJump;
     document.getElementById('rec-jump').innerHTML = (bj?.distance || '—') + '<span class="record-unit"> m</span>';
     document.getElementById('rec-jump-date').textContent = new Date(mxJmp.date).toLocaleDateString('es-CL') + ' · score ' + (bj?.score || '—');
-    const bjAll = all.reduce((b, a) => (a.bestJump?.distance || 0) > (b?.distance || 0) ? a.bestJump : b, null);
-    document.getElementById('rec-jump-pr').textContent = 'PR histórico: ' + (bjAll?.distance || '—') + 'm · score ' + (bjAll?.score || '—');
+    const bjAllAct = all.reduce((b, a) => (a.bestJump?.distance || 0) > (b?.bestJump?.distance || 0) ? a : b, null);
+    const bjAll = bjAllAct?.bestJump;
+    document.getElementById('rec-jump-pr').textContent = (bjAll?.distance || '—') + 'm · score ' + (bjAll?.score || '—');
+    document.getElementById('rec-jump-pr-date').textContent = bjAllAct?.startTimeLocal ? new Date(bjAllAct.startTimeLocal).toLocaleDateString('es-CL') : '—';
   }
   // Flow
   const mxFlw = thisMonth.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => { const v = a.mtbDynamics.avgFlow; return v < b.val ? { val: v, date: a.startTimeLocal } : b; }, { val: Infinity, date: null });
-  const axFlw = all.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => a.mtbDynamics.avgFlow < b ? a.mtbDynamics.avgFlow : b, Infinity);
-  if (mxFlw.val < Infinity) { document.getElementById('rec-flow').innerHTML = mxFlw.val.toFixed(2); document.getElementById('rec-flow-date').textContent = new Date(mxFlw.date).toLocaleDateString('es-CL'); document.getElementById('rec-flow-pr').textContent = 'PR histórico: ' + axFlw.toFixed(2); }
+  const axFlw = all.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => a.mtbDynamics.avgFlow < b.val ? { val: a.mtbDynamics.avgFlow, date: a.startTimeLocal } : b, { val: Infinity, date: null });
+  if (mxFlw.val < Infinity) {
+    document.getElementById('rec-flow').innerHTML = mxFlw.val.toFixed(2);
+    document.getElementById('rec-flow-date').textContent = new Date(mxFlw.date).toLocaleDateString('es-CL');
+    document.getElementById('rec-flow-pr').textContent = axFlw.val.toFixed(2);
+    document.getElementById('rec-flow-pr-date').textContent = axFlw.date ? new Date(axFlw.date).toLocaleDateString('es-CL') : '—';
+  }
 
-
-  // Pistas y score
-  renderPistasFrecuentes();
+  // Score
   renderScoreMes(thisMonth, all);
 }
 
