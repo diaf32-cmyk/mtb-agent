@@ -616,8 +616,6 @@ async function loadSegments(activityId) {
 
     // Disparar comparación con salidas anteriores
     loadComparison(activityId, enriched);
-    // Actualizar pistas frecuentes en Records
-    renderPistasFrecuentes();
 
   } catch (e) { c.innerHTML = `<div style="color:var(--red);font-size:0.8rem;padding:8px;">Error: ${e.message}</div>`; }
 }
@@ -1181,8 +1179,6 @@ async function preloadSegments() {
       if (!Array.isArray(data.segment_efforts)) continue;
       const enriched = await fetchSegmentsSerialized(data.segment_efforts, token);
       STATE.segCache[act.id] = enriched;
-      // Redibujar pistas después de cada actividad cargada
-      renderPistasFrecuentes();
     } catch (e) {}
     await sleep(300); // pausa entre actividades
   }
