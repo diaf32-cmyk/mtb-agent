@@ -958,11 +958,13 @@ function renderScoreMes(thisMonth, all) {
 
   // PRs: contar PRs individuales del mes desde el cache de segmentos
   let prsCount = 0;
+  const _sm = thisMonth.length ? new Date(thisMonth[0].startTimeLocal) : new Date();
+  const _nowM = _sm.getMonth(), _nowY = _sm.getFullYear();
   Object.entries(STATE.segCache).forEach(([actId, efforts]) => {
     const act = STATE.activities.find(a => a.id == actId);
     if (!act) return;
     const actDate = new Date(act.start_date_local);
-    if (actDate.getMonth() !== nowM || actDate.getFullYear() !== nowY) return;
+    if (actDate.getMonth() !== _nowM || actDate.getFullYear() !== _nowY) return;
     prsCount += efforts.filter(e => e.segStats?.pr_elapsed_time && e.elapsed_time <= e.segStats.pr_elapsed_time).length;
   });
   const prScore = Math.min(prsCount * 2, 25); // 2pts por PR, max 25
