@@ -584,6 +584,14 @@ async function loadSegments(activityId) {
     // Guardar en cache para pistas frecuentes y comparación
     STATE.segCache[activityId] = enriched;
 
+    // Recalcular score del mes con los nuevos PRs
+    if (STATE.garminData?.activities) {
+      const nowM = new Date().getMonth(), nowY = new Date().getFullYear();
+      const all = STATE.garminData.activities;
+      const thisMonth = all.filter(a => { if (!a.startTimeLocal) return false; const d = new Date(a.startTimeLocal); return d.getMonth() === nowM && d.getFullYear() === nowY; });
+      renderScoreMes(thisMonth, all);
+    }
+
     // Mejor segmento = delta positivo más pequeño
     let bestIdx = -1, bestDelta = Infinity;
     enriched.forEach((e, i) => {
