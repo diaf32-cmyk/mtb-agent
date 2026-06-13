@@ -586,9 +586,9 @@ async function loadSegments(activityId) {
 
     // Recalcular score del mes con los nuevos PRs
     if (STATE.garminData?.activities) {
-      const nowM = new Date().getMonth(), nowY = new Date().getFullYear();
+      const _nowM = new Date().getMonth(), _nowY = new Date().getFullYear();
       const all = STATE.garminData.activities;
-      const thisMonth = all.filter(a => { if (!a.startTimeLocal) return false; const d = new Date(a.startTimeLocal); return d.getMonth() === nowM && d.getFullYear() === nowY; });
+      const thisMonth = all.filter(a => { if (!a.startTimeLocal) return false; const d = new Date(a.startTimeLocal); return d.getMonth() === _nowM && d.getFullYear() === _nowY; });
       renderScoreMes(thisMonth, all);
     }
 
