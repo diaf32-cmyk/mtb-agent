@@ -600,7 +600,11 @@ async function loadSegments(activityId) {
       let delta = '', timeColor = 'var(--text)';
       if (st?.pr_elapsed_time) {
         const diff = e.elapsed_time - st.pr_elapsed_time;
-        if (diff <= 0) { delta = '<span class="badge-pr">🏆 PR</span>'; timeColor = 'var(--green)'; }
+        if (diff <= 0) { 
+          const gained = Math.abs(diff);
+          delta = `<span class="badge-pr">🏆 PR</span>${gained > 0 ? ` <span style="color:var(--green);font-family:'DM Mono',monospace;font-size:0.72rem;">-${formatTime(gained)}</span>` : ''}`;
+          timeColor = 'var(--green)'; 
+        }
         else if (diff <= 15) { delta = `<span style="color:#e8a020;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; timeColor = '#e8a020'; }
         else if (diff <= 60) { delta = `<span style="color:#d4703a;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; timeColor = '#d4703a'; }
         else { delta = `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; timeColor = 'var(--red)'; }
@@ -949,18 +953,16 @@ function renderScoreMes(thisMonth, all) {
   const maxDist = Math.max(...Object.values(monthDistMap), 1);
   const distScore = Math.round(25 * Math.min(totalDist / maxDist, 1));
 
-  // PRs: contar salidas del mes que tengan al menos un PR en cache
-  // Cruzar por fecha ya que Garmin y Strava usan IDs distintos
+  // PRs: contar PRs individuales del mes desde el cache de segmentos
   let prsCount = 0;
-  thisMonth.forEach(garminAct => {
-    const gDate = new Date(garminAct.startTimeLocal).toDateString();
-    // Buscar la actividad Strava del mismo día
-    const stravaAct = STATE.activities.find(a => new Date(a.start_date_local).toDateString() === gDate);
-    if (!stravaAct) return;
-    const efforts = STATE.segCache[stravaAct.id];
-    if (efforts && efforts.some(e => e.segStats?.pr_elapsed_time && e.elapsed_time <= e.segStats.pr_elapsed_time)) prsCount++;
+  Object.entries(STATE.segCache).forEach(([actId, efforts]) => {
+    const act = STATE.activities.find(a => a.id == actId);
+    if (!act) return;
+    const actDate = new Date(act.start_date_local);
+    if (actDate.getMonth() !== nowM || actDate.getFullYear() !== nowY) return;
+    prsCount += efforts.filter(e => e.segStats?.pr_elapsed_time && e.elapsed_time <= e.segStats.pr_elapsed_time).length;
   });
-  const prScore = Math.min(prsCount * 8, 25);
+  const prScore = Math.min(prsCount * 2, 25); // 2pts por PR, max 25
 
   const total = flowScore + descScore + distScore + prScore;
   let label = 'Bajo · Sigue pedaleando 🚵', circleColor = 'var(--muted)';
