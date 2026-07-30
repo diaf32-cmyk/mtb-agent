@@ -128,10 +128,7 @@
   .record-value { font-family: 'Inter', sans-serif; font-size: 1.7rem; font-weight: 700; color: var(--accent); }
   .record-unit { font-size: 0.82rem; color: var(--muted); }
   .record-date { font-size: 0.62rem; color: var(--muted); margin-top: 3px; }
-  .record-divider { border: none; border-top: 1px solid var(--border); margin: 10px 0 8px; }
-  .record-pr-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 3px; }
-  .record-pr-value { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text2); }
-  .record-pr-date { font-size: 0.58rem; color: var(--muted); margin-top: 2px; }
+  .record-pr { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--accent3); margin-top: 3px; }
   .section-title { font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--text2); margin: 18px 0 10px; display: flex; align-items: center; gap: 8px; }
   .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .records-table { width: 100%; border-collapse: collapse; }
@@ -257,7 +254,7 @@
       <div class="logo-sub">Kenevo S4 · 2021 · Santiago</div>
     </div>
     <div class="header-right">
-      <div class="status-pill"><div class="status-dot" id="strava-dot"></div><span>Strava</span></div>
+      <div class="status-pill" style="display:none"><div class="status-dot" id="strava-dot"></div><span>Strava</span></div>
       <div class="status-pill"><div class="status-dot" id="garmin-dot"></div><span>Garmin</span></div>
       <button class="btn-sync" onclick="syncAll()">↻ Sync</button>
     </div>
@@ -306,7 +303,7 @@
 
   <div class="session-grid">
     <div class="card">
-      <div class="card-title">Segmentos Strava</div>
+      <div class="card-title">Segmentos · GPS propio</div>
       <div id="segments-container"><div class="loading"><div class="spinner"></div>Carga una actividad</div></div>
     </div>
     <div class="card">
@@ -343,39 +340,18 @@
 
   <!-- KPIs del mes -->
   <div class="records-grid">
-    <div class="record-card">
-      <div class="record-icon">⚡</div>
-      <div class="record-label">Vel. Máxima del mes</div>
-      <div class="record-value" id="rec-maxspeed">—<span class="record-unit"> km/h</span></div>
-      <div class="record-date" id="rec-maxspeed-date">—</div>
-      <hr class="record-divider">
-      <div class="record-pr-label">🏆 PR histórico</div>
-      <div class="record-pr-value" id="rec-maxspeed-pr">—</div>
-      <div class="record-pr-date" id="rec-maxspeed-pr-date">—</div>
-    </div>
-    <div class="record-card">
-      <div class="record-icon">🦅</div>
-      <div class="record-label">Mejor salto del mes</div>
-      <div class="record-value" id="rec-jump">—<span class="record-unit"> m</span></div>
-      <div class="record-date" id="rec-jump-date">—</div>
-      <hr class="record-divider">
-      <div class="record-pr-label">🏆 PR histórico</div>
-      <div class="record-pr-value" id="rec-jump-pr">—</div>
-      <div class="record-pr-date" id="rec-jump-pr-date">—</div>
-    </div>
-    <div class="record-card">
-      <div class="record-icon">🌊</div>
-      <div class="record-label">Mejor Flow del mes</div>
-      <div class="record-value" id="rec-flow">—</div>
-      <div class="record-date" id="rec-flow-date">—</div>
-      <hr class="record-divider">
-      <div class="record-pr-label">🏆 PR histórico</div>
-      <div class="record-pr-value" id="rec-flow-pr">—</div>
-      <div class="record-pr-date" id="rec-flow-pr-date">—</div>
-    </div>
+    <div class="record-card"><div class="record-icon">⚡</div><div class="record-label">Vel. Máxima del mes</div><div class="record-value" id="rec-maxspeed">—<span class="record-unit"> km/h</span></div><div class="record-date" id="rec-maxspeed-date">—</div><div class="record-pr" id="rec-maxspeed-pr">PR histórico: —</div></div>
+    <div class="record-card"><div class="record-icon">🦅</div><div class="record-label">Mejor salto del mes</div><div class="record-value" id="rec-jump">—<span class="record-unit"> m</span></div><div class="record-date" id="rec-jump-date">—</div><div class="record-pr" id="rec-jump-pr">PR histórico: —</div></div>
+    <div class="record-card"><div class="record-icon">🌊</div><div class="record-label">Mejor Flow del mes</div><div class="record-value" id="rec-flow">—</div><div class="record-date" id="rec-flow-date">—</div><div class="record-pr" id="rec-flow-pr">PR histórico: —</div></div>
   </div>
 
-  <!-- Score del mes -->
+  <!-- MEJORA 1: Pistas frecuentes con tendencia -->
+  <div class="section-title">Tus pistas · Frecuentes & más desafiantes</div>
+  <div id="pistas-container"><div class="loading"><div class="spinner"></div>Carga actividades para ver tus pistas</div></div>
+
+
+
+  <!-- MEJORA 4: Score del mes -->
   <div class="section-title">Score del mes</div>
   <div id="score-container"><div class="loading"><div class="spinner"></div>Calculando score...</div></div>
 </div>
@@ -472,28 +448,19 @@
 
 <script>
 const STATE = {
-  strava: {
-    clientId: '233784',
-    clientSecret: '0eb0218f66305ae68c0623128ee7c75d520d46b8',
-    refreshToken: 'ba290bd4d3ae4c0ab51d9ec4223d7125efd0d816',
-    accessToken: null, tokenExpiry: 0
-  },
-  activities: [],
-  selectedActivity: null,
+  activities: [],             // actividades Garmin (desde garmin_data.json)
+  selectedActivity: null,     // actividad Garmin seleccionada
   garminData: null,
   aiHistory: [],
-  sessionCtx: null,           // contexto de la sesión activa para el chat
-  segCache: {}                // activityId -> enriched efforts[]
+  sessionCtx: null            // contexto de la sesión activa para el chat
 };
 
 const GARMIN_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main/garmin_data.json';
-const ANTHROPIC_KEY = null; // Key manejada por el proxy /api/chat
 
 document.addEventListener('DOMContentLoaded', () => {
   loadSetup();
-  loadGarminData();
-  setStatus('strava', true);
   updateRecordsMonth();
+  syncAll();
 });
 
 /* ── TABS ── */
@@ -504,268 +471,14 @@ function switchTab(id, btn) {
   if (btn) btn.classList.add('active');
 }
 
-/* ── STRAVA AUTH ── */
-async function getStravaToken() {
-  const now = Date.now() / 1000;
-  if (STATE.strava.accessToken && STATE.strava.tokenExpiry > now + 60) return STATE.strava.accessToken;
-  const res = await fetch('https://www.strava.com/oauth/token', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ client_id: STATE.strava.clientId, client_secret: STATE.strava.clientSecret, refresh_token: STATE.strava.refreshToken, grant_type: 'refresh_token' })
-  });
-  const data = await res.json();
-  if (!data.access_token) throw new Error('Token refresh failed');
-  STATE.strava.accessToken = data.access_token;
-  STATE.strava.tokenExpiry = data.expires_at;
-  return data.access_token;
-}
-
-/* ── FETCH ACTIVITIES ── */
-async function fetchStravaActivities() {
-  const select = document.getElementById('activity-select');
-  select.innerHTML = '<option value="">Cargando...</option>';
-  try {
-    const token = await getStravaToken();
-    // Traer más actividades para tener historial rico de segmentos
-    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=60', { headers: { 'Authorization': 'Bearer ' + token } });
-    const acts = await res.json();
-    if (!Array.isArray(acts)) throw new Error('No activities');
-    const filtered = acts.filter(a => ['MountainBikeRide', 'EBikeRide'].includes(a.type) || ['MountainBikeRide', 'EBikeRide'].includes(a.sport_type));
-    STATE.activities = filtered.length ? filtered : acts;
-    select.innerHTML = '<option value="">— Selecciona una actividad —</option>';
-    STATE.activities.forEach(a => {
-      const date = new Date(a.start_date_local).toLocaleDateString('es-CL');
-      select.innerHTML += `<option value="${a.id}">${date} · ${a.name} · ${(a.distance / 1000).toFixed(1)}km · ${Math.round(a.total_elevation_gain)}m↑</option>`;
-    });
-    setStatus('strava', true);
-  } catch (e) {
-    select.innerHTML = `<option value="">Error: ${e.message}</option>`;
-    setStatus('strava', false);
-  }
-}
-
-/* ── LOAD ACTIVITY ── */
-async function loadActivity(id) {
-  if (!id) return;
-  const act = STATE.activities.find(a => a.id == id);
-  if (!act) return;
-  STATE.selectedActivity = act;
-  const dist = (act.distance / 1000).toFixed(1);
-  const avgSpd = (act.average_speed * 3.6).toFixed(1);
-  const maxSpd = (act.max_speed * 3.6).toFixed(1);
-  document.getElementById('kpi-dist').innerHTML = dist + '<span class="kpi-unit"> km</span>';
-  document.getElementById('kpi-dist-sub').textContent = 'vel media: ' + avgSpd + ' km/h';
-  document.getElementById('kpi-speed').innerHTML = maxSpd + '<span class="kpi-unit"> km/h</span>';
-  document.getElementById('kpi-speed-sub').textContent = 'Strava';
-  document.getElementById('kpi-time').textContent = formatTime(act.moving_time);
-  document.getElementById('kpi-time-sub').textContent = 'total: ' + formatTime(act.elapsed_time);
-  document.getElementById('kpi-elev').innerHTML = Math.round(act.total_elevation_gain) + '<span class="kpi-unit"> m</span>';
-  document.getElementById('kpi-elev-sub').textContent = 'descenso: ' + Math.round(act.total_elevation_loss || 0) + 'm';
-  document.getElementById('comparison-container').style.display = 'none';
-  await loadSegments(id);
-  await loadGarminDataForActivity(act);
-  // MEJORA 3: inyectar contexto al chat
-  injectSessionContext(act);
-}
-
-/* ── SEGMENTOS ── */
-async function loadSegments(activityId) {
-  const c = document.getElementById('segments-container');
-  c.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando...</div>';
-  try {
-    const token = await getStravaToken();
-    const res = await fetch(`https://www.strava.com/api/v3/activities/${activityId}?include_all_efforts=true`, { headers: { 'Authorization': 'Bearer ' + token } });
-    const data = await res.json();
-    const efforts = data.segment_efforts || [];
-    if (!efforts.length) { c.innerHTML = '<div style="color:var(--muted);padding:16px;font-size:0.82rem;">Sin segmentos</div>'; return; }
-    c.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando PRs...</div>';
-
-    const enriched = await fetchSegmentsSerialized(efforts, token);
-
-    // Guardar en cache para pistas frecuentes y comparación
-    STATE.segCache[activityId] = enriched;
-
-    // Recalcular score del mes con los nuevos PRs
-    if (STATE.garminData?.activities) updateRecords();
-
-    // Mejor segmento = delta positivo más pequeño
-    let bestIdx = -1, bestDelta = Infinity;
-    enriched.forEach((e, i) => {
-      if (e.segStats?.pr_elapsed_time) {
-        const d = e.elapsed_time - e.segStats.pr_elapsed_time;
-        if (d < bestDelta) { bestDelta = d; bestIdx = i; }
-      }
-    });
-
-    let html = '<table class="seg-table"><thead><tr><th>Segmento</th><th>Tiempo</th><th>PR · Delta</th></tr></thead><tbody>';
-
-    // Construir mapa de tiempos anteriores por segmento desde otras actividades
-    const prevTimeMap = {};
-    Object.entries(STATE.segCache).forEach(([cachedActId, cachedEfforts]) => {
-      if (cachedActId == activityId) return;
-      cachedEfforts.forEach(e => {
-        const sid = e.segment?.id;
-        if (!sid) return;
-        if (!prevTimeMap[sid] || e.elapsed_time < prevTimeMap[sid]) {
-          prevTimeMap[sid] = e.elapsed_time;
-        }
-      });
-    });
-
-    enriched.forEach((e, i) => {
-      const time = formatTime(e.elapsed_time), st = e.segStats;
-      const prTime = st?.pr_elapsed_time ? formatTime(st.pr_elapsed_time) : '—';
-      let delta = '', timeColor = 'var(--text)';
-      if (st?.pr_elapsed_time) {
-        const diff = e.elapsed_time - st.pr_elapsed_time;
-        if (diff <= 0) {
-          // Buscar tiempo anterior en otras salidas
-          const prevTime = prevTimeMap[e.segment?.id];
-          const prevDiff = prevTime ? prevTime - e.elapsed_time : 0;
-          const prevStr = prevDiff > 0 ? ` <span style="color:var(--green);font-family:'DM Mono',monospace;font-size:0.72rem;">-${formatTime(prevDiff)}</span>` : '';
-          delta = `<span class="badge-pr">🏆 PR</span>${prevStr}`;
-          timeColor = 'var(--green)';
-        }
-        else if (diff <= 15) { delta = `<span style="color:#e8a020;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; timeColor = '#e8a020'; }
-        else if (diff <= 60) { delta = `<span style="color:#d4703a;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; timeColor = '#d4703a'; }
-        else { delta = `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; timeColor = 'var(--red)'; }
-      }
-      const isBest = i === bestIdx && bestDelta > 0;
-      html += `<tr${isBest ? ' class="best-seg"' : ''}>
-        <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;" title="${e.name}">${isBest ? '<span class="badge-best">⭐</span> ' : ''}${e.name}</td>
-        <td><div style="font-family:'DM Mono',monospace;color:${timeColor}">${time}</div></td>
-        <td><div style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.75rem;">${prTime}</div><div style="margin-top:2px;">${delta}</div></td>
-      </tr>`;
-    });
-    c.innerHTML = html + '</tbody></table>';
-
-    // Disparar comparación con salidas anteriores
-    loadComparison(activityId, enriched);
-
-  } catch (e) { c.innerHTML = `<div style="color:var(--red);font-size:0.8rem;padding:8px;">Error: ${e.message}</div>`; }
-}
-
 /* ══════════════════════════════════════════════
-   MEJORA 2: COMPARACIÓN CON SALIDAS ANTERIORES
+   GARMIN — carga de datos y selector
 ══════════════════════════════════════════════ */
-async function loadComparison(currentId, currentEfforts) {
-  if (!currentEfforts.length) return;
-  const segIds = new Set(currentEfforts.map(e => e.segment.id));
-  const token = await getStravaToken();
-  const others = STATE.activities.filter(a => a.id != currentId).slice(0, 30);
-  const matches = [];
-
-  for (const act of others) {
-    try {
-      let efforts = STATE.segCache[act.id];
-      if (!efforts) {
-        const r = await fetch(`https://www.strava.com/api/v3/activities/${act.id}?include_all_efforts=true`, { headers: { 'Authorization': 'Bearer ' + token } });
-        const d = await r.json();
-        efforts = d.segment_efforts || [];
-        STATE.segCache[act.id] = efforts;
-      }
-      const common = efforts.filter(e => segIds.has(e.segment.id));
-      if (common.length >= 1) matches.push({ act, efforts, commonCount: common.length });
-    } catch (e) {}
-    if (matches.length >= 5) break;
-  }
-
-  if (!matches.length) return;
-  matches.sort((a, b) => b.commonCount - a.commonCount);
-  const prev = matches[0];
-  const curAct = STATE.selectedActivity;
-
-  // Garmin para ambas actividades
-  const curGarmin = getGarminForAct(curAct);
-  const prevGarmin = getGarminForAct(prev.act);
-
-  const curMaxSpd = curGarmin?.maxSpeed ? curGarmin.maxSpeed * 3.6 : curAct.max_speed * 3.6;
-  const prevMaxSpd = prevGarmin?.maxSpeed ? prevGarmin.maxSpeed * 3.6 : prev.act.max_speed * 3.6;
-  const curFlow = curGarmin?.mtbDynamics?.avgFlow;
-  const prevFlow = prevGarmin?.mtbDynamics?.avgFlow;
-  const curJumps = curGarmin?.mtbDynamics?.jumpCount;
-  const prevJumps = prevGarmin?.mtbDynamics?.jumpCount;
-
-  // Descenso: preferir Garmin (más preciso), fallback a Strava
-  const curDesc = curGarmin?.elevationLoss || curAct.total_elevation_loss || 0;
-  const prevDesc = prevGarmin?.elevationLoss || prev.act.total_elevation_loss || 0;
-
-  const rows = [
-    { label: 'Distancia',   cur: (curAct.distance / 1000).toFixed(1) + ' km', prev: (prev.act.distance / 1000).toFixed(1) + ' km', better: curAct.distance >= prev.act.distance },
-    { label: 'Descenso',    cur: Math.round(curDesc) + ' m', prev: Math.round(prevDesc) + ' m', better: curDesc >= prevDesc },
-    { label: 'Vel. máxima', cur: curMaxSpd.toFixed(1) + ' km/h', prev: prevMaxSpd.toFixed(1) + ' km/h', better: curMaxSpd >= prevMaxSpd },
-  ];
-  if (curFlow && prevFlow) rows.push({ label: 'Flow', cur: curFlow.toFixed(2), prev: prevFlow.toFixed(2), better: curFlow <= prevFlow });
-  if (curJumps && prevJumps) rows.push({ label: 'Jumps', cur: String(curJumps), prev: String(prevJumps), better: curJumps >= prevJumps });
-
-  // Segmentos compartidos
-  const sharedSegs = currentEfforts.filter(e => segIds.has(e.segment.id) && prev.efforts.find(pe => pe.segment.id === e.segment.id));
-
-  const prevDate = new Date(prev.act.start_date_local).toLocaleDateString('es-CL');
-  let html = `<p style="font-size:0.78rem;color:var(--muted);margin-bottom:10px;">vs. <strong>${prev.act.name}</strong> · ${prevDate} · ${prev.commonCount} segmentos en común</p>`;
-  html += '<table class="comp-table"><thead><tr><th>Métrica</th><th>Esta salida</th><th>Anterior</th><th></th></tr></thead><tbody>';
-  rows.forEach(r => {
-    const icon = r.better ? '↑' : '↓';
-    const cls  = r.better ? 'comp-better' : 'comp-worse';
-    html += `<tr><td>${r.label}</td><td>${r.cur}</td><td style="color:var(--muted)">${r.prev}</td><td class="${cls}">${icon}</td></tr>`;
-  });
-
-  if (sharedSegs.length) {
-    html += `<tr><td colspan="4" style="padding-top:10px;font-family:'DM Mono',monospace;font-size:0.57rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted)">Segmentos compartidos</td></tr>`;
-    sharedSegs.slice(0, 5).forEach(e => {
-      const pe = prev.efforts.find(p => p.segment.id === e.segment.id);
-      if (!pe) return;
-      const diff = e.elapsed_time - pe.elapsed_time;
-      const cls  = diff <= 0 ? 'comp-better' : 'comp-worse';
-      const icon = diff <= 0 ? '↑' : '↓';
-      const dStr = diff === 0 ? '=' : (diff > 0 ? '+' : '') + formatTime(Math.abs(diff));
-      html += `<tr><td style="color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:130px;">${e.name}</td><td>${formatTime(e.elapsed_time)}</td><td style="color:var(--muted)">${formatTime(pe.elapsed_time)}</td><td class="${cls}">${icon} ${dStr}</td></tr>`;
-    });
-  }
-  html += '</tbody></table>';
-
-  document.getElementById('comparison-content').innerHTML = html;
-  document.getElementById('comparison-container').style.display = 'block';
-}
-
-/* ── GARMIN ── */
 async function fetchGarminData() {
   for (const url of ['garmin_data.json?t=' + Date.now(), GARMIN_URL + '?t=' + Date.now()]) {
     try { const r = await fetch(url); if (r.ok) { const d = await r.json(); STATE.garminData = d; return d; } } catch (e) {}
   }
   throw new Error('Sin datos Garmin');
-}
-
-function getGarminForAct(act) {
-  if (!STATE.garminData?.activities) return null;
-  const sd = new Date(act.start_date_local).toDateString();
-  const stravaKm = act.distance / 1000;
-
-  // Buscar en ±1 día para cubrir problemas de timezone
-  const actDate = new Date(act.start_date_local);
-  const candidates = STATE.garminData.activities.filter(a => {
-    if (!a.startTimeLocal) return false;
-    const gDate = new Date(a.startTimeLocal);
-    const diffDays = Math.abs((gDate - actDate) / (1000 * 60 * 60 * 24));
-    return diffDays < 1.5; // dentro de 36 horas
-  });
-
-  if (!candidates.length) return null;
-
-  // Si hay uno solo, devolver ese
-  if (candidates.length === 1) return candidates[0];
-
-  // Si hay varios, elegir el de distancia más cercana a Strava
-  const withDist = candidates.filter(a => a.distance > 0);
-  if (withDist.length) {
-    withDist.sort((a, b) => {
-      const da = Math.abs((a.distance / 1000) - stravaKm);
-      const db = Math.abs((b.distance / 1000) - stravaKm);
-      return da - db;
-    });
-    return withDist[0];
-  }
-
-  return candidates.find(a => a.mtbDynamics?.jumpCount) || candidates[0];
 }
 
 async function loadGarminData() {
@@ -774,27 +487,92 @@ async function loadGarminData() {
     setStatus('garmin', true);
     const el = document.getElementById('garmin-sync-time');
     if (el) el.textContent = 'Sync: ' + new Date(data.lastSync).toLocaleString('es-CL');
-    if (STATE.selectedActivity) await loadGarminDataForActivity(STATE.selectedActivity);
+    populateSelectorFromGarmin();
     updateRecords();
   } catch (e) { setStatus('garmin', false); }
 }
 
-async function loadGarminDataForActivity(act) {
+function populateSelectorFromGarmin() {
+  const select = document.getElementById('activity-select');
+  if (!select) return;
+  const acts = (STATE.garminData?.activities || [])
+    .filter(a => a.startTimeLocal && a.activityId)
+    .sort((a, b) => new Date(b.startTimeLocal) - new Date(a.startTimeLocal));
+  STATE.activities = acts;
+  if (!acts.length) { select.innerHTML = '<option value="">— Sin actividades Garmin —</option>'; return; }
+  const cur = STATE.selectedActivity?.activityId;
+  select.innerHTML = '<option value="">— Selecciona una actividad —</option>';
+  acts.forEach(a => {
+    const date = new Date(a.startTimeLocal).toLocaleDateString('es-CL');
+    const km = a.distance ? (a.distance / 1000).toFixed(1) + 'km' : '—';
+    const up = a.elevationGain != null ? ' · ' + Math.round(a.elevationGain) + 'm↑' : '';
+    const sel = String(cur) === String(a.activityId) ? ' selected' : '';
+    select.innerHTML += `<option value="${a.activityId}"${sel}>${date} · ${a.activityName || 'Salida'} · ${km}${up}</option>`;
+  });
+}
+
+/* En modo Garmin-only la actividad seleccionada YA es el objeto Garmin. */
+function getGarminForAct(act) {
+  if (!act) return null;
+  if (act.activityId || act.mtbDynamics !== undefined) return act;
+  return null;
+}
+
+/* ══════════════════════════════════════════════
+   CARGA DE ACTIVIDAD
+══════════════════════════════════════════════ */
+async function loadActivity(id) {
+  if (!id) return;
   if (!STATE.garminData) { try { await fetchGarminData(); } catch (e) { return; } }
-  const ga = getGarminForAct(act);
-  const dyn = ga?.mtbDynamics || null;
-  if (dyn && Object.keys(dyn).length > 0) {
-    renderGarminDynamics(dyn, ga, ga?.bestJump);
-    if (ga?.maxSpeed) { document.getElementById('kpi-speed').innerHTML = (ga.maxSpeed * 3.6).toFixed(1) + '<span class="kpi-unit"> km/h</span>'; document.getElementById('kpi-speed-sub').textContent = 'Garmin'; }
-    const el = document.getElementById('garmin-sync-time'); if (el) el.textContent = 'Garmin · ' + new Date(act.start_date_local).toLocaleDateString('es-CL');
-  } else {
-    const el = document.getElementById('garmin-sync-time'); if (el) el.textContent = 'Sin datos Garmin para esta fecha';
+  const act = (STATE.garminData.activities || []).find(a => String(a.activityId) === String(id));
+  if (!act) return;
+  STATE.selectedActivity = act;
+
+  const dyn = act.mtbDynamics || {};
+  const km  = act.distance ? (act.distance / 1000).toFixed(1) : '—';
+  const avg = act.avgSpeed ? (act.avgSpeed * 3.6).toFixed(1) : '—';
+  const mx  = act.maxSpeed ? (act.maxSpeed * 3.6).toFixed(1) : '—';
+  const mov = act.movingDuration ? formatTime(Math.round(act.movingDuration)) : '—';
+  const tot = act.duration ? formatTime(Math.round(act.duration)) : '—';
+  const up  = act.elevationGain != null ? Math.round(act.elevationGain) : '—';
+  const dn  = act.elevationLoss != null ? Math.round(act.elevationLoss) : '—';
+
+  document.getElementById('kpi-dist').innerHTML = km + '<span class="kpi-unit"> km</span>';
+  document.getElementById('kpi-dist-sub').textContent = 'vel media: ' + (avg === '—' ? '—' : avg + ' km/h');
+  document.getElementById('kpi-speed').innerHTML = mx + '<span class="kpi-unit"> km/h</span>';
+  document.getElementById('kpi-speed-sub').textContent = act.maxSpeed ? 'Garmin' : 'sin dato';
+  document.getElementById('kpi-time').textContent = mov;
+  document.getElementById('kpi-time-sub').textContent = 'total: ' + tot;
+  document.getElementById('kpi-elev').innerHTML = up + '<span class="kpi-unit"> m</span>';
+  document.getElementById('kpi-elev-sub').textContent = 'descenso: ' + (dn === '—' ? '—' : dn + 'm');
+
+  renderGarminDynamics(dyn, act, act.bestJump);
+
+  const st = document.getElementById('garmin-sync-time');
+  if (st) {
+    if (!Object.keys(dyn).length && !act.maxSpeed)
+      st.textContent = 'Salida sin detalle Garmin — se enriquece en el próximo sync';
+    else
+      st.textContent = 'Garmin · ' + new Date(act.startTimeLocal).toLocaleDateString('es-CL');
   }
+
+  renderSegmentsPlaceholder();
+  renderGarminComparison(act);
+  injectSessionContext(act);
 }
 
 function renderGarminDynamics(dyn, act, bestJump) {
-  const set = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.innerHTML = String(val); };
-  set('dyn-jumps', dyn.jumpCount ?? '—');
+  dyn = dyn || {};
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = String(val); };
+  // reset
+  set('dyn-jumps', '—'); set('dyn-battery', '—'); set('dyn-battery-rem', 'restante: —');
+  set('dyn-load', '—'); set('dyn-fx', '—'); set('dyn-hr', '—<span style="font-size:0.8rem"> ppm</span>');
+  set('dyn-temp', 'temp: —°C'); set('val-flow', '—'); set('val-grit', '—');
+  document.getElementById('bar-flow').style.width = '0%';
+  document.getElementById('bar-grit').style.width = '0%';
+  document.getElementById('best-jump-card').style.display = 'none';
+
+  if (dyn.jumpCount != null) set('dyn-jumps', dyn.jumpCount);
   if (dyn.eBikeBatteryUsage != null) { set('dyn-battery', dyn.eBikeBatteryUsage + '%'); set('dyn-battery-rem', 'restante: ' + (dyn.eBikeBatteryRemaining ?? '—') + '%'); }
   if (dyn.activityTrainingLoad) set('dyn-load', dyn.activityTrainingLoad.toFixed(0));
   const labels = { 'AEROBIC_BASE': 'Base Aeróbica', 'IMPROVING_AEROBIC_ENDURANCE': 'Mejorando Resistencia', 'MAINTAINING_AEROBIC_BASE': 'Manteniendo Base', 'OVERREACHING': 'Sobrecarga', 'RECOVERY': 'Recuperación' };
@@ -810,7 +588,65 @@ function renderGarminDynamics(dyn, act, bestJump) {
   }
 }
 
-/* ── RECORDS ── */
+/* Segmentos: sin Strava. Placeholder que apunta a los segmentos GPS propios. */
+function renderSegmentsPlaceholder() {
+  const c = document.getElementById('segments-container');
+  if (c) c.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;line-height:1.65;">🛰 Segmentos por GPS propio — <em>en camino</em>.<br>Se reconstruirán desde el GPS de tus archivos FIT de Garmin (La Buitrera, El Gringo, Lomo Vetado, Mampato), sin depender de Strava.</div>';
+}
+
+/* ══════════════════════════════════════════════
+   COMPARACIÓN vs. SALIDA ANTERIOR (100% Garmin)
+══════════════════════════════════════════════ */
+function renderGarminComparison(act) {
+  const cont = document.getElementById('comparison-container');
+  if (!cont) return;
+  const acts = (STATE.garminData?.activities || [])
+    .filter(a => a.startTimeLocal)
+    .sort((a, b) => new Date(b.startTimeLocal) - new Date(a.startTimeLocal));
+  const idx = acts.findIndex(a => String(a.activityId) === String(act.activityId));
+
+  // Buscar la salida anterior más reciente que tenga algún dato rico
+  let prev = null;
+  for (let i = idx + 1; i < acts.length; i++) {
+    const a = acts[i];
+    if (a.maxSpeed || (a.mtbDynamics && Object.keys(a.mtbDynamics).length)) { prev = a; break; }
+  }
+  if (!prev) { cont.style.display = 'none'; return; }
+
+  const cd = act.mtbDynamics || {}, pd = prev.mtbDynamics || {};
+  const rows = [];
+  rows.push({ label: 'Distancia', cur: (act.distance / 1000).toFixed(1) + ' km', prev: (prev.distance / 1000).toFixed(1) + ' km', better: (act.distance || 0) >= (prev.distance || 0) });
+  if (act.elevationLoss != null && prev.elevationLoss != null)
+    rows.push({ label: 'Descenso', cur: Math.round(act.elevationLoss) + ' m', prev: Math.round(prev.elevationLoss) + ' m', better: act.elevationLoss >= prev.elevationLoss });
+  if (act.maxSpeed && prev.maxSpeed)
+    rows.push({ label: 'Vel. máxima', cur: (act.maxSpeed * 3.6).toFixed(1) + ' km/h', prev: (prev.maxSpeed * 3.6).toFixed(1) + ' km/h', better: act.maxSpeed >= prev.maxSpeed });
+  if (cd.avgFlow != null && pd.avgFlow != null)
+    rows.push({ label: 'Flow', cur: cd.avgFlow.toFixed(2), prev: pd.avgFlow.toFixed(2), better: cd.avgFlow <= pd.avgFlow });
+  if (cd.jumpCount != null && pd.jumpCount != null)
+    rows.push({ label: 'Jumps', cur: String(cd.jumpCount), prev: String(pd.jumpCount), better: cd.jumpCount >= pd.jumpCount });
+  if (act.bestJump?.distance && prev.bestJump?.distance)
+    rows.push({ label: 'Mejor salto', cur: act.bestJump.distance + ' m', prev: prev.bestJump.distance + ' m', better: act.bestJump.distance >= prev.bestJump.distance });
+
+  if (rows.length <= 1) { cont.style.display = 'none'; return; }
+
+  const title = cont.querySelector('.card-title');
+  if (title) title.textContent = 'Comparado con tu salida anterior';
+  const prevDate = new Date(prev.startTimeLocal).toLocaleDateString('es-CL');
+  let html = `<p style="font-size:0.78rem;color:var(--muted);margin-bottom:10px;">vs. <strong>${prev.activityName || 'salida anterior'}</strong> · ${prevDate}</p>`;
+  html += '<table class="comp-table"><thead><tr><th>Métrica</th><th>Esta salida</th><th>Anterior</th><th></th></tr></thead><tbody>';
+  rows.forEach(r => {
+    const icon = r.better ? '↑' : '↓';
+    const cls  = r.better ? 'comp-better' : 'comp-worse';
+    html += `<tr><td>${r.label}</td><td>${r.cur}</td><td style="color:var(--muted)">${r.prev}</td><td class="${cls}">${icon}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('comparison-content').innerHTML = html;
+  cont.style.display = 'block';
+}
+
+/* ══════════════════════════════════════════════
+   RECORDS (Garmin)
+══════════════════════════════════════════════ */
 function updateRecordsMonth() {
   const now = new Date();
   const label = now.toLocaleDateString('es-CL', { month: 'long', year: 'numeric' });
@@ -829,120 +665,33 @@ function updateRecords() {
   // Vel máxima
   const mxSpd = best(thisMonth, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
   const axSpd = bestAll(all, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
-  if (mxSpd.val > 0) {
-    document.getElementById('rec-maxspeed').innerHTML = mxSpd.val.toFixed(1) + '<span class="record-unit"> km/h</span>';
-    document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL');
-    document.getElementById('rec-maxspeed-pr').textContent = axSpd.toFixed(1) + ' km/h';
-    const prSpdAct = all.find(a => a.maxSpeed && Math.abs(a.maxSpeed*3.6 - axSpd) < 0.1);
-    document.getElementById('rec-maxspeed-pr-date').textContent = prSpdAct?.startTimeLocal ? new Date(prSpdAct.startTimeLocal).toLocaleDateString('es-CL') : '—';
-  }
+  if (mxSpd.val > 0) { document.getElementById('rec-maxspeed').innerHTML = mxSpd.val.toFixed(1) + '<span class="record-unit"> km/h</span>'; document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL'); document.getElementById('rec-maxspeed-pr').textContent = 'PR histórico: ' + axSpd.toFixed(1) + ' km/h'; }
   // Jumps
   const mxJmp = best(thisMonth, a => a.bestJump?.distance || 0);
   if (mxJmp.val > 0) {
     const bj = thisMonth.find(a => a.startTimeLocal === mxJmp.date)?.bestJump;
     document.getElementById('rec-jump').innerHTML = (bj?.distance || '—') + '<span class="record-unit"> m</span>';
     document.getElementById('rec-jump-date').textContent = new Date(mxJmp.date).toLocaleDateString('es-CL') + ' · score ' + (bj?.score || '—');
-    const bjAllAct = all.reduce((b, a) => (a.bestJump?.distance || 0) > (b?.bestJump?.distance || 0) ? a : b, null);
-    const bjAll = bjAllAct?.bestJump;
-    document.getElementById('rec-jump-pr').textContent = (bjAll?.distance || '—') + 'm · score ' + (bjAll?.score || '—');
-    document.getElementById('rec-jump-pr-date').textContent = bjAllAct?.startTimeLocal ? new Date(bjAllAct.startTimeLocal).toLocaleDateString('es-CL') : '—';
+    const bjAll = all.reduce((b, a) => (a.bestJump?.distance || 0) > (b?.distance || 0) ? a.bestJump : b, null);
+    document.getElementById('rec-jump-pr').textContent = 'PR histórico: ' + (bjAll?.distance || '—') + 'm · score ' + (bjAll?.score || '—');
   }
-  // Flow
+  // Flow (menor = mejor)
   const mxFlw = thisMonth.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => { const v = a.mtbDynamics.avgFlow; return v < b.val ? { val: v, date: a.startTimeLocal } : b; }, { val: Infinity, date: null });
-  const axFlwAct = all.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => a.mtbDynamics.avgFlow < b.val ? { val: a.mtbDynamics.avgFlow, date: a.startTimeLocal } : b, { val: Infinity, date: null });
-  if (mxFlw.val < Infinity) {
-    document.getElementById('rec-flow').innerHTML = mxFlw.val.toFixed(2);
-    document.getElementById('rec-flow-date').textContent = new Date(mxFlw.date).toLocaleDateString('es-CL');
-    document.getElementById('rec-flow-pr').textContent = axFlwAct.val.toFixed(2);
-    document.getElementById('rec-flow-pr-date').textContent = axFlwAct.date ? new Date(axFlwAct.date).toLocaleDateString('es-CL') : '—';
-  }
+  const axFlw = all.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => a.mtbDynamics.avgFlow < b ? a.mtbDynamics.avgFlow : b, Infinity);
+  if (mxFlw.val < Infinity) { document.getElementById('rec-flow').innerHTML = mxFlw.val.toFixed(2); document.getElementById('rec-flow-date').textContent = new Date(mxFlw.date).toLocaleDateString('es-CL'); document.getElementById('rec-flow-pr').textContent = 'PR histórico: ' + axFlw.toFixed(2); }
 
-  // Score
+  renderPistasFrecuentes();
   renderScoreMes(thisMonth, all);
 }
 
-/* ══════════════════════════════════════════════
-   MEJORA 1: PISTAS FRECUENTES + TENDENCIA ↑↓
-══════════════════════════════════════════════ */
+/* Pistas frecuentes: dependían de segmentos Strava. Placeholder por ahora. */
 function renderPistasFrecuentes() {
   const container = document.getElementById('pistas-container');
-  // Agregar segmentos del cache
-  const segMap = {}; // segId -> { name, entries: [{actId, time, date, isPR}] }
-  Object.entries(STATE.segCache).forEach(([actId, efforts]) => {
-    const act = STATE.activities.find(a => a.id == actId);
-    efforts.forEach(e => {
-      if (!segMap[e.segment.id]) segMap[e.segment.id] = { name: e.name, entries: [] };
-      segMap[e.segment.id].entries.push({
-        actId, time: e.elapsed_time,
-        date: act?.start_date_local || '',
-        pr: e.segStats?.pr_elapsed_time || null,
-        isPR: e.segStats?.pr_elapsed_time && e.elapsed_time <= e.segStats.pr_elapsed_time
-      });
-    });
-  });
-
-  // Filtrar: min 2 intentos y que tenga PR conocido
-  const frequent = Object.entries(segMap)
-    .filter(([, v]) => v.entries.length >= 2 && v.entries.some(e => e.pr))
-    .map(([id, v]) => {
-      v.entries.sort((a, b) => new Date(a.date) - new Date(b.date));
-      const latest = v.entries[v.entries.length - 1];
-      const delta = latest.pr ? latest.time - latest.pr : null;
-      return { id, name: v.name, count: v.entries.length, entries: v.entries, latestTime: latest.time, pr: latest.pr, delta };
-    })
-    .filter(s => s.delta !== null)
-    .sort((a, b) => b.count !== a.count ? b.count - a.count : a.delta - b.delta)
-    .slice(0, 5);
-
-  if (!frequent.length) {
-    container.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;">Carga actividades para ver tus pistas frecuentes — los datos aparecen al navegar tus salidas.</div>';
-    return;
-  }
-
-  let html = '<div class="pistas-list">';
-  frequent.forEach(seg => {
-    // Color gradiente según cercanía al PR
-    let pillTxt, pillStyle, deltaStr, deltaStyle;
-    if (seg.delta <= 0) {
-      pillTxt = '✓ En PR';
-      pillStyle = 'color:#2d6e2d;border-color:rgba(45,110,45,0.35);background:rgba(45,110,45,0.1);';
-      deltaStr = '🏆 PR'; deltaStyle = 'color:#2d6e2d;';
-    } else if (seg.delta <= 5) {
-      pillTxt = '🔥 Muy apretado';
-      pillStyle = 'color:#3a7a3a;border-color:rgba(58,122,58,0.35);background:rgba(58,122,58,0.1);';
-      deltaStr = '+' + formatTime(seg.delta); deltaStyle = 'color:#3a7a3a;';
-    } else if (seg.delta <= 15) {
-      pillTxt = '🔥 Muy apretado';
-      pillStyle = 'color:#6a9e3a;border-color:rgba(106,158,58,0.35);background:rgba(106,158,58,0.1);';
-      deltaStr = '+' + formatTime(seg.delta); deltaStyle = 'color:#6a9e3a;';
-    } else if (seg.delta <= 30) {
-      pillTxt = '⚡ Cerca del PR';
-      pillStyle = 'color:var(--yellow);border-color:rgba(176,122,32,0.3);background:rgba(176,122,32,0.08);';
-      deltaStr = '+' + formatTime(seg.delta); deltaStyle = 'color:var(--yellow);';
-    } else {
-      pillTxt = 'Cómodo';
-      pillStyle = 'color:var(--muted);border-color:var(--border);background:var(--bg2);';
-      deltaStr = '+' + formatTime(seg.delta); deltaStyle = 'color:var(--muted);';
-    }
-    html += `<div class="pista-card">
-      <div class="pista-header">
-        <div class="pista-name">${seg.name}</div>
-        <div class="pista-pill" style="${pillStyle}">${pillTxt}</div>
-      </div>
-      <div class="pista-stats">
-        <div class="pista-stat"><div class="pista-stat-lbl">Intentos</div><div class="pista-stat-val">${seg.count}×</div></div>
-        <div class="pista-stat"><div class="pista-stat-lbl">Último</div><div class="pista-stat-val">${formatTime(seg.latestTime)}</div></div>
-        <div class="pista-stat"><div class="pista-stat-lbl">PR</div><div class="pista-stat-val">${seg.pr ? formatTime(seg.pr) : '—'}</div></div>
-        <div class="pista-stat"><div class="pista-stat-lbl">Delta</div><div class="pista-delta" style="${deltaStyle}">${deltaStr}</div></div>
-      </div>
-    </div>`;
-  });
-  html += '</div>';
-  container.innerHTML = html;
+  if (container) container.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;line-height:1.65;">Tus pistas frecuentes se reconstruirán desde el GPS de Garmin (segmentos propios), reemplazando a los de Strava. Función en camino.</div>';
 }
 
 /* ══════════════════════════════════════════════
-   MEJORA 4: SCORE DEL MES
+   SCORE DEL MES (Garmin) — PRs reemplazado por Saltos
 ══════════════════════════════════════════════ */
 function renderScoreMes(thisMonth, all) {
   const container = document.getElementById('score-container');
@@ -951,7 +700,7 @@ function renderScoreMes(thisMonth, all) {
     return;
   }
 
-  // Flow: menor = mejor fluidez (Garmin MTB Dynamics, lower = smoother)
+  // Flow: menor = mejor
   const flowArr = thisMonth.filter(a => a.mtbDynamics?.avgFlow > 0);
   const avgFlow = flowArr.length ? flowArr.reduce((s, a) => s + a.mtbDynamics.avgFlow, 0) / flowArr.length : null;
   const allFlows = all.filter(a => a.mtbDynamics?.avgFlow > 0).map(a => a.mtbDynamics.avgFlow);
@@ -973,20 +722,14 @@ function renderScoreMes(thisMonth, all) {
   const maxDist = Math.max(...Object.values(monthDistMap), 1);
   const distScore = Math.round(25 * Math.min(totalDist / maxDist, 1));
 
-  // PRs: contar PRs individuales del mes desde el cache de segmentos
-  let prsCount = 0;
-  const _sm = thisMonth.length ? new Date(thisMonth[0].startTimeLocal) : new Date();
-  const _nowM = _sm.getMonth(), _nowY = _sm.getFullYear();
-  Object.entries(STATE.segCache).forEach(([actId, efforts]) => {
-    const act = STATE.activities.find(a => a.id == actId);
-    if (!act) return;
-    const actDate = new Date(act.start_date_local);
-    if (actDate.getMonth() !== _nowM || actDate.getFullYear() !== _nowY) return;
-    prsCount += efforts.filter(e => e.segStats?.pr_elapsed_time && e.elapsed_time <= e.segStats.pr_elapsed_time).length;
-  });
-  const prScore = Math.min(prsCount * 2, 25); // 2pts por PR, max 25
+  // Saltos del mes (reemplaza a PRs, que dependían de Strava)
+  const totalJumps = thisMonth.reduce((s, a) => s + (a.mtbDynamics?.jumpCount || 0), 0);
+  const monthJumpMap = {};
+  all.forEach(a => { if (!a.startTimeLocal) return; const k = new Date(a.startTimeLocal).getFullYear() + '-' + new Date(a.startTimeLocal).getMonth(); monthJumpMap[k] = (monthJumpMap[k] || 0) + (a.mtbDynamics?.jumpCount || 0); });
+  const maxJumps = Math.max(...Object.values(monthJumpMap), 1);
+  const jumpScore = Math.round(25 * Math.min(totalJumps / maxJumps, 1));
 
-  const total = flowScore + descScore + distScore + prScore;
+  const total = flowScore + descScore + distScore + jumpScore;
   let label = 'Bajo · Sigue pedaleando 🚵', circleColor = 'var(--muted)';
   if (total >= 80) { label = 'Elite 🏆'; circleColor = 'var(--yellow)'; }
   else if (total >= 60) { label = 'Alto 🔥'; circleColor = 'var(--green)'; }
@@ -996,7 +739,7 @@ function renderScoreMes(thisMonth, all) {
     { label: 'Flow',      val: flowScore, color: 'var(--accent3)' },
     { label: 'Descenso',  val: descScore, color: 'var(--accent2)' },
     { label: 'Distancia', val: distScore, color: 'var(--accent)' },
-    { label: 'PRs',       val: prScore,   color: '#7a5a8a' },
+    { label: 'Saltos',    val: jumpScore, color: '#7a5a8a' },
   ];
 
   container.innerHTML = `<div class="score-card">
@@ -1018,30 +761,28 @@ function renderScoreMes(thisMonth, all) {
 }
 
 /* ══════════════════════════════════════════════
-   MEJORA 3: CHAT CON CONTEXTO DE SESIÓN
+   CHAT — contexto de sesión (Garmin)
 ══════════════════════════════════════════════ */
 function injectSessionContext(act) {
-  const ga = getGarminForAct(act);
-  const dyn = ga?.mtbDynamics || {};
+  const dyn = act.mtbDynamics || {};
   STATE.sessionCtx = {
-    name: act.name,
-    date: new Date(act.start_date_local).toLocaleDateString('es-CL'),
-    dist: (act.distance / 1000).toFixed(1),
-    elev: Math.round(act.total_elevation_gain),
-    desc: Math.round(act.total_elevation_loss || 0),
-    maxSpd: ga?.maxSpeed ? (ga.maxSpeed * 3.6).toFixed(1) : (act.max_speed * 3.6).toFixed(1),
-    avgSpd: (act.average_speed * 3.6).toFixed(1),
-    movTime: formatTime(act.moving_time),
+    name: act.activityName || 'Salida',
+    date: new Date(act.startTimeLocal).toLocaleDateString('es-CL'),
+    dist: act.distance ? (act.distance / 1000).toFixed(1) : '—',
+    elev: act.elevationGain != null ? Math.round(act.elevationGain) : '—',
+    desc: act.elevationLoss != null ? Math.round(act.elevationLoss) : '—',
+    maxSpd: act.maxSpeed ? (act.maxSpeed * 3.6).toFixed(1) : '—',
+    avgSpd: act.avgSpeed ? (act.avgSpeed * 3.6).toFixed(1) : '—',
+    movTime: act.movingDuration ? formatTime(Math.round(act.movingDuration)) : '—',
     flow: dyn.avgFlow ? dyn.avgFlow.toFixed(2) : null,
     grit: dyn.grit ? dyn.grit.toFixed(1) : null,
     jumps: dyn.jumpCount || null,
     battery: dyn.eBikeBatteryUsage || null,
     batteryRem: dyn.eBikeBatteryRemaining || null,
-    hr: ga?.avgHR ? Math.round(ga.avgHR) : null,
+    hr: act.avgHR ? Math.round(act.avgHR) : null,
     load: dyn.activityTrainingLoad ? dyn.activityTrainingLoad.toFixed(0) : null,
-    bestJump: ga?.bestJump || null
+    bestJump: act.bestJump || null
   };
-  // Resetear historial del chat con saludo contextual
   STATE.aiHistory = [];
   const msgs = document.getElementById('ai-messages');
   msgs.innerHTML = '';
@@ -1052,7 +793,7 @@ function injectSessionContext(act) {
   if (s.grit) greeting += ` · Grit ${s.grit}`;
   if (s.jumps) greeting += ` · ${s.jumps} saltos`;
   if (s.hr) greeting += ` · FC ${s.hr} ppm`;
-  greeting += `<br><span style="font-size:0.74rem;opacity:0.7;margin-top:2px;display:block;">Ya tengo el contexto completo — pregúntame sobre esta salida o lo que quieras 👇</span>`;
+  greeting += `<br><span style="font-size:0.74rem;opacity:0.7;margin-top:2px;display:block;">Ya tengo el contexto — pregúntame sobre esta salida 👇</span>`;
   addAIMsg(greeting, 'bot');
 }
 
@@ -1091,9 +832,7 @@ async function sendAI() {
   try {
     const res = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
         max_tokens: 1000,
@@ -1117,17 +856,20 @@ function addAIMsg(text, type) {
   c.appendChild(d); c.scrollTop = c.scrollHeight;
 }
 
-/* ── ANALYSIS ── */
+/* ── ANÁLISIS (Garmin) ── */
 function generateAnalysis() {
   const act = STATE.selectedActivity;
   if (!act) { alert('Carga una actividad primero'); return; }
-  const dist = (act.distance / 1000).toFixed(1), elev = Math.round(act.total_elevation_gain), speed = (act.average_speed * 3.6).toFixed(1), movTime = formatTime(act.moving_time), pauseTime = act.elapsed_time - act.moving_time;
-  const date = new Date(act.start_date_local).toLocaleDateString('es-CL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  const elevPerKm = (elev / parseFloat(dist)).toFixed(0);
-  const ga = getGarminForAct(act);
-  const dyn = ga?.mtbDynamics || {};
-  const maxSpeed = ga?.maxSpeed ? (ga.maxSpeed * 3.6).toFixed(1) : (act.max_speed * 3.6).toFixed(1);
-  document.getElementById('rec-analysis-title').textContent = act.name + ' · ' + date;
+  const dyn = act.mtbDynamics || {};
+  const dist = act.distance ? (act.distance / 1000).toFixed(1) : '—';
+  const elev = act.elevationGain != null ? Math.round(act.elevationGain) : 0;
+  const speed = act.avgSpeed ? (act.avgSpeed * 3.6).toFixed(1) : '—';
+  const movTime = act.movingDuration ? formatTime(Math.round(act.movingDuration)) : '—';
+  const pauseTime = (act.duration && act.movingDuration) ? Math.round(act.duration - act.movingDuration) : 0;
+  const date = new Date(act.startTimeLocal).toLocaleDateString('es-CL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const elevPerKm = (dist !== '—' && parseFloat(dist) > 0) ? (elev / parseFloat(dist)).toFixed(0) : '—';
+  const maxSpeed = act.maxSpeed ? (act.maxSpeed * 3.6).toFixed(1) : '—';
+  document.getElementById('rec-analysis-title').textContent = (act.activityName || 'Salida') + ' · ' + date;
   let text = `Salida de ${dist}km con ${elev}m de desnivel (${elevPerKm}m/km), tiempo en movimiento ${movTime}. Velocidad máxima ${maxSpeed} km/h · media ${speed} km/h. `;
   if (pauseTime > 300) text += `Pausa de ${formatTime(pauseTime)}. `;
   if (dyn.avgFlow) { text += `Flow ${dyn.avgFlow.toFixed(2)} y Grit ${dyn.grit?.toFixed(1) || '—'} — `; if (dyn.avgFlow > 4.5) text += 'excelente fluidez en bajadas. '; else if (dyn.avgFlow > 3.5) text += 'buena fluidez, con margen de mejora. '; else text += 'fluidez moderada, área de enfoque. '; }
@@ -1168,52 +910,15 @@ function setStatus(svc, on) { const d = document.getElementById(svc + '-dot'); i
 async function syncAll() {
   const btn = document.querySelector('.btn-sync');
   if (btn) btn.textContent = '↻ Syncing...';
-  await fetchStravaActivities();
   await loadGarminData();
+  const select = document.getElementById('activity-select');
+  if (select && select.options.length > 1) {
+    select.selectedIndex = 1;
+    await loadActivity(select.value);
+  }
   if (btn) btn.textContent = '↻ Sync';
 }
 
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-async function fetchSegmentsSerialized(efforts, token) {
-  // Serializar llamadas con delay para evitar rate limiting de Strava
-  const enriched = [];
-  for (const e of efforts) {
-    try {
-      const r = await fetch(`https://www.strava.com/api/v3/segments/${e.segment.id}`, { headers: { 'Authorization': 'Bearer ' + token } });
-      const s = await r.json();
-      enriched.push({ ...e, segStats: s.athlete_segment_stats || null });
-    } catch { enriched.push({ ...e, segStats: null }); }
-    await sleep(120); // 120ms entre llamadas — respeta el rate limit de Strava
-  }
-  return enriched;
-}
-
-async function preloadSegments() {
-  // Tomar las siguientes 4 actividades después de la ya cargada
-  const toPreload = STATE.activities.slice(1, 5);
-  if (!toPreload.length) return;
-  const token = await getStravaToken().catch(() => null);
-  if (!token) return;
-  for (const act of toPreload) {
-    if (STATE.segCache[act.id]) continue; // ya en cache, saltar
-    try {
-      const res = await fetch(`https://www.strava.com/api/v3/activities/${act.id}?include_all_efforts=true`, { headers: { 'Authorization': 'Bearer ' + token } });
-      const data = await res.json();
-      if (!Array.isArray(data.segment_efforts)) continue;
-      const enriched = await fetchSegmentsSerialized(data.segment_efforts, token);
-      STATE.segCache[act.id] = enriched;
-    } catch (e) {}
-    await sleep(300); // pausa entre actividades
-  }
-  // Score solo una vez al final, con todos los datos listos
-  if (STATE.garminData?.activities) {
-    const nowM = new Date().getMonth(), nowY = new Date().getFullYear();
-    const all = STATE.garminData.activities;
-    const thisMonth = all.filter(a => { if (!a.startTimeLocal) return false; const d = new Date(a.startTimeLocal); return d.getMonth() === nowM && d.getFullYear() === nowY; });
-    renderScoreMes(thisMonth, all);
-  }
-}
 </script>
 </body>
 </html>

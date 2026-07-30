@@ -1,21 +1,15 @@
 #!/bin/bash
-export PATH=$PATH:/usr/local/bin:/opt/homebrew/bin:~/.local/bin
+cd ~/Desktop/Garmin_Enduro
 
-echo "⚡ Extrayendo Telemetría Base..."
-DIR="$HOME/Desktop/Garmin_Enduro"
-mkdir -p "$DIR"
-cd "$DIR" || exit
+echo "🚵 Sincronizando datos Garmin..."
+python3 garmin_sync.py
 
-LAST_ID=$(garmin-connect activities list | grep -m 1 -oE '"activityId": [0-9]+' | grep -oE '[0-9]+')
+echo "📤 Subiendo a GitHub..."
+git add garmin_data.json
+git commit -m "sync manual garmin" 2>/dev/null || echo "Sin cambios nuevos"
+git push
 
-if [ -z "$LAST_ID" ]; then
-    echo "❌ Error de conexión."
-    exit 1
-fi
-
-echo "✅ ID: $LAST_ID"
-echo "🚀 Extrayendo JSON (Grit/Flow/HR)..."
-garmin-connect activities get "$LAST_ID" > "ultima_salida_$LAST_ID.json"
-
-echo "🏁 Listo. Archivo en el escritorio."
-echo "Nota: Para telemetría de aire (Saltos), bajar el ZIP manualmente desde Garmin Connect Web."
+echo ""
+echo "✅ ¡Listo! Recarga el agente en tu iPhone."
+echo "Presiona cualquier tecla para cerrar..."
+read -n 1

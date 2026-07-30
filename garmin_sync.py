@@ -107,10 +107,52 @@ def main():
         23070007352: {'startTimeLocal': '2026-05-30T10:05:00'},
     }
 
+    # Cargar datos previos ANTES de enriquecer: sirve para (a) decidir qué falta
+    # por enriquecer y (b) preservar/sanar el histórico rico más abajo.
+    old_map = {}
+    old_activities = []
+    if os.path.exists(OUTPUT_FILE):
+        try:
+            with open(OUTPUT_FILE) as f:
+                old_data_pre = json.load(f)
+            old_activities = old_data_pre.get('activities', [])
+            old_map = {a['activityId']: a for a in old_activities if a.get('activityId')}
+        except Exception:
+            pass
+
+    def _has_rich(a):
+        return bool(a.get('mtbDynamics')) or a.get('maxSpeed') is not None
+
+    # Qué actividades pedir en detalle:
+    #   - siempre las 5 más recientes (capturan salidas nuevas)
+    #   - + cualquiera más antigua que todavía NO tenga datos ricos (backfill),
+    #     hasta un tope para no saturar la API de Garmin en un solo sync.
+    MAX_ENRICH = 12
+    to_enrich = set()
+    for i, act in enumerate(activities):
+        aid = act.get('activityId')
+        if not aid:
+            continue
+        if i < 5 or not _has_rich(old_map.get(aid, {})):
+            to_enrich.add(aid)
+        if len(to_enrich) >= MAX_ENRICH:
+            break
+
     enriched = []
-    for act in activities[:10]:
+    for act in activities:
         act_id = act.get('activityId')
         if not act_id:
+            continue
+        if act_id not in to_enrich:
+            # Esqueleto — se sanará con los datos ricos del histórico si existen.
+            enriched.append({
+                'activityId': act_id,
+                'activityName': act.get('activityName'),
+                'startTimeLocal': act.get('startTimeLocal'),
+                'distance': act.get('distance'),
+                'elevationGain': act.get('elevationGain'),
+                'mtbDynamics': {}
+            })
             continue
         print(f"  → Detalle {act_id}...")
         try:
@@ -163,42 +205,38 @@ def main():
                 'mtbDynamics': {}
             })
 
-    for act in activities[10:]:
-        enriched.append({
-            'activityId': act.get('activityId'),
-            'activityName': act.get('activityName'),
-            'startTimeLocal': act.get('startTimeLocal'),
-            'distance': act.get('distance'),
-            'elevationGain': act.get('elevationGain'),
-            'mtbDynamics': {}
-        })
-
-    # Preservar actividades históricas del JSON anterior
+    # ── Preservar / SANAR el histórico rico ──────────────────────────────
+    # Clave para los records: si una salida cae del top-5 y vuelve como
+    # esqueleto, aquí le devolvemos maxSpeed, mtbDynamics, descenso, etc.
     existing_ids = {a['activityId'] for a in enriched if a.get('activityId')}
-    if os.path.exists(OUTPUT_FILE):
-        try:
-            with open(OUTPUT_FILE) as f:
-                old_data = json.load(f)
-            old_map = {a['activityId']: a for a in old_data.get('activities', []) if a.get('activityId')}
-            # Proteger campos históricos corregidos manualmente
-            for act in enriched:
-                aid = act.get('activityId')
-                if aid in old_map:
-                    # Proteger bestJump si el histórico tiene mayor distancia
-                    old_jump = old_map[aid].get('bestJump')
-                    new_jump = act.get('bestJump')
-                    if old_jump and (not new_jump or old_jump.get('distance', 0) > new_jump.get('distance', 0)):
-                        act['bestJump'] = old_jump
-                    # Preservar startTimeLocal histórico siempre
-                    old_time = old_map[aid].get('startTimeLocal', '')
-                    if old_time:
-                        act['startTimeLocal'] = old_time
-            # Agregar actividades históricas que no están en el sync actual
-            for old_act in old_data.get('activities', []):
-                if old_act.get('activityId') not in existing_ids:
-                    enriched.append(old_act)
-        except:
-            pass
+    RICH_FIELDS = ('maxSpeed', 'avgSpeed', 'elevationGain', 'elevationLoss',
+                   'duration', 'movingDuration', 'avgHR', 'maxHR', 'calories',
+                   'avgTemperature', 'locationName', 'activityName')
+    for act in enriched:
+        aid = act.get('activityId')
+        old = old_map.get(aid)
+        if not old:
+            continue
+        # Restaurar dynamics si el nuevo viene vacío pero el viejo tenía datos
+        if not act.get('mtbDynamics') and old.get('mtbDynamics'):
+            act['mtbDynamics'] = old['mtbDynamics']
+        # Restaurar cualquier campo rico que falte en el nuevo
+        for f in RICH_FIELDS:
+            if act.get(f) in (None, '') and old.get(f) not in (None, ''):
+                act[f] = old[f]
+        # bestJump: conservar siempre el de mayor distancia
+        old_jump = old.get('bestJump')
+        new_jump = act.get('bestJump')
+        if old_jump and (not new_jump or old_jump.get('distance', 0) > new_jump.get('distance', 0)):
+            act['bestJump'] = old_jump
+        # startTimeLocal histórico siempre gana (correcciones de timezone)
+        if old.get('startTimeLocal'):
+            act['startTimeLocal'] = old['startTimeLocal']
+
+    # Agregar actividades históricas que ya no aparecen en el sync actual
+    for old_act in old_activities:
+        if old_act.get('activityId') not in existing_ids:
+            enriched.append(old_act)
 
     # Aplicar correcciones manuales permanentes
     for act in enriched:
