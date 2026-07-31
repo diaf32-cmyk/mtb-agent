@@ -556,7 +556,7 @@ async function loadActivity(id) {
       st.textContent = 'Garmin · ' + new Date(act.startTimeLocal).toLocaleDateString('es-CL');
   }
 
-  renderSegmentsPlaceholder();
+  renderSegments(act);
   renderGarminComparison(act);
   injectSessionContext(act);
 }
@@ -588,10 +588,48 @@ function renderGarminDynamics(dyn, act, bestJump) {
   }
 }
 
-/* Segmentos: sin Strava. Placeholder que apunta a los segmentos GPS propios. */
-function renderSegmentsPlaceholder() {
+/* PR por sendero (mínimo tiempo entre todas las salidas) */
+function segmentPRs() {
+  const pr = {};
+  (STATE.garminData?.activities || []).forEach(a => {
+    (a.segments || []).forEach(s => {
+      if (s.seconds == null) return;
+      if (pr[s.name] == null || s.seconds < pr[s.name]) pr[s.name] = s.seconds;
+    });
+  });
+  return pr;
+}
+
+/* Segmentos de la salida seleccionada, con delta a tu PR */
+function renderSegments(act) {
   const c = document.getElementById('segments-container');
-  if (c) c.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;line-height:1.65;">🛰 Segmentos por GPS propio — <em>en camino</em>.<br>Se reconstruirán desde el GPS de tus archivos FIT de Garmin (La Buitrera, El Gringo, Lomo Vetado, Mampato), sin depender de Strava.</div>';
+  if (!c) return;
+  const segs = act.segments || [];
+  if (!segs.length) {
+    const any = (STATE.garminData?.activities || []).some(a => (a.segments || []).length);
+    c.innerHTML = any
+      ? '<div style="color:var(--muted);font-size:0.82rem;padding:16px;">Sin senderos detectados en esta salida.</div>'
+      : '<div style="color:var(--muted);font-size:0.82rem;padding:16px;line-height:1.65;">Aún no hay senderos de referencia. Pon los GPX/KML de Trailforks en la carpeta <b>senderos/</b> y vuelve a sincronizar.</div>';
+    return;
+  }
+  const pr = segmentPRs();
+  let html = '<table class="seg-table"><thead><tr><th>Sendero</th><th>Tiempo</th><th>PR · Delta</th></tr></thead><tbody>';
+  segs.forEach(s => {
+    const t = formatTime(Math.round(s.seconds));
+    const best = pr[s.name];
+    const prTime = best != null ? formatTime(Math.round(best)) : '—';
+    let delta = '', tc = 'var(--text)';
+    if (best != null) {
+      const diff = Math.round(s.seconds - best);
+      if (diff <= 0) { delta = '<span class="badge-pr">🏆 PR</span>'; tc = 'var(--green)'; }
+      else if (diff <= 15) { delta = `<span style="color:#e8a020;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; tc = '#e8a020'; }
+      else if (diff <= 60) { delta = `<span style="color:#d4703a;font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; tc = '#d4703a'; }
+      else { delta = `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; tc = 'var(--red)'; }
+    }
+    const passStr = (s.passes && s.passes > 1) ? ` <span style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.62rem;">·${s.passes}×</span>` : '';
+    html += `<tr><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;" title="${s.name}">${s.name}${passStr}</td><td><div style="font-family:'DM Mono',monospace;color:${tc}">${t}</div></td><td><div style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.75rem;">${prTime}</div><div style="margin-top:2px;">${delta}</div></td></tr>`;
+  });
+  c.innerHTML = html + '</tbody></table>';
 }
 
 /* ══════════════════════════════════════════════
@@ -684,10 +722,56 @@ function updateRecords() {
   renderScoreMes(thisMonth, all);
 }
 
-/* Pistas frecuentes: dependían de segmentos Strava. Placeholder por ahora. */
+/* Pistas frecuentes: agrupa los senderos detectados en todas tus salidas */
 function renderPistasFrecuentes() {
   const container = document.getElementById('pistas-container');
-  if (container) container.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;line-height:1.65;">Tus pistas frecuentes se reconstruirán desde el GPS de Garmin (segmentos propios), reemplazando a los de Strava. Función en camino.</div>';
+  if (!container) return;
+  const map = {}; // name -> [{seconds, date}]
+  (STATE.garminData?.activities || []).forEach(a => {
+    (a.segments || []).forEach(s => {
+      if (s.seconds == null) return;
+      (map[s.name] = map[s.name] || []).push({ seconds: s.seconds, date: a.startTimeLocal });
+    });
+  });
+  const names = Object.keys(map);
+  if (!names.length) {
+    container.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;line-height:1.65;">Aún no hay senderos detectados. Pon los GPX/KML de Trailforks en la carpeta <b>senderos/</b> y sincroniza — tus pistas aparecerán aquí con PR y tendencia.</div>';
+    return;
+  }
+  const rows = names.map(name => {
+    const entries = map[name].slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+    const best = Math.min(...entries.map(e => e.seconds));
+    const latest = entries[entries.length - 1];
+    return { name, count: entries.length, best, latest: latest.seconds, delta: latest.seconds - best };
+  }).sort((a, b) => (b.count - a.count) || (a.delta - b.delta)).slice(0, 8);
+
+  let html = '<div class="pistas-list">';
+  rows.forEach(seg => {
+    let pillTxt, pillStyle, deltaStr, deltaStyle;
+    if (seg.delta <= 0) {
+      pillTxt = '✓ En PR'; pillStyle = 'color:#2d6e2d;border-color:rgba(45,110,45,0.35);background:rgba(45,110,45,0.1);';
+      deltaStr = '🏆 PR'; deltaStyle = 'color:#2d6e2d;';
+    } else if (seg.delta <= 15) {
+      pillTxt = '🔥 Muy apretado'; pillStyle = 'color:#3a7a3a;border-color:rgba(58,122,58,0.35);background:rgba(58,122,58,0.1);';
+      deltaStr = '+' + formatTime(Math.round(seg.delta)); deltaStyle = 'color:#3a7a3a;';
+    } else if (seg.delta <= 30) {
+      pillTxt = '⚡ Cerca del PR'; pillStyle = 'color:var(--yellow);border-color:rgba(176,122,32,0.3);background:rgba(176,122,32,0.08);';
+      deltaStr = '+' + formatTime(Math.round(seg.delta)); deltaStyle = 'color:var(--yellow);';
+    } else {
+      pillTxt = 'Cómodo'; pillStyle = 'color:var(--muted);border-color:var(--border);background:var(--bg2);';
+      deltaStr = '+' + formatTime(Math.round(seg.delta)); deltaStyle = 'color:var(--muted);';
+    }
+    html += `<div class="pista-card">
+      <div class="pista-header"><div class="pista-name">${seg.name}</div><div class="pista-pill" style="${pillStyle}">${pillTxt}</div></div>
+      <div class="pista-stats">
+        <div class="pista-stat"><div class="pista-stat-lbl">Intentos</div><div class="pista-stat-val">${seg.count}×</div></div>
+        <div class="pista-stat"><div class="pista-stat-lbl">Último</div><div class="pista-stat-val">${formatTime(Math.round(seg.latest))}</div></div>
+        <div class="pista-stat"><div class="pista-stat-lbl">PR</div><div class="pista-stat-val">${formatTime(Math.round(seg.best))}</div></div>
+        <div class="pista-stat"><div class="pista-stat-lbl">Delta</div><div class="pista-delta" style="${deltaStyle}">${deltaStr}</div></div>
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html + '</div>';
 }
 
 /* ══════════════════════════════════════════════

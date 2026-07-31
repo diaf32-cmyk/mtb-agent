@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Definir Segmentos · MTB Agent</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f0e8; --bg2:#ede8de; --bg3:#e4ddd2; --surface:#faf8f4; --border:#d4c9b5;
+    --text:#2c2416; --text2:#5c4f3a; --muted:#8c7d65;
+    --accent:#8b5e3c; --accent2:#c4813a; --accent3:#5a7a5a; --red:#c04040; --green:#4a7a4a;
+    --radius:14px; --radius-sm:8px; --shadow:0 2px 12px rgba(44,36,22,0.08);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 20px;box-shadow:var(--shadow)}
+  .logo{font-size:1.3rem;font-weight:700;color:var(--accent)}
+  .logo-sub{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-top:2px}
+  .wrap{max-width:1200px;margin:0 auto;padding:18px;display:grid;grid-template-columns:1fr 340px;gap:16px}
+  @media(max-width:900px){.wrap{grid-template-columns:1fr}}
+  #map{height:70vh;min-height:460px;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);height:fit-content}
+  .panel-title{font-family:'DM Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+  .drop{border:2px dashed var(--border);border-radius:var(--radius-sm);padding:22px 14px;text-align:center;color:var(--muted);font-size:0.82rem;cursor:pointer;transition:all .15s;line-height:1.5}
+  .drop:hover,.drop.over{border-color:var(--accent);color:var(--text2);background:var(--bg2)}
+  .step{font-size:0.82rem;color:var(--text2);line-height:1.6;margin-bottom:12px}
+  .field{margin-bottom:10px}
+  .field label{display:block;font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:4px}
+  .field input,.field select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:'Inter',sans-serif;font-size:0.85rem;color:var(--text);outline:none}
+  .field input:focus,.field select:focus{border-color:var(--accent)}
+  .btn{width:100%;border:none;border-radius:var(--radius-sm);padding:10px 14px;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:8px}
+  .btn-primary{background:var(--accent2);color:#fff}
+  .btn-primary:hover{background:var(--accent)}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed}
+  .btn-ghost{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+  .btn-ghost:hover{background:var(--bg3)}
+  .btn-save{background:var(--accent3);color:#fff}
+  .btn-save:hover{opacity:.9}
+  .hint{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--accent2);margin-bottom:10px;min-height:1em}
+  .seg-list{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+  .seg-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px}
+  .seg-item-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .seg-name{font-size:0.85rem;font-weight:600;color:var(--text)}
+  .seg-del{background:none;border:none;color:var(--red);cursor:pointer;font-size:0.75rem;font-family:'DM Mono',monospace}
+  .seg-meta{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);margin-top:3px}
+  textarea{width:100%;height:150px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--text2);outline:none;resize:vertical;margin-bottom:8px}
+  .empty{color:var(--muted);font-size:0.8rem;padding:10px 0;line-height:1.5}
+  .layer-toggle{display:flex;gap:6px;margin-bottom:12px}
+  .layer-btn{flex:1;padding:6px;font-family:'DM Mono',monospace;font-size:0.62rem;border:1px solid var(--border);background:var(--bg2);color:var(--muted);border-radius:6px;cursor:pointer}
+  .layer-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">🛰 Definir Segmentos</div>
+  <div class="logo-sub">MTB Agent · marca tus pistas sobre el track</div>
+</header>
+
+<div class="wrap">
+  <div>
+    <div class="layer-toggle">
+      <button class="layer-btn active" id="lyr-sat" onclick="setLayer('sat')">Satélite</button>
+      <button class="layer-btn" id="lyr-map" onclick="setLayer('map')">Mapa</button>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">1 · Carga tu salida</div>
+    <div class="drop" id="drop">Arrastra aquí el <strong>.gpx</strong><br>o haz clic para elegirlo<br><span style="font-size:0.68rem;opacity:0.8">Exporta un GPX desde Garmin Connect<br>(actividad → engranaje → Export to GPX)</span></div>
+    <input type="file" id="file" accept=".gpx" style="display:none">
+
+    <div id="editor" style="display:none;margin-top:16px">
+      <div class="panel-title">2 · Marca una pista</div>
+      <div class="field">
+        <label>Nombre de la pista</label>
+        <input id="seg-name" placeholder="La Buitrera" list="trail-names">
+        <datalist id="trail-names">
+          <option value="La Buitrera"><option value="El Gringo"><option value="Lomo Vetado"><option value="Mampato">
+        </datalist>
+      </div>
+      <div class="hint" id="hint">Escribe el nombre y pulsa «Marcar inicio».</div>
+      <button class="btn btn-primary" id="btn-start" onclick="pickStart()">📍 Marcar inicio</button>
+      <button class="btn btn-primary" id="btn-end" onclick="pickEnd()" disabled>🏁 Marcar fin</button>
+      <button class="btn btn-ghost" id="btn-cancel" onclick="cancelPick()" style="display:none">Cancelar</button>
+
+      <div class="panel-title" style="margin-top:16px">Pistas definidas</div>
+      <div class="seg-list" id="seg-list"><div class="empty">Aún no marcas ninguna pista.</div></div>
+
+      <div class="panel-title" style="margin-top:16px">3 · Exporta</div>
+      <button class="btn btn-save" id="btn-export" onclick="exportJSON()" disabled>💾 Descargar segments.json</button>
+      <textarea id="json-out" placeholder="El JSON aparecerá aquí para que lo copies…" readonly></textarea>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+let map, trackLayer, satLayer, osmLayer;
+let track = [];            // [{lat,lon,time}]
+let segments = [];         // [{name,start,end,startIdx,endIdx,path,seconds}]
+let mode = 'idle';         // idle | start | end
+let pending = null;        // {name, startIdx, startMarker}
+let markers = [];
+
+/* ── MAPA ── */
+function initMap(){
+  map = L.map('map').setView([-33.45,-70.66], 12);
+  satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    { maxZoom:19, attribution:'Esri' });
+  osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    { maxZoom:19, attribution:'© OpenStreetMap' });
+  satLayer.addTo(map);
+  map.on('click', onMapClick);
+}
+function setLayer(which){
+  document.getElementById('lyr-sat').classList.toggle('active', which==='sat');
+  document.getElementById('lyr-map').classList.toggle('active', which==='map');
+  if(which==='sat'){ map.removeLayer(osmLayer); satLayer.addTo(map); }
+  else { map.removeLayer(satLayer); osmLayer.addTo(map); }
+}
+
+/* ── CARGA GPX ── */
+const drop = document.getElementById('drop');
+const fileInput = document.getElementById('file');
+drop.addEventListener('click', ()=> fileInput.click());
+drop.addEventListener('dragover', e=>{ e.preventDefault(); drop.classList.add('over'); });
+drop.addEventListener('dragleave', ()=> drop.classList.remove('over'));
+drop.addEventListener('drop', e=>{ e.preventDefault(); drop.classList.remove('over'); if(e.dataTransfer.files[0]) readGPX(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', e=>{ if(e.target.files[0]) readGPX(e.target.files[0]); });
+
+function readGPX(file){
+  const r = new FileReader();
+  r.onload = ()=> loadTrack(r.result);
+  r.readAsText(file);
+}
+
+function loadTrack(text){
+  const xml = new DOMParser().parseFromString(text, 'application/xml');
+  const pts = Array.from(xml.querySelectorAll('trkpt')).map(p=>({
+    lat: parseFloat(p.getAttribute('lat')),
+    lon: parseFloat(p.getAttribute('lon')),
+    time: (p.querySelector('time') ? p.querySelector('time').textContent : null)
+  })).filter(p=> isFinite(p.lat) && isFinite(p.lon));
+
+  if(!pts.length){ alert('No encontré puntos GPS (trkpt) en ese GPX.'); return; }
+  track = pts;
+
+  if(trackLayer) map.removeLayer(trackLayer);
+  const latlngs = track.map(p=>[p.lat,p.lon]);
+  trackLayer = L.polyline(latlngs, { color:'#c4813a', weight:4, opacity:0.9 }).addTo(map);
+  map.fitBounds(trackLayer.getBounds(), { padding:[30,30] });
+
+  document.getElementById('drop').innerHTML = '✓ Track cargado — <strong>'+track.length+'</strong> puntos.<br><span style="font-size:0.7rem;opacity:0.8">Carga otro GPX para reemplazar.</span>';
+  document.getElementById('editor').style.display = 'block';
+}
+
+/* ── GEOMETRÍA ── */
+function haversine(lat1,lon1,lat2,lon2){
+  const R=6371000, toR=x=>x*Math.PI/180;
+  const dLat=toR(lat2-lat1), dLon=toR(lon2-lon1);
+  const a=Math.sin(dLat/2)**2 + Math.cos(toR(lat1))*Math.cos(toR(lat2))*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(a));
+}
+function nearestIndex(lat,lon){
+  let bi=-1, bd=Infinity;
+  for(let i=0;i<track.length;i++){
+    const d=haversine(lat,lon,track[i].lat,track[i].lon);
+    if(d<bd){ bd=d; bi=i; }
+  }
+  return bi;
+}
+function fmtTime(s){
+  if(s==null) return '—';
+  const m=Math.floor(s/60), sec=Math.round(s%60);
+  return m+'m '+String(sec).padStart(2,'0')+'s';
+}
+function segLength(a,b){
+  let d=0; for(let i=a+1;i<=b;i++) d+=haversine(track[i-1].lat,track[i-1].lon,track[i].lat,track[i].lon);
+  return d;
+}
+
+/* ── MARCADO ── */
+function pickStart(){
+  const name=document.getElementById('seg-name').value.trim();
+  if(!name){ setHint('Primero escribe el nombre de la pista.'); return; }
+  mode='start'; pending={ name };
+  setHint('Haz clic en el MAPA donde ARRANCA «'+name+'».');
+  document.getElementById('btn-cancel').style.display='block';
+}
+function pickEnd(){
+  mode='end';
+  setHint('Ahora haz clic donde TERMINA «'+pending.name+'».');
+}
+function cancelPick(){
+  mode='idle';
+  if(pending && pending.startMarker) map.removeLayer(pending.startMarker);
+  pending=null;
+  document.getElementById('btn-end').disabled=true;
+  document.getElementById('btn-cancel').style.display='none';
+  setHint('Cancelado. Puedes empezar de nuevo.');
+}
+function setHint(t){ document.getElementById('hint').textContent=t; }
+
+function onMapClick(e){
+  if(mode==='idle' || !track.length) return;
+  const idx = nearestIndex(e.latlng.lat, e.latlng.lng);
+  const p = track[idx];
+  if(mode==='start'){
+    pending.startIdx=idx; pending.start={lat:p.lat,lon:p.lon};
+    pending.startMarker = L.circleMarker([p.lat,p.lon],{radius:7,color:'#4a7a4a',fillColor:'#4a7a4a',fillOpacity:1}).addTo(map);
+    document.getElementById('btn-end').disabled=false;
+    mode='idle';
+    setHint('Inicio fijado. Pulsa «Marcar fin».');
+  } else if(mode==='end'){
+    let a=pending.startIdx, b=idx;
+    if(b<a){ const t=a; a=b; b=t; }
+    const path = track.slice(a,b+1);
+    let seconds=null;
+    const t0=track[a].time, t1=track[b].time;
+    if(t0 && t1){ seconds=(new Date(t1)-new Date(t0))/1000; if(seconds<0) seconds=-seconds; }
+    const seg={ name:pending.name, start:pending.start, end:{lat:p.lat,lon:p.lon}, startIdx:a, endIdx:b, path:downsample(path), seconds, meters:Math.round(segLength(a,b)) };
+    segments.push(seg);
+    // marcadores permanentes
+    L.circleMarker([track[a].lat,track[a].lon],{radius:6,color:'#4a7a4a',fillColor:'#4a7a4a',fillOpacity:1}).addTo(map).bindTooltip(seg.name+' · inicio');
+    L.circleMarker([track[b].lat,track[b].lon],{radius:6,color:'#c04040',fillColor:'#c04040',fillOpacity:1}).addTo(map).bindTooltip(seg.name+' · fin');
+    L.polyline(path.map(x=>[x.lat,x.lon]),{color:'#8b5e3c',weight:5,opacity:0.85}).addTo(map);
+    if(pending.startMarker) map.removeLayer(pending.startMarker);
+    pending=null; mode='idle';
+    document.getElementById('btn-end').disabled=true;
+    document.getElementById('btn-cancel').style.display='none';
+    document.getElementById('seg-name').value='';
+    setHint('✓ «'+seg.name+'» guardada.');
+    renderList();
+  }
+}
+
+/* Reducir el path a ~120 puntos para que segments.json quede liviano */
+function downsample(path){
+  if(path.length<=120) return path.map(p=>[+p.lat.toFixed(6),+p.lon.toFixed(6)]);
+  const step=Math.ceil(path.length/120), out=[];
+  for(let i=0;i<path.length;i+=step) out.push([+path[i].lat.toFixed(6),+path[i].lon.toFixed(6)]);
+  const last=path[path.length-1]; out.push([+last.lat.toFixed(6),+last.lon.toFixed(6)]);
+  return out;
+}
+
+function renderList(){
+  const el=document.getElementById('seg-list');
+  if(!segments.length){ el.innerHTML='<div class="empty">Aún no marcas ninguna pista.</div>'; document.getElementById('btn-export').disabled=true; return; }
+  el.innerHTML = segments.map((s,i)=>`
+    <div class="seg-item">
+      <div class="seg-item-top">
+        <span class="seg-name">${s.name}</span>
+        <button class="seg-del" onclick="delSeg(${i})">quitar</button>
+      </div>
+      <div class="seg-meta">${s.meters} m · ${fmtTime(s.seconds)} en esta salida</div>
+    </div>`).join('');
+  document.getElementById('btn-export').disabled=false;
+}
+function delSeg(i){ segments.splice(i,1); renderList(); }
+
+/* ── EXPORT ── */
+function exportJSON(){
+  const out = { segments: segments.map(s=>({
+    name: s.name,
+    start: { lat:+s.start.lat.toFixed(6), lon:+s.start.lon.toFixed(6) },
+    end:   { lat:+s.end.lat.toFixed(6),   lon:+s.end.lon.toFixed(6) },
+    tolerance_m: 25,
+    path: s.path
+  })) };
+  const text = JSON.stringify(out, null, 2);
+  document.getElementById('json-out').value = text;
+  const blob = new Blob([text], {type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='segments.json';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+initMap();
+</script>
+</body>
+</html>

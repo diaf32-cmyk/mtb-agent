@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import json, os, sys
 from datetime import datetime
+from senderos_match import load_reference_trails, detect_segments
+
+REF_TRAILS = []
 
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "garmin_data.json")
@@ -93,6 +96,15 @@ def main():
         print("  ✗ No se pudo conectar a Garmin")
         sys.exit(1)
 
+    # Cargar senderos de referencia (Trailforks GPX/KML) desde ./senderos/
+    SEN_DIR = os.path.join(OUTPUT_DIR, 'senderos')
+    global REF_TRAILS
+    REF_TRAILS = load_reference_trails(SEN_DIR)
+    if REF_TRAILS:
+        print(f"  ✓ {len(REF_TRAILS)} senderos de referencia cargados")
+    else:
+        print("  · Sin senderos en ./senderos/ (matcheo desactivado)")
+
     activities = client.get_activities(0, 20)
     if not activities:
         print("  ✗ No se encontraron actividades")
@@ -123,17 +135,27 @@ def main():
     def _has_rich(a):
         return bool(a.get('mtbDynamics')) or a.get('maxSpeed') is not None
 
+    def _needs(aid):
+        old = old_map.get(aid, {})
+        if not _has_rich(old):
+            return True                                   # falta enriquecer
+        if REF_TRAILS and not old.get('segments'):
+            return True                                   # falta matchear senderos
+        return False
+
     # Qué actividades pedir en detalle:
     #   - siempre las 5 más recientes (capturan salidas nuevas)
-    #   - + cualquiera más antigua que todavía NO tenga datos ricos (backfill),
-    #     hasta un tope para no saturar la API de Garmin en un solo sync.
+    #   - + cualquiera más antigua que falte enriquecer O que aún no tenga
+    #     senderos detectados (backfill), hasta un tope para no saturar Garmin.
+    #   Como cada salida procesada queda guardada con sus segmentos, en 2-3
+    #   syncs todo el histórico queda cubierto y ya no se vuelve a bajar.
     MAX_ENRICH = 12
     to_enrich = set()
     for i, act in enumerate(activities):
         aid = act.get('activityId')
         if not aid:
             continue
-        if i < 5 or not _has_rich(old_map.get(aid, {})):
+        if i < 5 or _needs(aid):
             to_enrich.add(aid)
         if len(to_enrich) >= MAX_ENRICH:
             break
@@ -192,6 +214,27 @@ def main():
                     if not existing_jump or best['distance'] > existing_jump.get('distance', 0):
                         summary["bestJump"] = best
                     print(f"     → {len(jump_records)} saltos, mejor: {best['distance']}m score {best['score']}")
+
+                # ── Matcheo de senderos (usa el GPS del mismo FIT) ──
+                if REF_TRAILS:
+                    try:
+                        ride_pts = []
+                        for rec in fit.get_messages('record'):
+                            d = {f.name: f.value for f in rec}
+                            lat = d.get('position_lat'); lon = d.get('position_long'); ts = d.get('timestamp')
+                            if lat is None or lon is None or ts is None:
+                                continue
+                            # fitparse a veces entrega semicírculos (enteros grandes) → convertir a grados
+                            if abs(lat) > 360: lat = lat * (180.0 / 2**31)
+                            if abs(lon) > 360: lon = lon * (180.0 / 2**31)
+                            ride_pts.append((lat, lon, ts.timestamp()))
+                        if len(ride_pts) >= 10:
+                            segs = detect_segments(ride_pts, REF_TRAILS)
+                            if segs:
+                                summary['segments'] = [{'name': s['name'], 'seconds': s['seconds'], 'passes': s.get('passes', 1)} for s in segs]
+                                print(f"     → senderos: " + ", ".join(f"{s['name']} {s['seconds']}s" for s in segs))
+                    except Exception:
+                        pass
             except Exception as je:
                 pass
             enriched.append(summary)
@@ -220,6 +263,9 @@ def main():
         # Restaurar dynamics si el nuevo viene vacío pero el viejo tenía datos
         if not act.get('mtbDynamics') and old.get('mtbDynamics'):
             act['mtbDynamics'] = old['mtbDynamics']
+        # Restaurar segmentos detectados si el nuevo no trae y el viejo sí
+        if not act.get('segments') and old.get('segments'):
+            act['segments'] = old['segments']
         # Restaurar cualquier campo rico que falte en el nuevo
         for f in RICH_FIELDS:
             if act.get(f) in (None, '') and old.get(f) not in (None, ''):
