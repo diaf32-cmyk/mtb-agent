@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-07-31T19:47:43.451232",
+  "lastSync": "2026-07-31T19:58:05.275051",
   "activities": [
     {
       "activityId": 23790840844,
@@ -244,9 +244,9 @@
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 253.0,
+          "seconds": 373.0,
           "passes": 1,
-          "dist_m": 1969
+          "dist_m": 2743
         },
         {
           "name": "Mampato Durazno",
@@ -287,9 +287,9 @@
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 246.0,
+          "seconds": 362.0,
           "passes": 1,
-          "dist_m": 1969
+          "dist_m": 2743
         },
         {
           "name": "Mampato Durazno",
@@ -344,9 +344,9 @@
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 243.0,
+          "seconds": 359.0,
           "passes": 1,
-          "dist_m": 1969
+          "dist_m": 2743
         },
         {
           "name": "Mampato Durazno",
@@ -442,9 +442,9 @@
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 249.0,
+          "seconds": 365.0,
           "passes": 2,
-          "dist_m": 1969
+          "dist_m": 2743
         },
         {
           "name": "Mampato Durazno",
@@ -495,9 +495,9 @@
       "segments": [
         {
           "name": "Lomo Vetado",
-          "seconds": 251.0,
+          "seconds": 366.0,
           "passes": 2,
-          "dist_m": 1969
+          "dist_m": 2743
         },
         {
           "name": "Mampato Durazno",
@@ -560,9 +560,9 @@
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 263.0,
+          "seconds": 400.0,
           "passes": 1,
-          "dist_m": 1969
+          "dist_m": 2743
         },
         {
           "name": "Mampato Durazno",
@@ -897,9 +897,9 @@
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 243.0,
+          "seconds": 353.0,
           "passes": 1,
-          "dist_m": 1969
+          "dist_m": 2743
         },
         {
           "name": "Papaya",
