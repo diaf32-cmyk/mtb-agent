@@ -345,6 +345,10 @@
     <div class="record-card"><div class="record-icon">🌊</div><div class="record-label">Mejor Flow del mes</div><div class="record-value" id="rec-flow">—</div><div class="record-date" id="rec-flow-date">—</div><div class="record-pr" id="rec-flow-pr">PR histórico: —</div></div>
   </div>
 
+  <!-- Records de pistas (baseline Strava + detección GPS) -->
+  <div class="section-title">🏁 Records de pistas</div>
+  <div id="trail-records-container"><div class="loading"><div class="spinner"></div>Cargando records…</div></div>
+
   <!-- MEJORA 1: Pistas frecuentes con tendencia -->
   <div class="section-title">Tus pistas · Frecuentes & más desafiantes</div>
   <div id="pistas-container"><div class="loading"><div class="spinner"></div>Carga actividades para ver tus pistas</div></div>
@@ -457,9 +461,78 @@ const STATE = {
 
 const GARMIN_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main/garmin_data.json';
 
+/* ══════════════════════════════════════════════
+   RECORDS DE PISTAS
+   Baseline = tus PRs históricos registrados a mano en Strava.
+   A medida que sincronizas salidas, senderos_match.py detecta tus
+   tiempos por sendero (campo `segments` en garmin_data.json) y el
+   record se actualiza automáticamente cuando superas el baseline.
+══════════════════════════════════════════════ */
+const TRAIL_RECORDS = {
+  'lomo vetado': { name: 'Lomo Vetado', seconds: 357, speed: 28.1, date: '2025-07-07' },
+  'cebolla':     { name: 'Cebolla',     seconds: 60,  speed: 27.9, date: '2024-05-29' },
+  'bala':        { name: 'La Bala',     seconds: 71,  speed: 30.5, date: '2024-08-25' },
+  'mampato':     { name: 'Mampato',     seconds: 81,  speed: 29.5, date: '2025-01-09' },
+  'gringo':      { name: 'Gringo',      seconds: 330, speed: 24.4, date: '2026-03-22' },
+  'parcero':     { name: 'Parcero',     seconds: 75,  speed: 32.8, date: '2025-08-09' },
+  'calibre 12':  { name: 'Calibre 12',  seconds: 297, speed: 19.6, date: '2026-03-26' },
+};
+
+/* Si un GPX de Trailforks trae un nombre distinto al de tus records,
+   mapéalo aquí:  'nombre-gpx-normalizado': 'clave-del-record'.
+   (Revisa la consola/segmentos detectados para ver los nombres reales.) */
+const TRAIL_ALIASES = {
+  // 'gringo superior': 'gringo',
+};
+
+function normTrail(n) {
+  return (n || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')   // sin acentos
+    .replace(/^(el|la|los|las)\s+/, '')                 // sin artículo inicial
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+function canonTrail(n) { const k = normTrail(n); return TRAIL_ALIASES[k] || k; }
+function trailDisplayName(canon, fallback) { return TRAIL_RECORDS[canon]?.name || fallback || canon; }
+
+/* Agrupa todos los `segments` detectados por sendero (clave canónica). */
+function detectedTrailMap() {
+  const map = {};
+  (STATE.garminData?.activities || []).forEach(a => {
+    (a.segments || []).forEach(s => {
+      if (s == null || s.seconds == null) return;
+      const k = canonTrail(s.name);
+      if (!k) return;
+      const m = map[k] || (map[k] = { displayName: s.name, best: Infinity, bestDate: null, bestDist: null, attempts: 0, rides: 0, entries: [] });
+      m.attempts += (s.passes || 1);
+      m.rides += 1;
+      m.entries.push({ seconds: s.seconds, date: a.startTimeLocal || '', dist: s.dist_m || null });
+      if (s.seconds < m.best) { m.best = s.seconds; m.bestDate = a.startTimeLocal || ''; m.bestDist = s.dist_m || null; }
+    });
+  });
+  return map;
+}
+
+/* Record efectivo = el menor entre tu PR de Strava y lo detectado por GPS. */
+function effectiveRecord(canon, detMap) {
+  const base = TRAIL_RECORDS[canon];
+  const d = (detMap || detectedTrailMap())[canon];
+  let seconds = base ? base.seconds : null;
+  let speed   = base ? base.speed   : null;
+  let date    = base ? base.date    : null;
+  let source  = base ? 'strava'     : null;
+  if (d && d.best < (seconds == null ? Infinity : seconds)) {
+    seconds = d.best; date = d.bestDate; source = 'garmin';
+    speed = d.bestDist ? +(((d.bestDist / 1000) / (d.best / 3600)).toFixed(1)) : null;
+  }
+  return { seconds, speed, date, source };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadSetup();
   updateRecordsMonth();
+  renderTrailRecords();   // muestra tus records base al instante
   syncAll();
 });
 
@@ -588,15 +661,13 @@ function renderGarminDynamics(dyn, act, bestJump) {
   }
 }
 
-/* PR por sendero (mínimo tiempo entre todas las salidas) */
+/* PR efectivo por sendero (clave canónica): el menor entre tu record
+   histórico de Strava y el mejor tiempo detectado por GPS. */
 function segmentPRs() {
+  const detMap = detectedTrailMap();
   const pr = {};
-  (STATE.garminData?.activities || []).forEach(a => {
-    (a.segments || []).forEach(s => {
-      if (s.seconds == null) return;
-      if (pr[s.name] == null || s.seconds < pr[s.name]) pr[s.name] = s.seconds;
-    });
-  });
+  const keys = new Set([...Object.keys(TRAIL_RECORDS), ...Object.keys(detMap)]);
+  keys.forEach(k => { const r = effectiveRecord(k, detMap); if (r.seconds != null) pr[k] = r.seconds; });
   return pr;
 }
 
@@ -616,7 +687,9 @@ function renderSegments(act) {
   let html = '<table class="seg-table"><thead><tr><th>Sendero</th><th>Tiempo</th><th>PR · Delta</th></tr></thead><tbody>';
   segs.forEach(s => {
     const t = formatTime(Math.round(s.seconds));
-    const best = pr[s.name];
+    const canon = canonTrail(s.name);
+    const best = pr[canon];
+    const vel = s.dist_m ? ((s.dist_m / 1000) / (s.seconds / 3600)).toFixed(1) + ' km/h' : null;
     const prTime = best != null ? formatTime(Math.round(best)) : '—';
     let delta = '', tc = 'var(--text)';
     if (best != null) {
@@ -627,7 +700,7 @@ function renderSegments(act) {
       else { delta = `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:0.76rem;">+${formatTime(diff)}</span>`; tc = 'var(--red)'; }
     }
     const passStr = (s.passes && s.passes > 1) ? ` <span style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.62rem;">·${s.passes}×</span>` : '';
-    html += `<tr><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;" title="${s.name}">${s.name}${passStr}</td><td><div style="font-family:'DM Mono',monospace;color:${tc}">${t}</div></td><td><div style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.75rem;">${prTime}</div><div style="margin-top:2px;">${delta}</div></td></tr>`;
+    html += `<tr><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;" title="${s.name}">${trailDisplayName(canon, s.name)}${passStr}</td><td><div style="font-family:'DM Mono',monospace;color:${tc}">${t}</div>${vel ? `<div style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.62rem;">${vel}</div>` : ''}</td><td><div style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.75rem;">${prTime}</div><div style="margin-top:2px;">${delta}</div></td></tr>`;
   });
   c.innerHTML = html + '</tbody></table>';
 }
@@ -718,19 +791,83 @@ function updateRecords() {
   const axFlw = all.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => a.mtbDynamics.avgFlow < b ? a.mtbDynamics.avgFlow : b, Infinity);
   if (mxFlw.val < Infinity) { document.getElementById('rec-flow').innerHTML = mxFlw.val.toFixed(2); document.getElementById('rec-flow-date').textContent = new Date(mxFlw.date).toLocaleDateString('es-CL'); document.getElementById('rec-flow-pr').textContent = 'PR histórico: ' + axFlw.toFixed(2); }
 
+  renderTrailRecords();
   renderPistasFrecuentes();
   renderScoreMes(thisMonth, all);
+}
+
+/* ══════════════════════════════════════════════
+   TABLERO DE RECORDS DE PISTAS
+══════════════════════════════════════════════ */
+function renderTrailRecords() {
+  const cont = document.getElementById('trail-records-container');
+  if (!cont) return;
+  const detMap = detectedTrailMap();
+  const keys = new Set([...Object.keys(TRAIL_RECORDS), ...Object.keys(detMap)]);
+  const rows = [...keys].map(k => {
+    const base = TRAIL_RECORDS[k];
+    const d = detMap[k];
+    const rec = effectiveRecord(k, detMap);
+    const isNewPR = !!(d && base && d.best < base.seconds);
+    const yourBest = d ? d.best : null;
+    const deltaToRec = (yourBest != null && rec.seconds != null) ? yourBest - rec.seconds : null;
+    return {
+      key: k,
+      name: base?.name || d?.displayName || k,
+      recSeconds: rec.seconds, recSpeed: rec.speed, recDate: rec.date, recSource: rec.source,
+      rides: d ? d.rides : 0, hasData: !!d, isNewPR, deltaToRec,
+      improve: (isNewPR && base) ? (base.seconds - d.best) : 0
+    };
+  }).sort((a, b) => {
+    if (a.isNewPR !== b.isNewPR) return a.isNewPR ? -1 : 1;
+    if (b.rides !== a.rides) return b.rides - a.rides;
+    return a.name.localeCompare(b.name);
+  });
+
+  let html = '<table class="records-table"><thead><tr><th>Sendero</th><th>Record</th><th>Vel.</th><th>Fecha</th><th>Salidas</th><th>Estado</th></tr></thead><tbody>';
+  rows.forEach(r => {
+    const recTime = r.recSeconds != null ? formatTime(Math.round(r.recSeconds)) : '—';
+    const recVel  = r.recSpeed != null ? r.recSpeed.toFixed(1) + ' km/h' : '—';
+    const recDate = r.recDate ? new Date(r.recDate).toLocaleDateString('es-CL') : '—';
+    const srcBadge = r.recSource === 'garmin'
+      ? ' <span class="badge-best">GPS</span>'
+      : (r.recSource === 'strava' ? ' <span style="color:var(--muted);font-size:0.56rem;font-family:\'DM Mono\',monospace;">STRAVA</span>' : '');
+    let estado;
+    if (r.isNewPR) {
+      estado = `<span class="badge-best">🏆 Nuevo PR · −${formatTime(Math.round(r.improve))}</span>`;
+    } else if (r.hasData && r.deltaToRec != null) {
+      if (r.deltaToRec <= 0) estado = '<span style="color:var(--green)">✓ igualas el record</span>';
+      else {
+        const c = r.deltaToRec <= 15 ? '#e8a020' : (r.deltaToRec <= 60 ? '#d4703a' : 'var(--red)');
+        estado = `<span style="color:${c}">a +${formatTime(Math.round(r.deltaToRec))} del record</span>`;
+      }
+    } else {
+      estado = '<span style="color:var(--muted)">sin datos GPS aún</span>';
+    }
+    html += `<tr>
+      <td style="font-weight:500">${r.name}${srcBadge}</td>
+      <td style="font-family:'DM Mono',monospace">${recTime}</td>
+      <td style="font-family:'DM Mono',monospace;color:var(--text2)">${recVel}</td>
+      <td style="color:var(--muted);font-size:0.75rem">${recDate}</td>
+      <td style="font-family:'DM Mono',monospace">${r.rides || '—'}</td>
+      <td style="font-size:0.78rem">${estado}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:10px;line-height:1.6;">El baseline son tus PRs de Strava. Cuando sincronizas una salida con GPS, la app detecta tu tiempo por sendero y actualiza el record al superarlo (marcado <b>GPS</b>). Las pistas que aún no vuelves a bajar conservan tu PR histórico.</p>`;
+  cont.innerHTML = html;
 }
 
 /* Pistas frecuentes: agrupa los senderos detectados en todas tus salidas */
 function renderPistasFrecuentes() {
   const container = document.getElementById('pistas-container');
   if (!container) return;
-  const map = {}; // name -> [{seconds, date}]
+  const map = {}; // canonKey -> { name, entries:[{seconds,date}] }
   (STATE.garminData?.activities || []).forEach(a => {
     (a.segments || []).forEach(s => {
       if (s.seconds == null) return;
-      (map[s.name] = map[s.name] || []).push({ seconds: s.seconds, date: a.startTimeLocal });
+      const k = canonTrail(s.name);
+      (map[k] = map[k] || { name: trailDisplayName(k, s.name), entries: [] }).entries.push({ seconds: s.seconds, date: a.startTimeLocal });
     });
   });
   const names = Object.keys(map);
@@ -738,11 +875,14 @@ function renderPistasFrecuentes() {
     container.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:16px;line-height:1.65;">Aún no hay senderos detectados. Pon los GPX/KML de Trailforks en la carpeta <b>senderos/</b> y sincroniza — tus pistas aparecerán aquí con PR y tendencia.</div>';
     return;
   }
-  const rows = names.map(name => {
-    const entries = map[name].slice().sort((a, b) => new Date(a.date) - new Date(b.date));
-    const best = Math.min(...entries.map(e => e.seconds));
+  const detMap = detectedTrailMap();
+  const rows = names.map(k => {
+    const entries = map[k].entries.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+    const rec = effectiveRecord(k, detMap).seconds;          // record efectivo (incl. tu PR de Strava)
+    const gpsBest = Math.min(...entries.map(e => e.seconds));
+    const best = rec != null ? Math.min(rec, gpsBest) : gpsBest;
     const latest = entries[entries.length - 1];
-    return { name, count: entries.length, best, latest: latest.seconds, delta: latest.seconds - best };
+    return { name: map[k].name, count: entries.length, best, latest: latest.seconds, delta: latest.seconds - best };
   }).sort((a, b) => (b.count - a.count) || (a.delta - b.delta)).slice(0, 8);
 
   let html = '<div class="pistas-list">';

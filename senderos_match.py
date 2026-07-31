@@ -25,6 +25,14 @@ def haversine(lat1, lon1, lat2, lon2):
     return 2 * R * math.asin(math.sqrt(a))
 
 
+def _trail_length_m(pts):
+    """Largo total del sendero de referencia en metros (para estimar km/h)."""
+    total = 0.0
+    for i in range(1, len(pts)):
+        total += haversine(pts[i - 1][0], pts[i - 1][1], pts[i][0], pts[i][1])
+    return total
+
+
 # ── Parseo de archivos de referencia ──────────────────────────────────
 def parse_gpx(path):
     trails = []
@@ -130,14 +138,61 @@ class _Grid:
 
 
 # ── Detección de segmentos en una salida ──────────────────────────────
+def _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts):
+    """Encuentra bajadas válidas del track sobre 'ref' (en el sentido dado).
+    Devuelve lista de (cobertura, segundos) de cada tramo válido."""
+    n = len(ref)
+    tgrid = _Grid([(la, lo, 0) for (la, lo) in ref], tol_m)
+    runs = []
+    cur = None
+    gap = 0
+    for i, (la, lo, _t) in enumerate(ride_pts):
+        tj, d = tgrid.nearest(la, lo)
+        on = tj is not None and d <= tol_m
+        if on:
+            if cur is None:
+                cur = {'a': i, 'b': i, 'hit': {tj}, 'maxtj': tj, 'first': tj, 'last': tj}
+            elif cur['maxtj'] > 0.5 * n and tj < cur['maxtj'] - 0.4 * n:
+                runs.append(cur)
+                cur = {'a': i, 'b': i, 'hit': {tj}, 'maxtj': tj, 'first': tj, 'last': tj}
+            else:
+                cur['b'] = i
+                cur['hit'].add(tj)
+                cur['last'] = tj
+                if tj > cur['maxtj']:
+                    cur['maxtj'] = tj
+            gap = 0
+        elif cur is not None:
+            gap += 1
+            if gap > max_gap_pts:
+                runs.append(cur)
+                cur = None
+                gap = 0
+    if cur is not None:
+        runs.append(cur)
+
+    qual = []
+    for r in runs:
+        cov = len(r['hit']) / n
+        if cov < coverage:
+            continue
+        if (r['last'] - r['first']) < 0.5 * n:   # debe avanzar >½ del sendero
+            continue
+        dur = ride_pts[r['b']][2] - ride_pts[r['a']][2]
+        if dur <= 0:
+            continue
+        qual.append((cov, dur))
+    return qual
+
+
 def detect_segments(ride_pts, trails, tol_m=25.0, coverage=0.6, max_gap_pts=8):
     """
     ride_pts: lista de (lat, lon, epoch_seconds) del track de la salida.
     trails:   salida de load_reference_trails().
 
-    Detecta cada bajada del sendero como un tramo continuo que avanza hacia
-    adelante. Corta el tramo cuando tu progresión RETROCEDE (nueva vuelta o
-    subida). De todas las bajadas válidas (buena cobertura + avance forward)
+    Detecta cada bajada del sendero como un tramo continuo que la recorre
+    entera. Prueba el sendero en AMBOS sentidos (el GPX de Trailforks puede
+    estar dibujado al revés de como tú lo bajas). De todas las bajadas válidas
     reporta la MÁS RÁPIDA (tu mejor vuelta = tu PR) y cuántas hiciste.
 
     Devuelve: [{name, seconds, coverage, passes}] por sendero detectado.
@@ -147,63 +202,19 @@ def detect_segments(ride_pts, trails, tol_m=25.0, coverage=0.6, max_gap_pts=8):
     out = []
     for tr in trails:
         ref = tr['pts']
-        n = len(ref)
-        if n < 2:
+        if len(ref) < 2:
             continue
-        tgrid = _Grid([(la, lo, 0) for (la, lo) in ref], tol_m)
-
-        runs = []
-        cur = None
-        gap = 0
-
-        def _close():
-            nonlocal cur
-            if cur is not None:
-                runs.append(cur)
-                cur = None
-
-        for i, (la, lo, _t) in enumerate(ride_pts):
-            tj, d = tgrid.nearest(la, lo)
-            on = tj is not None and d <= tol_m
-            if on:
-                if cur is None:
-                    cur = {'a': i, 'b': i, 'hit': {tj}, 'maxtj': tj, 'first': tj, 'last': tj}
-                elif cur['maxtj'] > 0.5 * n and tj < cur['maxtj'] - 0.4 * n:
-                    # progresión retrocede tras haber avanzado → nueva vuelta
-                    _close()
-                    cur = {'a': i, 'b': i, 'hit': {tj}, 'maxtj': tj, 'first': tj, 'last': tj}
-                else:
-                    cur['b'] = i
-                    cur['hit'].add(tj)
-                    cur['last'] = tj
-                    if tj > cur['maxtj']:
-                        cur['maxtj'] = tj
-                gap = 0
-            elif cur is not None:
-                gap += 1
-                if gap > max_gap_pts:
-                    _close()
-                    gap = 0
-        _close()
-
-        # Tramos válidos: buena cobertura + avance forward por >½ del sendero.
-        # De todos ellos, reportar el MÁS RÁPIDO (tu vuelta limpia / PR).
-        qual = []
-        for r in runs:
-            cov = len(r['hit']) / n
-            if cov < coverage:
-                continue
-            if (r['last'] - r['first']) < 0.5 * n:   # debe avanzar >½ del sendero
-                continue
-            dur = ride_pts[r['b']][2] - ride_pts[r['a']][2]
-            if dur <= 0:
-                continue
-            qual.append((cov, dur))
+        # Probar ambas orientaciones y unir; solo la que calza con tu
+        # dirección de bajada produce tramos válidos.
+        qual = _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts)
+        qual += _scan_runs(ride_pts, ref[::-1], tol_m, coverage, max_gap_pts)
         if qual:
             best_dur = min(d for _, d in qual)
             best_cov = max(c for c, _ in qual)
             out.append({'name': tr['name'], 'seconds': round(best_dur, 1),
-                        'coverage': round(best_cov, 2), 'passes': len(qual)})
+                        'coverage': round(best_cov, 2), 'passes': len(qual),
+                        'dist_m': round(_trail_length_m(ref))})
+    return out
     return out
     return out
 

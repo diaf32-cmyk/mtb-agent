@@ -231,7 +231,7 @@ def main():
                         if len(ride_pts) >= 10:
                             segs = detect_segments(ride_pts, REF_TRAILS)
                             if segs:
-                                summary['segments'] = [{'name': s['name'], 'seconds': s['seconds'], 'passes': s.get('passes', 1)} for s in segs]
+                                summary['segments'] = [{'name': s['name'], 'seconds': s['seconds'], 'passes': s.get('passes', 1), 'dist_m': s.get('dist_m')} for s in segs]
                                 print(f"     → senderos: " + ", ".join(f"{s['name']} {s['seconds']}s" for s in segs))
                     except Exception:
                         pass
