@@ -169,6 +169,19 @@ class _Grid:
 
 
 # ── Detección de segmentos en una salida ──────────────────────────────
+
+def _run_coverage(ride_pts, a, b, ref, tol_m):
+    """% de puntos del sendero de referencia que quedan a <=tol_m de la
+    sub-traza [a,b] de la salida. Mide cobertura REAL (ref->salida), robusta
+    a que dos puntos de ref compartan el mismo punto de la salida."""
+    g = _Grid([(la, lo, 0.0) for (la, lo, _t) in ride_pts[a:b + 1]], tol_m)
+    hit = 0
+    for (la, lo) in ref:
+        _j, d = g.nearest(la, lo)
+        if d <= tol_m:
+            hit += 1
+    return hit / len(ref) if ref else 0.0
+
 def _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts):
     """Encuentra bajadas válidas del track sobre 'ref' (en el sentido dado).
     Devuelve lista de (cobertura, segundos) de cada tramo válido."""
@@ -204,7 +217,7 @@ def _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts):
 
     qual = []
     for r in runs:
-        cov = len(r['hit']) / n
+        cov = _run_coverage(ride_pts, r['a'], r['b'], ref, tol_m)
         if cov < coverage:
             continue
         if (r['last'] - r['first']) < 0.5 * n:   # debe avanzar >½ del sendero
@@ -216,7 +229,7 @@ def _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts):
     return qual
 
 
-def detect_segments(ride_pts, trails, tol_m=25.0, coverage=0.6, max_gap_pts=8):
+def detect_segments(ride_pts, trails, tol_m=30.0, coverage=0.6, max_gap_pts=15):
     """
     ride_pts: lista de (lat, lon, epoch_seconds) del track de la salida.
     trails:   salida de load_reference_trails().

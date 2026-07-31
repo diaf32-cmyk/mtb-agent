@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-07-31T19:44:56.276389",
+  "lastSync": "2026-07-31T19:47:43.451232",
   "activities": [
     {
       "activityId": 23790840844,
@@ -42,21 +42,27 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 377.0,
+          "seconds": 379.0,
           "passes": 1,
           "dist_m": 2387
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 287.0,
+          "seconds": 290.0,
           "passes": 1,
           "dist_m": 796
         },
         {
           "name": "Papaya",
-          "seconds": 132.0,
+          "seconds": 135.0,
           "passes": 1,
           "dist_m": 749
+        },
+        {
+          "name": "Parecero",
+          "seconds": 110.0,
+          "passes": 2,
+          "dist_m": 673
         }
       ]
     },
@@ -101,13 +107,13 @@
       "segments": [
         {
           "name": "Papaya",
-          "seconds": 111.0,
+          "seconds": 113.0,
           "passes": 1,
           "dist_m": 749
         },
         {
           "name": "Rock and roll",
-          "seconds": 141.0,
+          "seconds": 143.0,
           "passes": 1,
           "dist_m": 998
         }
@@ -232,19 +238,19 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 102.0,
+          "seconds": 152.0,
           "passes": 2,
           "dist_m": 681
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 252.0,
+          "seconds": 253.0,
           "passes": 1,
           "dist_m": 1969
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 170.0,
+          "seconds": 195.0,
           "passes": 2,
           "dist_m": 796
         }
@@ -275,19 +281,19 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 360.0,
+          "seconds": 362.0,
           "passes": 1,
           "dist_m": 2387
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 245.0,
+          "seconds": 246.0,
           "passes": 1,
           "dist_m": 1969
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 124.0,
+          "seconds": 126.0,
           "passes": 1,
           "dist_m": 796
         }
@@ -332,13 +338,13 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 367.0,
+          "seconds": 370.0,
           "passes": 1,
           "dist_m": 2387
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 242.0,
+          "seconds": 243.0,
           "passes": 1,
           "dist_m": 1969
         },
@@ -430,7 +436,7 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 100.0,
+          "seconds": 134.0,
           "passes": 1,
           "dist_m": 681
         },
@@ -442,7 +448,7 @@
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 110.0,
+          "seconds": 111.0,
           "passes": 1,
           "dist_m": 796
         }
@@ -489,19 +495,19 @@
       "segments": [
         {
           "name": "Lomo Vetado",
-          "seconds": 250.0,
+          "seconds": 251.0,
           "passes": 2,
           "dist_m": 1969
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 126.0,
+          "seconds": 128.0,
           "passes": 1,
           "dist_m": 796
         },
         {
           "name": "Papaya",
-          "seconds": 106.0,
+          "seconds": 152.0,
           "passes": 1,
           "dist_m": 749
         }
@@ -548,25 +554,25 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 115.0,
+          "seconds": 151.0,
           "passes": 1,
           "dist_m": 681
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 261.0,
+          "seconds": 263.0,
           "passes": 1,
           "dist_m": 1969
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 182.0,
+          "seconds": 225.0,
           "passes": 1,
           "dist_m": 796
         },
         {
           "name": "Parecero",
-          "seconds": 90.0,
+          "seconds": 124.0,
           "passes": 1,
           "dist_m": 673
         }
@@ -613,19 +619,19 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 384.0,
+          "seconds": 389.0,
           "passes": 1,
           "dist_m": 2387
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 132.0,
+          "seconds": 133.0,
           "passes": 1,
           "dist_m": 796
         },
         {
           "name": "Starwars",
-          "seconds": 613.0,
+          "seconds": 615.0,
           "passes": 1,
           "dist_m": 3137
         }
@@ -688,25 +694,25 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 91.0,
+          "seconds": 132.0,
           "passes": 1,
           "dist_m": 681
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 110.0,
+          "seconds": 114.0,
           "passes": 2,
           "dist_m": 796
         },
         {
           "name": "Papaya",
-          "seconds": 106.0,
+          "seconds": 160.0,
           "passes": 1,
           "dist_m": 749
         },
         {
           "name": "Parecero",
-          "seconds": 107.0,
+          "seconds": 158.0,
           "passes": 1,
           "dist_m": 673
         }
@@ -826,19 +832,19 @@
       "segments": [
         {
           "name": "Mampato Durazno",
-          "seconds": 332.0,
+          "seconds": 336.0,
           "passes": 1,
           "dist_m": 796
         },
         {
           "name": "Papaya",
-          "seconds": 119.0,
+          "seconds": 197.0,
           "passes": 1,
           "dist_m": 749
         },
         {
           "name": "Parecero",
-          "seconds": 154.0,
+          "seconds": 159.0,
           "passes": 1,
           "dist_m": 673
         }
@@ -885,19 +891,19 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 88.0,
+          "seconds": 132.0,
           "passes": 1,
           "dist_m": 681
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 241.0,
+          "seconds": 243.0,
           "passes": 1,
           "dist_m": 1969
         },
         {
           "name": "Papaya",
-          "seconds": 121.0,
+          "seconds": 173.0,
           "passes": 1,
           "dist_m": 749
         }
@@ -944,19 +950,19 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 117.0,
+          "seconds": 166.0,
           "passes": 1,
           "dist_m": 681
         },
         {
           "name": "Gringo Durazno",
-          "seconds": 384.0,
+          "seconds": 387.0,
           "passes": 1,
           "dist_m": 2387
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 163.0,
+          "seconds": 197.0,
           "passes": 1,
           "dist_m": 796
         }
