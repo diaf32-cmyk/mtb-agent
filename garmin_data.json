@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-07-31T19:25:20.824300",
+  "lastSync": "2026-07-31T19:44:56.276389",
   "activities": [
     {
       "activityId": 23790840844,
@@ -41,28 +41,22 @@
       },
       "segments": [
         {
-          "name": "El Gringo",
-          "seconds": 350.0,
+          "name": "Gringo Durazno",
+          "seconds": 377.0,
           "passes": 1,
-          "dist_m": 2182
+          "dist_m": 2387
         },
         {
-          "name": "Mampato Trail",
-          "seconds": 299.0,
+          "name": "Mampato Durazno",
+          "seconds": 287.0,
           "passes": 1,
-          "dist_m": 991
+          "dist_m": 796
         },
         {
-          "name": "Papaya Trail",
-          "seconds": 164.0,
+          "name": "Papaya",
+          "seconds": 132.0,
           "passes": 1,
-          "dist_m": 846
-        },
-        {
-          "name": "Parcero Trail",
-          "seconds": 137.0,
-          "passes": 2,
-          "dist_m": 816
+          "dist_m": 749
         }
       ]
     },
@@ -106,10 +100,16 @@
       },
       "segments": [
         {
-          "name": "Papaya Trail",
-          "seconds": 131.0,
+          "name": "Papaya",
+          "seconds": 111.0,
           "passes": 1,
-          "dist_m": 846
+          "dist_m": 749
+        },
+        {
+          "name": "Rock and roll",
+          "seconds": 141.0,
+          "passes": 1,
+          "dist_m": 998
         }
       ]
     },
@@ -231,22 +231,22 @@
       },
       "segments": [
         {
-          "name": "Lomo Vetado",
-          "seconds": 400.0,
-          "passes": 1,
-          "dist_m": 2704
-        },
-        {
           "name": "Cebolla Trail",
-          "seconds": 149.0,
+          "seconds": 102.0,
           "passes": 2,
-          "dist_m": 1125
+          "dist_m": 681
         },
         {
-          "name": "Sendero La Bala",
-          "seconds": 111.0,
+          "name": "Lomo Vetado",
+          "seconds": 252.0,
+          "passes": 1,
+          "dist_m": 1969
+        },
+        {
+          "name": "Mampato Durazno",
+          "seconds": 170.0,
           "passes": 2,
-          "dist_m": 661
+          "dist_m": 796
         }
       ]
     },
@@ -274,9 +274,22 @@
       },
       "segments": [
         {
+          "name": "Gringo Durazno",
+          "seconds": 360.0,
+          "passes": 1,
+          "dist_m": 2387
+        },
+        {
           "name": "Lomo Vetado",
-          "seconds": 483.0,
-          "passes": 1
+          "seconds": 245.0,
+          "passes": 1,
+          "dist_m": 1969
+        },
+        {
+          "name": "Mampato Durazno",
+          "seconds": 124.0,
+          "passes": 1,
+          "dist_m": 796
         }
       ],
       "maxSpeed": 14.659000396728516,
@@ -318,9 +331,22 @@
       },
       "segments": [
         {
+          "name": "Gringo Durazno",
+          "seconds": 367.0,
+          "passes": 1,
+          "dist_m": 2387
+        },
+        {
           "name": "Lomo Vetado",
-          "seconds": 469.0,
-          "passes": 1
+          "seconds": 242.0,
+          "passes": 1,
+          "dist_m": 1969
+        },
+        {
+          "name": "Mampato Durazno",
+          "seconds": 121.0,
+          "passes": 1,
+          "dist_m": 796
         }
       ],
       "maxSpeed": 13.996000289916992,
@@ -344,8 +370,18 @@
       "activityId": 23236804622,
       "activityName": "Guayguay ",
       "startTimeLocal": "2026-06-13T10:01:15.0",
-      "distance": 19580.099609375,
+      "distance": 19580.1,
+      "duration": 8307.923,
+      "movingDuration": 6184.0,
       "elevationGain": 912.0,
+      "elevationLoss": 915.0,
+      "avgSpeed": 2.3570001125335693,
+      "maxSpeed": 12.88599967956543,
+      "avgHR": null,
+      "maxHR": null,
+      "calories": 1401.0,
+      "avgTemperature": 15.146828994453683,
+      "locationName": "Colina",
       "mtbDynamics": {
         "grit": 98.03437805175781,
         "avgFlow": 4.326607704162598,
@@ -362,14 +398,6 @@
         "locationName": "Colina",
         "maxSpeed": 12.88599967956543
       },
-      "maxSpeed": 12.88599967956543,
-      "avgSpeed": 2.3570001125335693,
-      "elevationLoss": 915.0,
-      "duration": 8307.923,
-      "movingDuration": 6184.0,
-      "calories": 1401.0,
-      "avgTemperature": 15.146828994453683,
-      "locationName": "Colina",
       "bestJump": {
         "score": 124,
         "hangTime": 0.536,
@@ -401,19 +429,22 @@
       },
       "segments": [
         {
-          "name": "Lomo Vetado",
-          "seconds": 462.0,
-          "passes": 2
-        },
-        {
           "name": "Cebolla Trail",
-          "seconds": 145.0,
-          "passes": 1
+          "seconds": 100.0,
+          "passes": 1,
+          "dist_m": 681
         },
         {
-          "name": "Sendero La Bala",
-          "seconds": 203.0,
-          "passes": 1
+          "name": "Lomo Vetado",
+          "seconds": 249.0,
+          "passes": 2,
+          "dist_m": 1969
+        },
+        {
+          "name": "Mampato Durazno",
+          "seconds": 110.0,
+          "passes": 1,
+          "dist_m": 796
         }
       ],
       "maxSpeed": 13.687999725341797,
@@ -458,13 +489,21 @@
       "segments": [
         {
           "name": "Lomo Vetado",
-          "seconds": 447.0,
-          "passes": 2
+          "seconds": 250.0,
+          "passes": 2,
+          "dist_m": 1969
         },
         {
-          "name": "Papaya Trail",
-          "seconds": 174.0,
-          "passes": 1
+          "name": "Mampato Durazno",
+          "seconds": 126.0,
+          "passes": 1,
+          "dist_m": 796
+        },
+        {
+          "name": "Papaya",
+          "seconds": 106.0,
+          "passes": 1,
+          "dist_m": 749
         }
       ],
       "maxSpeed": 13.9399995803833,
@@ -508,24 +547,28 @@
       },
       "segments": [
         {
-          "name": "Lomo Vetado",
-          "seconds": 810.0,
-          "passes": 1
-        },
-        {
           "name": "Cebolla Trail",
-          "seconds": 147.0,
-          "passes": 1
+          "seconds": 115.0,
+          "passes": 1,
+          "dist_m": 681
         },
         {
-          "name": "Sendero La Bala",
-          "seconds": 171.0,
-          "passes": 2
+          "name": "Lomo Vetado",
+          "seconds": 261.0,
+          "passes": 1,
+          "dist_m": 1969
         },
         {
-          "name": "Parcero Trail",
-          "seconds": 191.0,
-          "passes": 1
+          "name": "Mampato Durazno",
+          "seconds": 182.0,
+          "passes": 1,
+          "dist_m": 796
+        },
+        {
+          "name": "Parecero",
+          "seconds": 90.0,
+          "passes": 1,
+          "dist_m": 673
         }
       ],
       "maxSpeed": 13.352000236511232,
@@ -569,9 +612,22 @@
       },
       "segments": [
         {
-          "name": "Sendero La Bala",
-          "seconds": 359.0,
-          "passes": 1
+          "name": "Gringo Durazno",
+          "seconds": 384.0,
+          "passes": 1,
+          "dist_m": 2387
+        },
+        {
+          "name": "Mampato Durazno",
+          "seconds": 132.0,
+          "passes": 1,
+          "dist_m": 796
+        },
+        {
+          "name": "Starwars",
+          "seconds": 613.0,
+          "passes": 1,
+          "dist_m": 3137
         }
       ],
       "maxSpeed": 13.109999656677246,
@@ -595,8 +651,18 @@
       "activityId": 22997305757,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-05-24T09:49:44.0",
-      "distance": 18920.759765625,
+      "distance": 18920.76,
+      "duration": 6569.023,
+      "movingDuration": 5191.0,
       "elevationGain": 739.0,
+      "elevationLoss": 725.0,
+      "avgSpeed": 2.880000114440918,
+      "maxSpeed": 12.465999603271484,
+      "avgHR": 120.0,
+      "maxHR": 158.0,
+      "calories": 762.0,
+      "avgTemperature": 11.620038311621656,
+      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 82.78125,
         "avgFlow": 3.906196355819702,
@@ -613,55 +679,55 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 12.465999603271484
       },
-      "segments": [
-        {
-          "name": "Cebolla Trail",
-          "seconds": 128.0,
-          "passes": 1,
-          "dist_m": 1125
-        },
-        {
-          "name": "Sendero La Bala",
-          "seconds": 235.0,
-          "passes": 1,
-          "dist_m": 661
-        },
-        {
-          "name": "Papaya Trail",
-          "seconds": 246.0,
-          "passes": 1,
-          "dist_m": 846
-        },
-        {
-          "name": "Parcero Trail",
-          "seconds": 281.0,
-          "passes": 1,
-          "dist_m": 816
-        }
-      ],
-      "maxSpeed": 12.465999603271484,
-      "avgSpeed": 2.880000114440918,
-      "elevationLoss": 725.0,
-      "duration": 6569.023,
-      "movingDuration": 5191.0,
-      "avgHR": 120.0,
-      "maxHR": 158.0,
-      "calories": 762.0,
-      "avgTemperature": 11.620038311621656,
-      "locationName": "Lo Barnechea",
       "bestJump": {
         "score": 160,
         "hangTime": 0.64,
         "speed": 46.6,
         "distance": 8.28
-      }
+      },
+      "segments": [
+        {
+          "name": "Cebolla Trail",
+          "seconds": 91.0,
+          "passes": 1,
+          "dist_m": 681
+        },
+        {
+          "name": "Mampato Durazno",
+          "seconds": 110.0,
+          "passes": 2,
+          "dist_m": 796
+        },
+        {
+          "name": "Papaya",
+          "seconds": 106.0,
+          "passes": 1,
+          "dist_m": 749
+        },
+        {
+          "name": "Parecero",
+          "seconds": 107.0,
+          "passes": 1,
+          "dist_m": 673
+        }
+      ]
     },
     {
       "activityId": 22962218472,
       "activityName": "Guay guay",
       "startTimeLocal": "2026-05-30T09:59:00",
-      "distance": 30883.80078125,
+      "distance": 30883.8,
+      "duration": 10633.248,
+      "movingDuration": 9229.0,
       "elevationGain": 1509.0,
+      "elevationLoss": 1510.0,
+      "avgSpeed": 2.9040000438690186,
+      "maxSpeed": 14.444000244140627,
+      "avgHR": 115.0,
+      "maxHR": 160.0,
+      "calories": 1081.0,
+      "avgTemperature": 13.359779806962353,
+      "locationName": "Colina",
       "mtbDynamics": {
         "grit": 155.8898468017578,
         "avgFlow": 3.582629680633545,
@@ -678,16 +744,6 @@
         "locationName": "Colina",
         "maxSpeed": 14.444000244140627
       },
-      "maxSpeed": 14.444000244140627,
-      "avgSpeed": 2.9040000438690186,
-      "elevationLoss": 1510.0,
-      "duration": 10633.248,
-      "movingDuration": 9229.0,
-      "avgHR": 115.0,
-      "maxHR": 160.0,
-      "calories": 1081.0,
-      "avgTemperature": 13.359779806962353,
-      "locationName": "Colina",
       "bestJump": {
         "score": 181.0,
         "distance": 9.08,
@@ -699,8 +755,18 @@
       "activityId": 22904617919,
       "activityName": "Las varas",
       "startTimeLocal": "2026-05-16T10:21:49.0",
-      "distance": 16933.109375,
+      "distance": 16933.11,
+      "duration": 10477.022,
+      "movingDuration": 6691.0,
       "elevationGain": 915.0,
+      "elevationLoss": 975.0,
+      "avgSpeed": 1.6160000562667847,
+      "maxSpeed": 11.243000030517578,
+      "avgHR": 125.0,
+      "maxHR": 168.0,
+      "calories": 1197.0,
+      "avgTemperature": 19.002453167373677,
+      "locationName": "Las Condes",
       "mtbDynamics": {
         "grit": 107.77030944824219,
         "avgFlow": 5.718075752258301,
@@ -717,16 +783,6 @@
         "locationName": "Las Condes",
         "maxSpeed": 11.243000030517578
       },
-      "maxSpeed": 11.243000030517578,
-      "avgSpeed": 1.6160000562667847,
-      "elevationLoss": 975.0,
-      "duration": 10477.022,
-      "movingDuration": 6691.0,
-      "avgHR": 125.0,
-      "maxHR": 168.0,
-      "calories": 1197.0,
-      "avgTemperature": 19.002453167373677,
-      "locationName": "Las Condes",
       "bestJump": {
         "score": 105.0,
         "hangTime": 0.36,
@@ -739,8 +795,18 @@
       "activityId": 22879439357,
       "activityName": "Lo Barnechea Ciclismo de monta\u00f1a",
       "startTimeLocal": "2026-05-14T09:53:58.0",
-      "distance": 5993.7099609375,
+      "distance": 5993.71,
+      "duration": 1667.2,
+      "movingDuration": 1533.0,
       "elevationGain": 253.0,
+      "elevationLoss": 218.0,
+      "avgSpeed": 3.5950000286102295,
+      "maxSpeed": 12.26099967956543,
+      "avgHR": 129.0,
+      "maxHR": 163.0,
+      "calories": 252.0,
+      "avgTemperature": 29.637441228446754,
+      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": null,
         "avgFlow": null,
@@ -759,35 +825,41 @@
       },
       "segments": [
         {
-          "name": "Papaya Trail",
-          "seconds": 281.0,
+          "name": "Mampato Durazno",
+          "seconds": 332.0,
           "passes": 1,
-          "dist_m": 846
+          "dist_m": 796
         },
         {
-          "name": "Parcero Trail",
-          "seconds": 170.0,
+          "name": "Papaya",
+          "seconds": 119.0,
           "passes": 1,
-          "dist_m": 816
+          "dist_m": 749
+        },
+        {
+          "name": "Parecero",
+          "seconds": 154.0,
+          "passes": 1,
+          "dist_m": 673
         }
-      ],
-      "maxSpeed": 12.26099967956543,
-      "avgSpeed": 3.5950000286102295,
-      "elevationLoss": 218.0,
-      "duration": 1667.2,
-      "movingDuration": 1533.0,
-      "avgHR": 129.0,
-      "maxHR": 163.0,
-      "calories": 252.0,
-      "avgTemperature": 29.637441228446754,
-      "locationName": "Lo Barnechea"
+      ]
     },
     {
       "activityId": 22879835028,
       "activityName": "Lo Barnechea Bicicleta el\u00e9ctrica",
       "startTimeLocal": "2026-05-14T08:24:37.0",
-      "distance": 11252.419921875,
+      "distance": 11252.42,
+      "duration": 4698.926,
+      "movingDuration": 3386.0,
       "elevationGain": 528.0,
+      "elevationLoss": 433.0,
+      "avgSpeed": 2.3949999809265137,
+      "maxSpeed": 13.800000190734863,
+      "avgHR": 136.0,
+      "maxHR": 173.0,
+      "calories": 752.0,
+      "avgTemperature": 16.485833567874476,
+      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 56.09296798706055,
         "avgFlow": 3.5572822093963623,
@@ -804,49 +876,49 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.800000190734863
       },
-      "segments": [
-        {
-          "name": "Lomo Vetado",
-          "seconds": 363.0,
-          "passes": 1,
-          "dist_m": 2704
-        },
-        {
-          "name": "Cebolla Trail",
-          "seconds": 161.0,
-          "passes": 1,
-          "dist_m": 1125
-        },
-        {
-          "name": "Papaya Trail",
-          "seconds": 198.0,
-          "passes": 1,
-          "dist_m": 846
-        }
-      ],
-      "maxSpeed": 13.800000190734863,
-      "avgSpeed": 2.3949999809265137,
-      "elevationLoss": 433.0,
-      "duration": 4698.926,
-      "movingDuration": 3386.0,
-      "avgHR": 136.0,
-      "maxHR": 173.0,
-      "calories": 752.0,
-      "avgTemperature": 16.485833567874476,
-      "locationName": "Lo Barnechea",
       "bestJump": {
         "score": 166,
         "hangTime": 0.816,
         "speed": 33.3,
         "distance": 7.55
-      }
+      },
+      "segments": [
+        {
+          "name": "Cebolla Trail",
+          "seconds": 88.0,
+          "passes": 1,
+          "dist_m": 681
+        },
+        {
+          "name": "Lomo Vetado",
+          "seconds": 241.0,
+          "passes": 1,
+          "dist_m": 1969
+        },
+        {
+          "name": "Papaya",
+          "seconds": 121.0,
+          "passes": 1,
+          "dist_m": 749
+        }
+      ]
     },
     {
       "activityId": 22822585484,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-05-09T10:05:09.0",
-      "distance": 13636.1796875,
+      "distance": 13636.18,
+      "duration": 6796.295,
+      "movingDuration": 3959.0,
       "elevationGain": 572.0,
+      "elevationLoss": 613.0,
+      "avgSpeed": 2.00600004196167,
+      "maxSpeed": 13.54800033569336,
+      "avgHR": 111.0,
+      "maxHR": 156.0,
+      "calories": 671.0,
+      "avgTemperature": 17.7543629441938,
+      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 63.243751525878906,
         "avgFlow": 5.080082416534424,
@@ -863,36 +935,32 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.54800033569336
       },
-      "segments": [
-        {
-          "name": "Cebolla Trail",
-          "seconds": 804.0,
-          "passes": 1,
-          "dist_m": 1125
-        },
-        {
-          "name": "Sendero La Bala",
-          "seconds": 310.0,
-          "passes": 1,
-          "dist_m": 661
-        }
-      ],
-      "maxSpeed": 13.54800033569336,
-      "avgSpeed": 2.00600004196167,
-      "elevationLoss": 613.0,
-      "duration": 6796.295,
-      "movingDuration": 3959.0,
-      "avgHR": 111.0,
-      "maxHR": 156.0,
-      "calories": 671.0,
-      "avgTemperature": 17.7543629441938,
-      "locationName": "Lo Barnechea",
       "bestJump": {
         "score": 186,
         "hangTime": 0.752,
         "speed": 46.9,
         "distance": 9.8
-      }
+      },
+      "segments": [
+        {
+          "name": "Cebolla Trail",
+          "seconds": 117.0,
+          "passes": 1,
+          "dist_m": 681
+        },
+        {
+          "name": "Gringo Durazno",
+          "seconds": 384.0,
+          "passes": 1,
+          "dist_m": 2387
+        },
+        {
+          "name": "Mampato Durazno",
+          "seconds": 163.0,
+          "passes": 1,
+          "dist_m": 796
+        }
+      ]
     },
     {
       "activityId": 22811318174,
@@ -916,26 +984,6 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.295999526977539
       },
-      "segments": [
-        {
-          "name": "Lomo Vetado",
-          "seconds": 372.0,
-          "passes": 1,
-          "dist_m": 2704
-        },
-        {
-          "name": "Cebolla Trail",
-          "seconds": 124.0,
-          "passes": 1,
-          "dist_m": 1125
-        },
-        {
-          "name": "Sendero La Bala",
-          "seconds": 133.0,
-          "passes": 1,
-          "dist_m": 661
-        }
-      ],
       "maxSpeed": 13.295999526977539,
       "avgSpeed": 2.750999927520752,
       "elevationLoss": 919.0,
@@ -975,38 +1023,6 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 14.41600036621094
       },
-      "segments": [
-        {
-          "name": "Lomo Vetado",
-          "seconds": 413.0,
-          "passes": 1,
-          "dist_m": 2704
-        },
-        {
-          "name": "Cebolla Trail",
-          "seconds": 130.0,
-          "passes": 1,
-          "dist_m": 1125
-        },
-        {
-          "name": "Sendero La Bala",
-          "seconds": 110.0,
-          "passes": 1,
-          "dist_m": 661
-        },
-        {
-          "name": "Mampato Trail",
-          "seconds": 243.0,
-          "passes": 1,
-          "dist_m": 991
-        },
-        {
-          "name": "Parcero Trail",
-          "seconds": 137.0,
-          "passes": 1,
-          "dist_m": 816
-        }
-      ],
       "maxSpeed": 14.41600036621094,
       "avgSpeed": 2.872999906539917,
       "elevationLoss": 1021.0,
