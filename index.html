@@ -469,19 +469,12 @@ const GARMIN_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main
    record se actualiza automáticamente cuando superas el baseline.
 ══════════════════════════════════════════════ */
 const TRAIL_RECORDS = {
-  // Baseline = tu PR de leaderboard de Garmin en CADA segmento (mismo trazado
-  // que detecta la app, idéntico a lo que te muestra el Edge). Claves = nombre
-  // Garmin normalizado, así calzan solas con lo detectado.
-  'gringo durazno':    { name: 'Gringo',      seconds: 294, speed: 29.2, date: null },
-  'lomo vetado':       { name: 'Lomo Vetado', seconds: 202, speed: 35.2, date: null },
-  'mampato durazno':   { name: 'Mampato',     seconds: 89,  speed: 32.0, date: null },
-  'parecero':          { name: 'Parcero',     seconds: 70,  speed: 34.4, date: null },
-  'cebolla trail':     { name: 'Cebolla',     seconds: 72,  speed: 34.0, date: null },
-  'papaya':            { name: 'Papaya',      seconds: 94,  speed: 28.7, date: null },
-  'bajada calibre 12': { name: 'Calibre 12',  seconds: 237, speed: 27.0, date: null },
-  'rock and roll':     { name: 'Rock & Roll', seconds: 122, speed: 29.4, date: null },
-  'starwars':          { name: 'Star Wars',   seconds: 469, speed: 24.0, date: null },
-  'xl':                { name: 'XL',          seconds: 493, speed: 24.4, date: null },
+  // El record de cada pista es tu MEJOR tiempo GPS real (medido sobre el
+  // segmento Garmin), no un tiempo externo. Los tiempos de leaderboard de
+  // Garmin resultaron ser del líder/KOM, no tuyos, así que no se usan.
+  // Si quieres fijar un record histórico conocido como objetivo, agrégalo:
+  //   'lomo vetado': { name: 'Lomo Vetado', seconds: 357, speed: 28.1, date: '2025-07-07' },
+  // y la app tomará el menor entre ese y tu mejor GPS.
 };
 
 /* Si un GPX de Trailforks trae un nombre distinto al de tus records,
@@ -490,6 +483,13 @@ const TRAIL_RECORDS = {
 const TRAIL_ALIASES = {
   // Con los segmentos Garmin las claves calzan solas. Deja aquí un alias solo
   // si algún nombre Garmin cambia:  'nombre-normalizado': 'clave-record'.
+};
+
+// Nombres bonitos para mostrar (los segmentos Garmin traen nombres largos).
+const TRAIL_DISPLAY = {
+  'gringo durazno': 'Gringo', 'parecero': 'Parcero', 'mampato durazno': 'Mampato',
+  'cebolla trail': 'Cebolla', 'bajada calibre 12': 'Calibre 12', 'rock and roll': 'Rock & Roll',
+  'starwars': 'Star Wars', 'papaya': 'Papaya', 'lomo vetado': 'Lomo Vetado', 'xl': 'XL',
 };
 
 function normTrail(n) {
@@ -501,7 +501,7 @@ function normTrail(n) {
     .trim();
 }
 function canonTrail(n) { const k = normTrail(n); return TRAIL_ALIASES[k] || k; }
-function trailDisplayName(canon, fallback) { return TRAIL_RECORDS[canon]?.name || fallback || canon; }
+function trailDisplayName(canon, fallback) { return TRAIL_RECORDS[canon]?.name || TRAIL_DISPLAY[canon] || fallback || canon; }
 
 /* Agrupa todos los `segments` detectados por sendero (clave canónica). */
 function detectedTrailMap() {
@@ -814,42 +814,39 @@ function renderTrailRecords() {
   const rows = [...keys].map(k => {
     const base = TRAIL_RECORDS[k];
     const d = detMap[k];
-    const rec = effectiveRecord(k, detMap);
-    const isNewPR = !!(d && base && d.best < base.seconds);
-    const yourBest = d ? d.best : null;
-    const deltaToRec = (yourBest != null && rec.seconds != null) ? yourBest - rec.seconds : null;
+    const rec = effectiveRecord(k, detMap);   // menor entre baseline (si existe) y mejor GPS
+    let latest = null;
+    if (d && d.entries.length) {
+      const e = d.entries.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+      latest = e[e.length - 1];
+    }
+    const latestDelta = (latest && rec.seconds != null) ? latest.seconds - rec.seconds : null;
     return {
       key: k,
-      name: base?.name || d?.displayName || k,
+      name: trailDisplayName(k, d?.displayName),
       recSeconds: rec.seconds, recSpeed: rec.speed, recDate: rec.date, recSource: rec.source,
-      rides: d ? d.rides : 0, hasData: !!d, isNewPR, deltaToRec,
-      improve: (isNewPR && base) ? (base.seconds - d.best) : 0
+      rides: d ? d.rides : 0, hasData: !!d,
+      isBestNow: (latestDelta != null && latestDelta <= 0),
+      latestDelta
     };
-  }).sort((a, b) => {
-    if (a.isNewPR !== b.isNewPR) return a.isNewPR ? -1 : 1;
-    if (b.rides !== a.rides) return b.rides - a.rides;
-    return a.name.localeCompare(b.name);
-  });
+  }).sort((a, b) => (b.rides - a.rides) || a.name.localeCompare(b.name));
 
-  let html = '<table class="records-table"><thead><tr><th>Sendero</th><th>Record</th><th>Vel.</th><th>Fecha</th><th>Salidas</th><th>Estado</th></tr></thead><tbody>';
+  let html = '<table class="records-table"><thead><tr><th>Sendero</th><th>Tu record</th><th>Vel.</th><th>Fecha</th><th>Salidas</th><th>Última salida</th></tr></thead><tbody>';
   rows.forEach(r => {
     const recTime = r.recSeconds != null ? formatTime(Math.round(r.recSeconds)) : '—';
     const recVel  = r.recSpeed != null ? r.recSpeed.toFixed(1) + ' km/h' : '—';
     const recDate = r.recDate ? new Date(r.recDate).toLocaleDateString('es-CL') : '—';
-    const srcBadge = r.recSource === 'garmin'
-      ? ' <span class="badge-best">GPS</span>'
-      : (r.recSource === 'strava' ? ' <span style="color:var(--muted);font-size:0.56rem;font-family:\'DM Mono\',monospace;">STRAVA</span>' : '');
+    const srcBadge = r.recSource === 'strava'
+      ? ' <span style="color:var(--muted);font-size:0.56rem;font-family:\'DM Mono\',monospace;">REF</span>'
+      : '';
     let estado;
-    if (r.isNewPR) {
-      estado = `<span class="badge-best">🏆 Nuevo PR · −${formatTime(Math.round(r.improve))}</span>`;
-    } else if (r.hasData && r.deltaToRec != null) {
-      if (r.deltaToRec <= 0) estado = '<span style="color:var(--green)">✓ igualas el record</span>';
-      else {
-        const c = r.deltaToRec <= 15 ? '#e8a020' : (r.deltaToRec <= 60 ? '#d4703a' : 'var(--red)');
-        estado = `<span style="color:${c}">a +${formatTime(Math.round(r.deltaToRec))} del record</span>`;
-      }
-    } else {
+    if (!r.hasData) {
       estado = '<span style="color:var(--muted)">sin datos GPS aún</span>';
+    } else if (r.isBestNow) {
+      estado = '<span class="badge-best">🏆 tu mejor marca</span>';
+    } else {
+      const c = r.latestDelta <= 15 ? '#e8a020' : (r.latestDelta <= 60 ? '#d4703a' : 'var(--red)');
+      estado = `<span style="color:${c}">+${formatTime(Math.round(r.latestDelta))} vs tu PR</span>`;
     }
     html += `<tr>
       <td style="font-weight:500">${r.name}${srcBadge}</td>
@@ -861,7 +858,7 @@ function renderTrailRecords() {
     </tr>`;
   });
   html += '</tbody></table>';
-  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:10px;line-height:1.6;">El baseline son tus PRs de Strava. Cuando sincronizas una salida con GPS, la app detecta tu tiempo por sendero y actualiza el record al superarlo (marcado <b>GPS</b>). Las pistas que aún no vuelves a bajar conservan tu PR histórico.</p>`;
+  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:10px;line-height:1.6;">Tu record es tu <b>mejor tiempo GPS real</b> en cada segmento Garmin (tiempo de rodada, sin paradas). Cada salida se compara contra él; cuando bajas más rápido, el record se actualiza solo.</p>`;
   cont.innerHTML = html;
 }
 
