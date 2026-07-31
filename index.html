@@ -469,27 +469,27 @@ const GARMIN_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main
    record se actualiza automáticamente cuando superas el baseline.
 ══════════════════════════════════════════════ */
 const TRAIL_RECORDS = {
-  'lomo vetado': { name: 'Lomo Vetado', seconds: 357, speed: 28.1, date: '2025-07-07' },
-  'cebolla':     { name: 'Cebolla',     seconds: 60,  speed: 27.9, date: '2024-05-29' },
-  'bala':        { name: 'La Bala',     seconds: 71,  speed: 30.5, date: '2024-08-25' },
-  'mampato':     { name: 'Mampato',     seconds: 81,  speed: 29.5, date: '2025-01-09' },
-  'gringo':      { name: 'Gringo',      seconds: 330, speed: 24.4, date: '2026-03-22' },
-  'parcero':     { name: 'Parcero',     seconds: 75,  speed: 32.8, date: '2025-08-09' },
-  'calibre 12':  { name: 'Calibre 12',  seconds: 297, speed: 19.6, date: '2026-03-26' },
-  'xl':          { name: 'XL',          seconds: 275, speed: 13.9, date: '2025-09-11' },
+  // Baseline = tu PR de leaderboard de Garmin en CADA segmento (mismo trazado
+  // que detecta la app, idéntico a lo que te muestra el Edge). Claves = nombre
+  // Garmin normalizado, así calzan solas con lo detectado.
+  'gringo durazno':    { name: 'Gringo',      seconds: 294, speed: 29.2, date: null },
+  'lomo vetado':       { name: 'Lomo Vetado', seconds: 202, speed: 35.2, date: null },
+  'mampato durazno':   { name: 'Mampato',     seconds: 89,  speed: 32.0, date: null },
+  'parecero':          { name: 'Parcero',     seconds: 70,  speed: 34.4, date: null },
+  'cebolla trail':     { name: 'Cebolla',     seconds: 72,  speed: 34.0, date: null },
+  'papaya':            { name: 'Papaya',      seconds: 94,  speed: 28.7, date: null },
+  'bajada calibre 12': { name: 'Calibre 12',  seconds: 237, speed: 27.0, date: null },
+  'rock and roll':     { name: 'Rock & Roll', seconds: 122, speed: 29.4, date: null },
+  'starwars':          { name: 'Star Wars',   seconds: 469, speed: 24.0, date: null },
+  'xl':                { name: 'XL',          seconds: 493, speed: 24.4, date: null },
 };
 
 /* Si un GPX de Trailforks trae un nombre distinto al de tus records,
    mapéalo aquí:  'nombre-gpx-normalizado': 'clave-del-record'.
    (Revisa la consola/segmentos detectados para ver los nombres reales.) */
 const TRAIL_ALIASES = {
-  '12 gauge':        'calibre 12',   // 12-Gauge (GPX) = Calibre 12
-  'cebolla trail':   'cebolla',
-  'sendero la bala': 'bala',
-  'mampato trail':   'mampato',
-  'parcero trail':   'parcero',
-  'xl downhill trail': 'xl',        // Sendero_Descenso_XL.gpx
-  // 'gringo' y 'lomo vetado' ya calzan por normalización
+  // Con los segmentos Garmin las claves calzan solas. Deja aquí un alias solo
+  // si algún nombre Garmin cambia:  'nombre-normalizado': 'clave-record'.
 };
 
 function normTrail(n) {
