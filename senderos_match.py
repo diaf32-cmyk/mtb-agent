@@ -33,6 +33,37 @@ def _trail_length_m(pts):
     return total
 
 
+def _moving_seconds(ride_pts, a, b, v_stop=0.5, min_dwell=5.0, max_step=10.0):
+    """Duración del tramo [a, b] en tiempo REAL de rodada.
+
+    Descuenta las paradas largas (regroup / sesión de saltos): tramos
+    sostenidos de >min_dwell segundos a menos de v_stop m/s. También
+    descuenta huecos de grabación (dt > max_step). Las bajadas técnicas
+    lentas de pocos segundos NO se descuentan.
+    """
+    total = ride_pts[b][2] - ride_pts[a][2]
+    dwell = 0.0
+    run_stop = 0.0
+    for k in range(a + 1, b + 1):
+        dd = haversine(ride_pts[k - 1][0], ride_pts[k - 1][1], ride_pts[k][0], ride_pts[k][1])
+        dt = ride_pts[k][2] - ride_pts[k - 1][2]
+        if dt <= 0:
+            continue
+        if dt > max_step:                       # hueco de grabación
+            dwell += dt
+            run_stop = 0.0
+            continue
+        if dd / dt < v_stop:                    # detenido
+            run_stop += dt
+        else:
+            if run_stop > min_dwell:            # cierra una parada larga
+                dwell += run_stop
+            run_stop = 0.0
+    if run_stop > min_dwell:
+        dwell += run_stop
+    return max(total - dwell, 0.0)
+
+
 # ── Parseo de archivos de referencia ──────────────────────────────────
 def parse_gpx(path):
     trails = []
@@ -178,7 +209,7 @@ def _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts):
             continue
         if (r['last'] - r['first']) < 0.5 * n:   # debe avanzar >½ del sendero
             continue
-        dur = ride_pts[r['b']][2] - ride_pts[r['a']][2]
+        dur = _moving_seconds(ride_pts, r['a'], r['b'])   # tiempo de rodada, sin paradas
         if dur <= 0:
             continue
         qual.append((cov, dur))
