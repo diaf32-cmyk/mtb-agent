@@ -521,18 +521,21 @@ function detectedTrailMap() {
 }
 
 /* Record efectivo = el menor entre tu PR de Strava y lo detectado por GPS. */
-// Entradas GPS "elegibles" para batir el record. Si el record está fijado a
-// mano (pinned) con fecha 'since', solo cuentan las salidas POSTERIORES a esa
-// fecha — así un objetivo fijado no se rompe con tu historial viejo, solo con
-// bajadas nuevas.
+// Fecha de reinicio del desafío: solo cuentan salidas DESDE aquí. Los tiempos
+// de la salida del 30-jul quedan como records de partida; de hoy en adelante
+// los vas rompiendo. Tu historial anterior no cuenta. (Pon null para volver a
+// considerar todo tu historial.)
+const CHALLENGE_SINCE = '2026-07-30';
+
+// Entradas GPS "elegibles" para batir el record. Un record fijado a mano
+// (pinned) usa su propia fecha 'since'; el resto usa CHALLENGE_SINCE.
 function eligibleEntries(canon, d) {
   if (!d || !d.entries) return [];
   const base = TRAIL_RECORDS[canon];
-  if (base && base.pinned && base.since) {
-    const cut = new Date(base.since);
-    return d.entries.filter(e => e.date && new Date(e.date) > cut);
-  }
-  return d.entries;
+  const cutStr = (base && base.pinned && base.since) ? base.since : CHALLENGE_SINCE;
+  if (!cutStr) return d.entries;
+  const cut = new Date(cutStr);
+  return d.entries.filter(e => e.date && new Date(e.date) >= cut);
 }
 
 function effectiveRecord(canon, detMap) {
@@ -849,7 +852,8 @@ function renderTrailRecords() {
       isBestNow: (latestDelta != null && latestDelta <= 0),
       latestDelta
     };
-  }).sort((a, b) => (b.rides - a.rides) || a.name.localeCompare(b.name));
+  }).filter(r => r.recSeconds != null)
+    .sort((a, b) => (b.rides - a.rides) || a.name.localeCompare(b.name));
 
   let html = '<table class="records-table"><thead><tr><th>Sendero</th><th>Tu record</th><th>Vel.</th><th>Fecha</th><th>Salidas</th><th>Última salida</th></tr></thead><tbody>';
   rows.forEach(r => {
@@ -882,7 +886,7 @@ function renderTrailRecords() {
     </tr>`;
   });
   html += '</tbody></table>';
-  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:10px;line-height:1.6;">Tu record es tu <b>mejor tiempo GPS real</b> en cada segmento Garmin (tiempo de rodada, sin paradas). Cada salida se compara contra él; cuando bajas más rápido, el record se actualiza solo.</p>`;
+  html += `<p style="font-size:0.72rem;color:var(--muted);margin-top:10px;line-height:1.6;">Desafío reiniciado el <b>30-jul-2026</b>: los records de partida son tus tiempos de esa salida, y solo las bajadas desde entonces cuentan. Cada salida nueva se compara contra ellos; cuando bajas más rápido, el record se actualiza solo. Lomo Vetado tiene objetivo fijado en 6:00.</p>`;
   cont.innerHTML = html;
 }
 
