@@ -470,11 +470,10 @@ const GARMIN_URL = 'https://raw.githubusercontent.com/diaf32-cmyk/mtb-agent/main
 ══════════════════════════════════════════════ */
 const TRAIL_RECORDS = {
   // El record de cada pista es tu MEJOR tiempo GPS real (medido sobre el
-  // segmento Garmin), no un tiempo externo. Los tiempos de leaderboard de
-  // Garmin resultaron ser del líder/KOM, no tuyos, así que no se usan.
-  // Si quieres fijar un record histórico conocido como objetivo, agrégalo:
-  //   'lomo vetado': { name: 'Lomo Vetado', seconds: 357, speed: 28.1, date: '2025-07-07' },
-  // y la app tomará el menor entre ese y tu mejor GPS.
+  // segmento Garmin). Si quieres FIJAR un objetivo a romper, agrega la pista
+  // con pinned:true y since:'AAAA-MM-DD' — solo tus bajadas posteriores a esa
+  // fecha podrán mejorarlo (tu historial viejo no lo rompe).
+  'lomo vetado': { name: 'Lomo Vetado', seconds: 360, speed: 27.4, date: null, pinned: true, since: '2026-07-31' },
 };
 
 /* Si un GPX de Trailforks trae un nombre distinto al de tus records,
@@ -522,16 +521,36 @@ function detectedTrailMap() {
 }
 
 /* Record efectivo = el menor entre tu PR de Strava y lo detectado por GPS. */
+// Entradas GPS "elegibles" para batir el record. Si el record está fijado a
+// mano (pinned) con fecha 'since', solo cuentan las salidas POSTERIORES a esa
+// fecha — así un objetivo fijado no se rompe con tu historial viejo, solo con
+// bajadas nuevas.
+function eligibleEntries(canon, d) {
+  if (!d || !d.entries) return [];
+  const base = TRAIL_RECORDS[canon];
+  if (base && base.pinned && base.since) {
+    const cut = new Date(base.since);
+    return d.entries.filter(e => e.date && new Date(e.date) > cut);
+  }
+  return d.entries;
+}
+
 function effectiveRecord(canon, detMap) {
   const base = TRAIL_RECORDS[canon];
   const d = (detMap || detectedTrailMap())[canon];
+  const pinned = !!(base && base.pinned);
   let seconds = base ? base.seconds : null;
   let speed   = base ? base.speed   : null;
   let date    = base ? base.date    : null;
-  let source  = base ? 'strava'     : null;
-  if (d && d.best < (seconds == null ? Infinity : seconds)) {
-    seconds = d.best; date = d.bestDate; source = 'garmin';
-    speed = d.bestDist ? +(((d.bestDist / 1000) / (d.best / 3600)).toFixed(1)) : null;
+  let source  = base ? (pinned ? 'pinned' : 'strava') : null;
+  // Mejor tiempo GPS elegible (respeta 'since' si el record está fijado).
+  if (d) {
+    let best = Infinity, bestE = null;
+    eligibleEntries(canon, d).forEach(e => { if (e.seconds < best) { best = e.seconds; bestE = e; } });
+    if (bestE && best < (seconds == null ? Infinity : seconds)) {
+      seconds = best; date = bestE.date; source = 'garmin';
+      speed = bestE.dist ? +(((bestE.dist / 1000) / (best / 3600)).toFixed(1)) : null;
+    }
   }
   return { seconds, speed, date, source };
 }
@@ -814,10 +833,11 @@ function renderTrailRecords() {
   const rows = [...keys].map(k => {
     const base = TRAIL_RECORDS[k];
     const d = detMap[k];
-    const rec = effectiveRecord(k, detMap);   // menor entre baseline (si existe) y mejor GPS
+    const rec = effectiveRecord(k, detMap);   // menor entre baseline (si existe) y mejor GPS elegible
+    const elig = eligibleEntries(k, d);       // salidas que cuentan (respeta 'since' si está fijado)
     let latest = null;
-    if (d && d.entries.length) {
-      const e = d.entries.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+    if (elig.length) {
+      const e = elig.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
       latest = e[e.length - 1];
     }
     const latestDelta = (latest && rec.seconds != null) ? latest.seconds - rec.seconds : null;
@@ -825,7 +845,7 @@ function renderTrailRecords() {
       key: k,
       name: trailDisplayName(k, d?.displayName),
       recSeconds: rec.seconds, recSpeed: rec.speed, recDate: rec.date, recSource: rec.source,
-      rides: d ? d.rides : 0, hasData: !!d,
+      rides: elig.length, hasData: elig.length > 0,
       isBestNow: (latestDelta != null && latestDelta <= 0),
       latestDelta
     };
@@ -836,17 +856,21 @@ function renderTrailRecords() {
     const recTime = r.recSeconds != null ? formatTime(Math.round(r.recSeconds)) : '—';
     const recVel  = r.recSpeed != null ? r.recSpeed.toFixed(1) + ' km/h' : '—';
     const recDate = r.recDate ? new Date(r.recDate).toLocaleDateString('es-CL') : '—';
-    const srcBadge = r.recSource === 'strava'
-      ? ' <span style="color:var(--muted);font-size:0.56rem;font-family:\'DM Mono\',monospace;">REF</span>'
-      : '';
+    const srcBadge = r.recSource === 'pinned'
+      ? ' <span style="color:var(--accent2);font-size:0.56rem;font-family:\'DM Mono\',monospace;">🎯 OBJETIVO</span>'
+      : (r.recSource === 'strava'
+        ? ' <span style="color:var(--muted);font-size:0.56rem;font-family:\'DM Mono\',monospace;">REF</span>'
+        : '');
     let estado;
     if (!r.hasData) {
-      estado = '<span style="color:var(--muted)">sin datos GPS aún</span>';
+      estado = r.recSource === 'pinned'
+        ? '<span style="color:var(--accent2)">🎯 a batir · sin bajadas nuevas</span>'
+        : '<span style="color:var(--muted)">sin datos GPS aún</span>';
     } else if (r.isBestNow) {
       estado = '<span class="badge-best">🏆 tu mejor marca</span>';
     } else {
       const c = r.latestDelta <= 15 ? '#e8a020' : (r.latestDelta <= 60 ? '#d4703a' : 'var(--red)');
-      estado = `<span style="color:${c}">+${formatTime(Math.round(r.latestDelta))} vs tu PR</span>`;
+      estado = `<span style="color:${c}">+${formatTime(Math.round(r.latestDelta))} vs tu record</span>`;
     }
     html += `<tr>
       <td style="font-weight:500">${r.name}${srcBadge}</td>
