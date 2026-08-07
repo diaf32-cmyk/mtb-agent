@@ -1,6 +1,45 @@
 {
-  "lastSync": "2026-07-31T19:58:05.275051",
+  "lastSync": "2026-08-07T14:30:45.526295",
   "activities": [
+    {
+      "activityId": 23888526484,
+      "activityName": "Las varas ",
+      "startTimeLocal": "2026-08-07T09:32:35.0",
+      "distance": 14836.03,
+      "duration": 6717.511,
+      "movingDuration": 5066.0,
+      "elevationGain": 819.0,
+      "elevationLoss": 812.0,
+      "avgSpeed": 2.2090001106262207,
+      "maxSpeed": 11.663000106811522,
+      "avgHR": 127.0,
+      "maxHR": 166.0,
+      "calories": 860.0,
+      "avgTemperature": 8.411750277349475,
+      "locationName": "Las Condes",
+      "mtbDynamics": {
+        "grit": 87.9703140258789,
+        "avgFlow": 5.79445219039917,
+        "jumpCount": 5,
+        "waterEstimated": 759.0,
+        "avgRespirationRate": 27.06999969482422,
+        "trainingEffect": 4.0,
+        "anaerobicTrainingEffect": 2.799999952316284,
+        "trainingEffectLabel": "AEROBIC_BASE",
+        "activityTrainingLoad": 165.3453369140625,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 44,
+        "eBikeBatteryRemaining": 56,
+        "locationName": "Las Condes",
+        "maxSpeed": 11.663000106811522
+      },
+      "bestJump": {
+        "score": 91,
+        "hangTime": 0.44,
+        "speed": 31.6,
+        "distance": 3.86
+      }
+    },
     {
       "activityId": 23790840844,
       "activityName": "\ud83c\udf51",
@@ -201,18 +240,8 @@
       "activityId": 23398724203,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-06-27T10:43:05.0",
-      "distance": 19522.58,
-      "duration": 7365.214,
-      "movingDuration": 5180.0,
+      "distance": 19522.580078125,
       "elevationGain": 788.0,
-      "elevationLoss": 779.0,
-      "avgSpeed": 2.6510000228881836,
-      "maxSpeed": 14.052000045776367,
-      "avgHR": 123.0,
-      "maxHR": 166.0,
-      "calories": 906.0,
-      "avgTemperature": 15.645824424862493,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 84.07499694824219,
         "avgFlow": 5.242356300354004,
@@ -228,12 +257,6 @@
         "eBikeBatteryRemaining": 27,
         "locationName": "Lo Barnechea",
         "maxSpeed": 14.052000045776367
-      },
-      "bestJump": {
-        "score": 184,
-        "hangTime": 0.832,
-        "speed": 38.9,
-        "distance": 8.99
       },
       "segments": [
         {
@@ -254,7 +277,23 @@
           "passes": 2,
           "dist_m": 796
         }
-      ]
+      ],
+      "maxSpeed": 14.052000045776367,
+      "avgSpeed": 2.6510000228881836,
+      "elevationLoss": 779.0,
+      "duration": 7365.214,
+      "movingDuration": 5180.0,
+      "avgHR": 123.0,
+      "maxHR": 166.0,
+      "calories": 906.0,
+      "avgTemperature": 15.645824424862493,
+      "locationName": "Lo Barnechea",
+      "bestJump": {
+        "score": 184,
+        "hangTime": 0.832,
+        "speed": 38.9,
+        "distance": 8.99
+      }
     },
     {
       "activityId": 23366568095,
@@ -657,18 +696,8 @@
       "activityId": 22997305757,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-05-24T09:49:44.0",
-      "distance": 18920.76,
-      "duration": 6569.023,
-      "movingDuration": 5191.0,
+      "distance": 18920.759765625,
       "elevationGain": 739.0,
-      "elevationLoss": 725.0,
-      "avgSpeed": 2.880000114440918,
-      "maxSpeed": 12.465999603271484,
-      "avgHR": 120.0,
-      "maxHR": 158.0,
-      "calories": 762.0,
-      "avgTemperature": 11.620038311621656,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 82.78125,
         "avgFlow": 3.906196355819702,
@@ -684,12 +713,6 @@
         "eBikeBatteryRemaining": 28,
         "locationName": "Lo Barnechea",
         "maxSpeed": 12.465999603271484
-      },
-      "bestJump": {
-        "score": 160,
-        "hangTime": 0.64,
-        "speed": 46.6,
-        "distance": 8.28
       },
       "segments": [
         {
@@ -716,7 +739,23 @@
           "passes": 1,
           "dist_m": 673
         }
-      ]
+      ],
+      "maxSpeed": 12.465999603271484,
+      "avgSpeed": 2.880000114440918,
+      "elevationLoss": 725.0,
+      "duration": 6569.023,
+      "movingDuration": 5191.0,
+      "avgHR": 120.0,
+      "maxHR": 158.0,
+      "calories": 762.0,
+      "avgTemperature": 11.620038311621656,
+      "locationName": "Lo Barnechea",
+      "bestJump": {
+        "score": 160,
+        "hangTime": 0.64,
+        "speed": 46.6,
+        "distance": 8.28
+      }
     },
     {
       "activityId": 22962218472,
@@ -801,18 +840,8 @@
       "activityId": 22879439357,
       "activityName": "Lo Barnechea Ciclismo de monta\u00f1a",
       "startTimeLocal": "2026-05-14T09:53:58.0",
-      "distance": 5993.71,
-      "duration": 1667.2,
-      "movingDuration": 1533.0,
+      "distance": 5993.7099609375,
       "elevationGain": 253.0,
-      "elevationLoss": 218.0,
-      "avgSpeed": 3.5950000286102295,
-      "maxSpeed": 12.26099967956543,
-      "avgHR": 129.0,
-      "maxHR": 163.0,
-      "calories": 252.0,
-      "avgTemperature": 29.637441228446754,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": null,
         "avgFlow": null,
@@ -848,24 +877,24 @@
           "passes": 1,
           "dist_m": 673
         }
-      ]
+      ],
+      "maxSpeed": 12.26099967956543,
+      "avgSpeed": 3.5950000286102295,
+      "elevationLoss": 218.0,
+      "duration": 1667.2,
+      "movingDuration": 1533.0,
+      "avgHR": 129.0,
+      "maxHR": 163.0,
+      "calories": 252.0,
+      "avgTemperature": 29.637441228446754,
+      "locationName": "Lo Barnechea"
     },
     {
       "activityId": 22879835028,
       "activityName": "Lo Barnechea Bicicleta el\u00e9ctrica",
       "startTimeLocal": "2026-05-14T08:24:37.0",
-      "distance": 11252.42,
-      "duration": 4698.926,
-      "movingDuration": 3386.0,
+      "distance": 11252.419921875,
       "elevationGain": 528.0,
-      "elevationLoss": 433.0,
-      "avgSpeed": 2.3949999809265137,
-      "maxSpeed": 13.800000190734863,
-      "avgHR": 136.0,
-      "maxHR": 173.0,
-      "calories": 752.0,
-      "avgTemperature": 16.485833567874476,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 56.09296798706055,
         "avgFlow": 3.5572822093963623,
@@ -881,12 +910,6 @@
         "eBikeBatteryRemaining": 35,
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.800000190734863
-      },
-      "bestJump": {
-        "score": 166,
-        "hangTime": 0.816,
-        "speed": 33.3,
-        "distance": 7.55
       },
       "segments": [
         {
@@ -907,24 +930,30 @@
           "passes": 1,
           "dist_m": 749
         }
-      ]
+      ],
+      "maxSpeed": 13.800000190734863,
+      "avgSpeed": 2.3949999809265137,
+      "elevationLoss": 433.0,
+      "duration": 4698.926,
+      "movingDuration": 3386.0,
+      "avgHR": 136.0,
+      "maxHR": 173.0,
+      "calories": 752.0,
+      "avgTemperature": 16.485833567874476,
+      "locationName": "Lo Barnechea",
+      "bestJump": {
+        "score": 166,
+        "hangTime": 0.816,
+        "speed": 33.3,
+        "distance": 7.55
+      }
     },
     {
       "activityId": 22822585484,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-05-09T10:05:09.0",
-      "distance": 13636.18,
-      "duration": 6796.295,
-      "movingDuration": 3959.0,
+      "distance": 13636.1796875,
       "elevationGain": 572.0,
-      "elevationLoss": 613.0,
-      "avgSpeed": 2.00600004196167,
-      "maxSpeed": 13.54800033569336,
-      "avgHR": 111.0,
-      "maxHR": 156.0,
-      "calories": 671.0,
-      "avgTemperature": 17.7543629441938,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 63.243751525878906,
         "avgFlow": 5.080082416534424,
@@ -940,12 +969,6 @@
         "eBikeBatteryRemaining": 65,
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.54800033569336
-      },
-      "bestJump": {
-        "score": 186,
-        "hangTime": 0.752,
-        "speed": 46.9,
-        "distance": 9.8
       },
       "segments": [
         {
@@ -966,14 +989,40 @@
           "passes": 1,
           "dist_m": 796
         }
-      ]
+      ],
+      "maxSpeed": 13.54800033569336,
+      "avgSpeed": 2.00600004196167,
+      "elevationLoss": 613.0,
+      "duration": 6796.295,
+      "movingDuration": 3959.0,
+      "avgHR": 111.0,
+      "maxHR": 156.0,
+      "calories": 671.0,
+      "avgTemperature": 17.7543629441938,
+      "locationName": "Lo Barnechea",
+      "bestJump": {
+        "score": 186,
+        "hangTime": 0.752,
+        "speed": 46.9,
+        "distance": 9.8
+      }
     },
     {
       "activityId": 22811318174,
       "activityName": "\ud83c\udf51\ud83d\udc4c",
       "startTimeLocal": "2026-05-08 11:09:29",
-      "distance": 21850.69921875,
+      "distance": 21850.7,
+      "duration": 7943.056,
+      "movingDuration": 6280.488,
       "elevationGain": 928.0,
+      "elevationLoss": 919.0,
+      "avgSpeed": 2.750999927520752,
+      "maxSpeed": 13.295999526977539,
+      "avgHR": 86.0,
+      "maxHR": 159.0,
+      "calories": 496.0,
+      "avgTemperature": 19.581937238267653,
+      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 101.9671859741211,
         "avgFlow": 3.6942269802093506,
@@ -990,22 +1039,32 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.295999526977539
       },
-      "maxSpeed": 13.295999526977539,
-      "avgSpeed": 2.750999927520752,
-      "elevationLoss": 919.0,
-      "duration": 7943.056,
-      "movingDuration": 6280.488,
-      "avgHR": 86.0,
-      "maxHR": 159.0,
-      "calories": 496.0,
-      "avgTemperature": 19.581937238267653,
-      "locationName": "Lo Barnechea",
       "bestJump": {
         "score": 161,
         "hangTime": 0.68,
         "speed": 42.9,
         "distance": 8.1
-      }
+      },
+      "segments": [
+        {
+          "name": "Cebolla Trail",
+          "seconds": 127.0,
+          "passes": 1,
+          "dist_m": 681
+        },
+        {
+          "name": "Lomo Vetado",
+          "seconds": 363.0,
+          "passes": 1,
+          "dist_m": 2743
+        },
+        {
+          "name": "Mampato Durazno",
+          "seconds": 134.0,
+          "passes": 1,
+          "dist_m": 796
+        }
+      ]
     },
     {
       "activityId": 22715298923,
@@ -1160,19 +1219,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 88.6968765258789,
-    "avgFlow": 5.5391716957092285,
-    "jumpCount": 63,
-    "waterEstimated": 1455.0,
-    "avgRespirationRate": 31.639999389648438,
-    "trainingEffect": 5.0,
-    "anaerobicTrainingEffect": 5.0,
-    "trainingEffectLabel": "ANAEROBIC_CAPACITY",
-    "activityTrainingLoad": 506.7314453125,
+    "grit": 87.9703140258789,
+    "avgFlow": 5.79445219039917,
+    "jumpCount": 5,
+    "waterEstimated": 759.0,
+    "avgRespirationRate": 27.06999969482422,
+    "trainingEffect": 4.0,
+    "anaerobicTrainingEffect": 2.799999952316284,
+    "trainingEffectLabel": "AEROBIC_BASE",
+    "activityTrainingLoad": 165.3453369140625,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 52,
-    "eBikeBatteryRemaining": 31,
-    "locationName": "Lo Barnechea",
-    "maxSpeed": 13.800000190734863
+    "eBikeBatteryUsage": 44,
+    "eBikeBatteryRemaining": 56,
+    "locationName": "Las Condes",
+    "maxSpeed": 11.663000106811522
   }
 }
