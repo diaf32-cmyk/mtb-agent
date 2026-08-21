@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-08-21T13:46:11.799771",
+  "lastSync": "2026-08-21T14:06:15.459395",
   "activities": [
     {
       "activityId": 24062479125,
@@ -57,6 +57,12 @@
           "seconds": 176.0,
           "passes": 1,
           "dist_m": 673
+        },
+        {
+          "name": "La Virgen",
+          "seconds": 542.0,
+          "passes": 1,
+          "dist_m": 3356
         }
       ]
     },
