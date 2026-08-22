@@ -1,6 +1,71 @@
 {
-  "lastSync": "2026-08-21T14:06:15.459395",
+  "lastSync": "2026-08-22T14:45:38.464658",
   "activities": [
+    {
+      "activityId": 24075040423,
+      "activityName": "\ud83c\udf51",
+      "startTimeLocal": "2026-08-22T10:05:47.0",
+      "distance": 18721.21,
+      "duration": 6960.56,
+      "movingDuration": 5073.0,
+      "elevationGain": 828.0,
+      "elevationLoss": 819.0,
+      "avgSpeed": 2.690000057220459,
+      "maxSpeed": 13.82800006866455,
+      "avgHR": 127.0,
+      "maxHR": 169.0,
+      "calories": 856.0,
+      "avgTemperature": 25.35404218126372,
+      "locationName": "Lo Barnechea",
+      "mtbDynamics": {
+        "grit": 91.3218765258789,
+        "avgFlow": 5.033908367156982,
+        "jumpCount": 63,
+        "waterEstimated": 1297.0,
+        "avgRespirationRate": 27.15999984741211,
+        "trainingEffect": 3.5,
+        "anaerobicTrainingEffect": 2.200000047683716,
+        "trainingEffectLabel": "AEROBIC_BASE",
+        "activityTrainingLoad": 131.18797302246094,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 88,
+        "eBikeBatteryRemaining": 10,
+        "locationName": "Lo Barnechea",
+        "maxSpeed": 13.82800006866455
+      },
+      "bestJump": {
+        "score": 159,
+        "hangTime": 0.696,
+        "speed": 40.3,
+        "distance": 7.79
+      },
+      "segments": [
+        {
+          "name": "Gringo Durazno",
+          "seconds": 364.0,
+          "passes": 1,
+          "dist_m": 2387
+        },
+        {
+          "name": "Lomo Vetado",
+          "seconds": 356.0,
+          "passes": 1,
+          "dist_m": 2743
+        },
+        {
+          "name": "Papaya",
+          "seconds": 111.0,
+          "passes": 1,
+          "dist_m": 749
+        },
+        {
+          "name": "Parecero",
+          "seconds": 98.0,
+          "passes": 1,
+          "dist_m": 673
+        }
+      ]
+    },
     {
       "activityId": 24062479125,
       "activityName": "\ud83c\udf51",
@@ -1312,19 +1377,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 94.34062194824219,
-    "avgFlow": 3.9994993209838867,
-    "jumpCount": 48,
-    "waterEstimated": 1319.0,
-    "avgRespirationRate": 32.58000183105469,
-    "trainingEffect": 5.0,
-    "anaerobicTrainingEffect": 3.5999999046325684,
-    "trainingEffectLabel": "VO2MAX",
-    "activityTrainingLoad": 313.4644470214844,
+    "grit": 91.3218765258789,
+    "avgFlow": 5.033908367156982,
+    "jumpCount": 63,
+    "waterEstimated": 1297.0,
+    "avgRespirationRate": 27.15999984741211,
+    "trainingEffect": 3.5,
+    "anaerobicTrainingEffect": 2.200000047683716,
+    "trainingEffectLabel": "AEROBIC_BASE",
+    "activityTrainingLoad": 131.18797302246094,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 52,
-    "eBikeBatteryRemaining": 48,
+    "eBikeBatteryUsage": 88,
+    "eBikeBatteryRemaining": 10,
     "locationName": "Lo Barnechea",
-    "maxSpeed": 13.54800033569336
+    "maxSpeed": 13.82800006866455
   }
 }
