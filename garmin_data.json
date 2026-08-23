@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-08-22T14:45:38.464658",
+  "lastSync": "2026-08-23T11:03:57.165041",
   "activities": [
     {
       "activityId": 24075040423,
@@ -51,6 +51,12 @@
           "seconds": 356.0,
           "passes": 1,
           "dist_m": 2743
+        },
+        {
+          "name": "Los Saltos",
+          "seconds": 94.0,
+          "passes": 1,
+          "dist_m": 403
         },
         {
           "name": "Papaya",
@@ -110,6 +116,12 @@
           "seconds": 349.0,
           "passes": 1,
           "dist_m": 2743
+        },
+        {
+          "name": "Los Saltos",
+          "seconds": 79.0,
+          "passes": 1,
+          "dist_m": 403
         },
         {
           "name": "Papaya",
