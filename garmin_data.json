@@ -1,6 +1,45 @@
 {
-  "lastSync": "2026-08-23T11:03:57.165041",
+  "lastSync": "2026-08-28T15:20:48.606312",
   "activities": [
+    {
+      "activityId": 24151109770,
+      "activityName": "Guay guay barro",
+      "startTimeLocal": "2026-08-28T09:58:16.0",
+      "distance": 19147.45,
+      "duration": 8592.065,
+      "movingDuration": 5742.0,
+      "elevationGain": 1015.0,
+      "elevationLoss": 907.0,
+      "avgSpeed": 2.2290000915527344,
+      "maxSpeed": 14.519000053405762,
+      "avgHR": 137.0,
+      "maxHR": 175.0,
+      "calories": 1198.0,
+      "avgTemperature": 16.459441592780493,
+      "locationName": "Colina",
+      "mtbDynamics": {
+        "grit": 98.95780944824219,
+        "avgFlow": 5.237313270568848,
+        "jumpCount": 44,
+        "waterEstimated": 1372.0,
+        "avgRespirationRate": 28.6200008392334,
+        "trainingEffect": 5.0,
+        "anaerobicTrainingEffect": 4.0,
+        "trainingEffectLabel": "TEMPO",
+        "activityTrainingLoad": 343.78369140625,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 65,
+        "eBikeBatteryRemaining": 35,
+        "locationName": "Colina",
+        "maxSpeed": 14.519000053405762
+      },
+      "bestJump": {
+        "score": 133,
+        "hangTime": 0.592,
+        "speed": 38.3,
+        "distance": 6.3
+      }
+    },
     {
       "activityId": 24075040423,
       "activityName": "\ud83c\udf51",
@@ -265,18 +304,8 @@
       "activityId": 23572668554,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-07-12T10:22:05.0",
-      "distance": 13640.82,
-      "duration": 6748.003,
-      "movingDuration": 3956.0,
+      "distance": 13640.8203125,
       "elevationGain": 606.0,
-      "elevationLoss": 619.0,
-      "avgSpeed": 2.0209999084472656,
-      "maxSpeed": 12.942000389099121,
-      "avgHR": 129.0,
-      "maxHR": 170.0,
-      "calories": 900.0,
-      "avgTemperature": 24.97155943852022,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 65.4234390258789,
         "avgFlow": 5.623768329620361,
@@ -293,12 +322,6 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 12.942000389099121
       },
-      "bestJump": {
-        "score": 114,
-        "hangTime": 0.528,
-        "speed": 34.9,
-        "distance": 5.11
-      },
       "segments": [
         {
           "name": "Papaya",
@@ -312,7 +335,23 @@
           "passes": 1,
           "dist_m": 998
         }
-      ]
+      ],
+      "maxSpeed": 12.942000389099121,
+      "avgSpeed": 2.0209999084472656,
+      "elevationLoss": 619.0,
+      "duration": 6748.003,
+      "movingDuration": 3956.0,
+      "avgHR": 129.0,
+      "maxHR": 170.0,
+      "calories": 900.0,
+      "avgTemperature": 24.97155943852022,
+      "locationName": "Lo Barnechea",
+      "bestJump": {
+        "score": 114,
+        "hangTime": 0.528,
+        "speed": 34.9,
+        "distance": 5.11
+      }
     },
     {
       "activityId": 23469810507,
@@ -1389,19 +1428,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 91.3218765258789,
-    "avgFlow": 5.033908367156982,
-    "jumpCount": 63,
-    "waterEstimated": 1297.0,
-    "avgRespirationRate": 27.15999984741211,
-    "trainingEffect": 3.5,
-    "anaerobicTrainingEffect": 2.200000047683716,
-    "trainingEffectLabel": "AEROBIC_BASE",
-    "activityTrainingLoad": 131.18797302246094,
+    "grit": 98.95780944824219,
+    "avgFlow": 5.237313270568848,
+    "jumpCount": 44,
+    "waterEstimated": 1372.0,
+    "avgRespirationRate": 28.6200008392334,
+    "trainingEffect": 5.0,
+    "anaerobicTrainingEffect": 4.0,
+    "trainingEffectLabel": "TEMPO",
+    "activityTrainingLoad": 343.78369140625,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 88,
-    "eBikeBatteryRemaining": 10,
-    "locationName": "Lo Barnechea",
-    "maxSpeed": 13.82800006866455
+    "eBikeBatteryUsage": 65,
+    "eBikeBatteryRemaining": 35,
+    "locationName": "Colina",
+    "maxSpeed": 14.519000053405762
   }
 }
