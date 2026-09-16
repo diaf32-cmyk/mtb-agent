@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-09-16T16:04:37.524232",
+  "lastSync": "2026-09-16T16:35:58.571732",
   "activities": [
     {
       "activityId": 24335598842,
@@ -284,7 +284,15 @@
         "hangTime": 0.592,
         "speed": 38.3,
         "distance": 6.3
-      }
+      },
+      "segments": [
+        {
+          "name": "Minero",
+          "seconds": 147.0,
+          "passes": 3,
+          "dist_m": 1090
+        }
+      ]
     },
     {
       "activityId": 24075040423,
@@ -856,18 +864,8 @@
       "activityId": 23236804622,
       "activityName": "Guayguay ",
       "startTimeLocal": "2026-06-13T10:01:15.0",
-      "distance": 19580.1,
-      "duration": 8307.923,
-      "movingDuration": 6184.0,
+      "distance": 19580.099609375,
       "elevationGain": 912.0,
-      "elevationLoss": 915.0,
-      "avgSpeed": 2.3570001125335693,
-      "maxSpeed": 12.88599967956543,
-      "avgHR": null,
-      "maxHR": null,
-      "calories": 1401.0,
-      "avgTemperature": 15.146828994453683,
-      "locationName": "Colina",
       "mtbDynamics": {
         "grit": 98.03437805175781,
         "avgFlow": 4.326607704162598,
@@ -883,12 +881,6 @@
         "eBikeBatteryRemaining": 47,
         "locationName": "Colina",
         "maxSpeed": 12.88599967956543
-      },
-      "bestJump": {
-        "score": 124,
-        "hangTime": 0.536,
-        "speed": 39.8,
-        "distance": 5.92
       },
       "segments": [
         {
@@ -909,7 +901,21 @@
           "passes": 1,
           "dist_m": 1632
         }
-      ]
+      ],
+      "maxSpeed": 12.88599967956543,
+      "avgSpeed": 2.3570001125335693,
+      "elevationLoss": 915.0,
+      "duration": 8307.923,
+      "movingDuration": 6184.0,
+      "calories": 1401.0,
+      "avgTemperature": 15.146828994453683,
+      "locationName": "Colina",
+      "bestJump": {
+        "score": 124,
+        "hangTime": 0.536,
+        "speed": 39.8,
+        "distance": 5.92
+      }
     },
     {
       "activityId": 23166208308,
