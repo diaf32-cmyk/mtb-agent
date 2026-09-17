@@ -225,7 +225,7 @@ def _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts):
         dur = _moving_seconds(ride_pts, r['a'], r['b'])   # tiempo de rodada, sin paradas
         if dur <= 0:
             continue
-        qual.append((cov, dur))
+        qual.append((cov, dur, r['a'], r['b']))
     return qual
 
 
@@ -253,13 +253,13 @@ def detect_segments(ride_pts, trails, tol_m=30.0, coverage=0.6, max_gap_pts=15):
         qual = _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts)
         qual += _scan_runs(ride_pts, ref[::-1], tol_m, coverage, max_gap_pts)
         if qual:
-            best_dur = min(d for _, d in qual)
-            best_cov = max(c for c, _ in qual)
-            out.append({'name': tr['name'], 'seconds': round(best_dur, 1),
+            best = min(qual, key=lambda q: q[1])       # tramo más rápido = tu PR
+            best_cov = max(q[0] for q in qual)
+            a, b = best[2], best[3]
+            out.append({'name': tr['name'], 'seconds': round(best[1], 1),
                         'coverage': round(best_cov, 2), 'passes': len(qual),
-                        'dist_m': round(_trail_length_m(ref))})
-    return out
-    return out
+                        'dist_m': round(_trail_length_m(ref)),
+                        'start_t': ride_pts[a][2], 'end_t': ride_pts[b][2]})
     return out
 
 

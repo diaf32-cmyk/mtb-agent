@@ -813,28 +813,29 @@ function updateRecords() {
   const all = STATE.garminData.activities;
   const thisMonth = all.filter(a => { if (!a.startTimeLocal) return false; const d = new Date(a.startTimeLocal); return d.getMonth() === nowM && d.getFullYear() === nowY; });
   const locOf = a => a.locationName || a.activityName || null;
-  const best = (arr, fn) => arr.reduce((b, a) => { const v = fn(a); return v > b.val ? { val: v, date: a.startTimeLocal, loc: locOf(a) } : b; }, { val: 0, date: null, loc: null });
+  const best = (arr, fn, tfn) => arr.reduce((b, a) => { const v = fn(a); if (!(v > b.val)) return b; return { val: v, date: a.startTimeLocal, loc: locOf(a), trail: tfn ? (tfn(a) || null) : null }; }, { val: 0, date: null, loc: null, trail: null });
   const bestLow = (arr, fn) => arr.reduce((b, a) => { const v = fn(a); if (!(v > 0)) return b; return v < b.val ? { val: v, date: a.startTimeLocal, loc: locOf(a) } : b; }, { val: Infinity, date: null, loc: null });
+  const whereOf = r => r.trail ? trailDisplayName(canonTrail(r.trail), r.trail) : r.loc;
 
   // Vel máxima
-  const mxSpd = best(thisMonth, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
-  const axSpd = best(all, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
+  const mxSpd = best(thisMonth, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0, a => a.maxSpeedTrail);
+  const axSpd = best(all, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0, a => a.maxSpeedTrail);
   if (mxSpd.val > 0) {
     document.getElementById('rec-maxspeed').innerHTML = mxSpd.val.toFixed(1) + '<span class="record-unit"> km/h</span>';
-    document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL') + (mxSpd.loc ? ' · ' + mxSpd.loc : '');
-    document.getElementById('rec-maxspeed-pr').textContent = 'PR histórico: ' + axSpd.val.toFixed(1) + ' km/h' + (axSpd.loc ? ' (' + axSpd.loc + ')' : '');
+    document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL') + (whereOf(mxSpd) ? ' · ' + whereOf(mxSpd) : '');
+    document.getElementById('rec-maxspeed-pr').textContent = 'PR histórico: ' + axSpd.val.toFixed(1) + ' km/h' + (whereOf(axSpd) ? ' (' + whereOf(axSpd) + ')' : '');
   }
   // Jumps
-  const mxJmp = best(thisMonth, a => a.bestJump?.distance || 0);
+  const mxJmp = best(thisMonth, a => a.bestJump?.distance || 0, a => a.bestJump?.trail);
   if (mxJmp.val > 0) {
     const bj = thisMonth.find(a => a.startTimeLocal === mxJmp.date)?.bestJump;
     document.getElementById('rec-jump').innerHTML = (bj?.distance || '—') + '<span class="record-unit"> m</span>';
-    document.getElementById('rec-jump-date').textContent = new Date(mxJmp.date).toLocaleDateString('es-CL') + ' · score ' + (bj?.score || '—') + (mxJmp.loc ? ' · ' + mxJmp.loc : '');
-    const axJmp = best(all, a => a.bestJump?.distance || 0);
+    document.getElementById('rec-jump-date').textContent = new Date(mxJmp.date).toLocaleDateString('es-CL') + ' · score ' + (bj?.score || '—') + (whereOf(mxJmp) ? ' · ' + whereOf(mxJmp) : '');
+    const axJmp = best(all, a => a.bestJump?.distance || 0, a => a.bestJump?.trail);
     const bjAll = all.find(a => a.startTimeLocal === axJmp.date)?.bestJump;
-    document.getElementById('rec-jump-pr').textContent = 'PR histórico: ' + (bjAll?.distance || '—') + 'm · score ' + (bjAll?.score || '—') + (axJmp.loc ? ' (' + axJmp.loc + ')' : '');
+    document.getElementById('rec-jump-pr').textContent = 'PR histórico: ' + (bjAll?.distance || '—') + 'm · score ' + (bjAll?.score || '—') + (whereOf(axJmp) ? ' (' + whereOf(axJmp) + ')' : '');
   }
-  // Flow (menor = mejor)
+  // Flow (menor = mejor) — es un promedio de toda la salida, Garmin no lo desglosa por sendero
   const mxFlw = bestLow(thisMonth, a => a.mtbDynamics?.avgFlow || 0);
   const axFlw = bestLow(all, a => a.mtbDynamics?.avgFlow || 0);
   if (mxFlw.val < Infinity) {

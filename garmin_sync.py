@@ -182,13 +182,57 @@ def main():
             if not isinstance(detail, dict):
                 detail = {}
             summary = extract_summary(detail)
-            # Extraer saltos desde archivo FIT (unknown_285 = jump records)
+            # Extraer GPS + velocidad instantánea + saltos desde el FIT
             try:
                 import fitparse, zipfile, io
                 zip_data = client.download_activity(act_id, dl_fmt=Garmin.ActivityDownloadFormat.ORIGINAL)
                 z = zipfile.ZipFile(io.BytesIO(zip_data))
                 fit_data = z.read(z.namelist()[0])
                 fit = fitparse.FitFile(io.BytesIO(fit_data))
+
+                # ── GPS + velocidad punto a punto (para el matcheo y para ubicar
+                #    en qué sendero cayó la velocidad máxima) ──
+                ride_pts = []
+                speed_pts = []   # (velocidad m/s, epoch) — solo puntos con dato de velocidad
+                for rec in fit.get_messages('record'):
+                    d = {f.name: f.value for f in rec}
+                    lat = d.get('position_lat'); lon = d.get('position_long'); ts = d.get('timestamp')
+                    if lat is None or lon is None or ts is None:
+                        continue
+                    # fitparse a veces entrega semicírculos (enteros grandes) → convertir a grados
+                    if abs(lat) > 360: lat = lat * (180.0 / 2**31)
+                    if abs(lon) > 360: lon = lon * (180.0 / 2**31)
+                    ride_pts.append((lat, lon, ts.timestamp()))
+                    spd = d.get('enhanced_speed', d.get('speed'))
+                    if spd is not None:
+                        speed_pts.append((spd, ts.timestamp()))
+
+                # ── Matcheo de senderos (para saber los límites de tiempo de cada uno) ──
+                segs = []
+                if REF_TRAILS and len(ride_pts) >= 10:
+                    segs = detect_segments(ride_pts, REF_TRAILS)
+                    if segs:
+                        summary['segments'] = [{'name': s['name'], 'seconds': s['seconds'], 'passes': s.get('passes', 1),
+                                                 'dist_m': s.get('dist_m'), 'start_t': s.get('start_t'), 'end_t': s.get('end_t')} for s in segs]
+                        print(f"     → senderos: " + ", ".join(f"{s['name']} {s['seconds']}s" for s in segs))
+
+                def trail_at(t):
+                    """¿Qué sendero (si alguno) estaba ocurriendo en el instante t?"""
+                    if t is None:
+                        return None
+                    for s in segs:
+                        if s.get('start_t') is not None and s['start_t'] <= t <= s['end_t']:
+                            return s['name']
+                    return None
+
+                # ── ¿En qué sendero cayó la velocidad máxima de la salida? ──
+                if speed_pts:
+                    _, top_t = max(speed_pts, key=lambda x: x[0])
+                    tn = trail_at(top_t)
+                    if tn:
+                        summary['maxSpeedTrail'] = tn
+
+                # ── Saltos: extraer y, si cae dentro de un sendero, marcarlo ──
                 jump_records = []
                 for record in fit.get_messages('unknown_285'):
                     d = {f.name: f.value for f in record}
@@ -196,45 +240,24 @@ def main():
                     speed_raw = d.get('unknown_4')
                     score = d.get('unknown_7')
                     dist_raw = d.get('unknown_3')
+                    jts = d.get('timestamp')
                     if score is not None and dist_raw is not None:
                         dist = round(hang_time, 2) if hang_time else 0
                         ht = round(dist_raw, 3) if dist_raw else 0
                         spd = round((hang_time / dist_raw) * 3.6, 1) if hang_time and dist_raw > 0 else 0
                         sc = round(speed_raw) if speed_raw else 0
-                        jump_records.append({
-                            'score': sc,
-                            'hangTime': ht,
-                            'speed': spd,
-                            'distance': dist
-                        })
+                        jr = {'score': sc, 'hangTime': ht, 'speed': spd, 'distance': dist}
+                        tn = trail_at(jts.timestamp() if jts else None)
+                        if tn:
+                            jr['trail'] = tn
+                        jump_records.append(jr)
                 if jump_records:
                     best = max(jump_records, key=lambda j: j['score'])
                     # Solo sobreescribir si el nuevo salto es mayor en distancia
                     existing_jump = summary.get("bestJump")
                     if not existing_jump or best['distance'] > existing_jump.get('distance', 0):
                         summary["bestJump"] = best
-                    print(f"     → {len(jump_records)} saltos, mejor: {best['distance']}m score {best['score']}")
-
-                # ── Matcheo de senderos (usa el GPS del mismo FIT) ──
-                if REF_TRAILS:
-                    try:
-                        ride_pts = []
-                        for rec in fit.get_messages('record'):
-                            d = {f.name: f.value for f in rec}
-                            lat = d.get('position_lat'); lon = d.get('position_long'); ts = d.get('timestamp')
-                            if lat is None or lon is None or ts is None:
-                                continue
-                            # fitparse a veces entrega semicírculos (enteros grandes) → convertir a grados
-                            if abs(lat) > 360: lat = lat * (180.0 / 2**31)
-                            if abs(lon) > 360: lon = lon * (180.0 / 2**31)
-                            ride_pts.append((lat, lon, ts.timestamp()))
-                        if len(ride_pts) >= 10:
-                            segs = detect_segments(ride_pts, REF_TRAILS)
-                            if segs:
-                                summary['segments'] = [{'name': s['name'], 'seconds': s['seconds'], 'passes': s.get('passes', 1), 'dist_m': s.get('dist_m')} for s in segs]
-                                print(f"     → senderos: " + ", ".join(f"{s['name']} {s['seconds']}s" for s in segs))
-                    except Exception:
-                        pass
+                    print(f"     → {len(jump_records)} saltos, mejor: {best['distance']}m score {best['score']}" + (f" ({best['trail']})" if best.get('trail') else ""))
             except Exception as je:
                 pass
             enriched.append(summary)
