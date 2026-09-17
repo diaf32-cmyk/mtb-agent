@@ -68,6 +68,7 @@ def process_one(client, trails, act):
             act['maxSpeedTrail'] = tn
             changed = True
 
+    jump_records = []
     for record in fit.get_messages('unknown_285'):
         d = {f.name: f.value for f in record}
         score = d.get('unknown_7')
@@ -75,11 +76,13 @@ def process_one(client, trails, act):
         jts = d.get('timestamp')
         if score is None or dist_raw is None:
             continue
-        tn = trail_at(jts.timestamp() if jts else None)
-        if tn and act.get('bestJump'):
-            act['bestJump']['trail'] = tn
+        jump_records.append({'score': round(score) if score else 0,
+                              'trail': trail_at(jts.timestamp() if jts else None)})
+    if jump_records:
+        best = max(jump_records, key=lambda j: j['score'])
+        if best.get('trail') and act.get('bestJump'):
+            act['bestJump']['trail'] = best['trail']
             changed = True
-        break  # solo nos interesa si el mejor salto guardado cae en un sendero; con uno alcanza
 
     return changed or bool(segs)
 
