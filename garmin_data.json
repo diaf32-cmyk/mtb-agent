@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-09-17T13:24:09.412680",
+  "lastSync": "2026-09-17T14:04:37.916714",
   "activities": [
     {
       "activityId": 24396977860,
@@ -33,32 +33,39 @@
         "locationName": "Vitacura",
         "maxSpeed": 10.609000205993652
       },
-      "bestJump": {
-        "score": 96,
-        "hangTime": 0.488,
-        "speed": 29.1,
-        "distance": 3.94
-      },
       "segments": [
         {
           "name": "DH Cl\u00e1sico",
           "seconds": 891.0,
           "passes": 1,
-          "dist_m": 4049
+          "dist_m": 4049,
+          "start_t": 1789666962.0,
+          "end_t": 1789668028.0
         },
         {
           "name": "La Cruz",
           "seconds": 153.0,
           "passes": 1,
-          "dist_m": 684
+          "dist_m": 684,
+          "start_t": 1789667705.0,
+          "end_t": 1789667858.0
         },
         {
           "name": "Pink Floyd",
           "seconds": 152.0,
           "passes": 1,
-          "dist_m": 699
+          "dist_m": 699,
+          "start_t": 1789665642.0,
+          "end_t": 1789665794.0
         }
-      ]
+      ],
+      "maxSpeedTrail": "Pink Floyd",
+      "bestJump": {
+        "score": 96,
+        "hangTime": 0.488,
+        "speed": 29.1,
+        "distance": 3.94
+      }
     },
     {
       "activityId": 24335598842,
@@ -92,50 +99,63 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 14.519000053405762
       },
-      "bestJump": {
-        "score": 173,
-        "hangTime": 0.792,
-        "speed": 37.8,
-        "distance": 8.31
-      },
       "segments": [
         {
           "name": "Cebolla Trail",
           "seconds": 122.0,
           "passes": 1,
-          "dist_m": 681
+          "dist_m": 681,
+          "start_t": 1789236669.0,
+          "end_t": 1789236806.0
         },
         {
           "name": "Gringo Durazno",
           "seconds": 355.0,
           "passes": 1,
-          "dist_m": 2387
+          "dist_m": 2387,
+          "start_t": 1789233777.0,
+          "end_t": 1789234176.0
         },
         {
           "name": "La Bala",
           "seconds": 133.0,
           "passes": 1,
-          "dist_m": 718
+          "dist_m": 718,
+          "start_t": 1789236893.0,
+          "end_t": 1789237307.0
         },
         {
           "name": "Lomo Vetado",
           "seconds": 352.0,
           "passes": 1,
-          "dist_m": 2743
+          "dist_m": 2743,
+          "start_t": 1789236149.0,
+          "end_t": 1789236501.0
         },
         {
           "name": "Los Saltos",
           "seconds": 84.0,
           "passes": 3,
-          "dist_m": 403
+          "dist_m": 403,
+          "start_t": 1789236503.0,
+          "end_t": 1789236673.0
         },
         {
           "name": "Parecero",
           "seconds": 158.0,
           "passes": 1,
-          "dist_m": 673
+          "dist_m": 673,
+          "start_t": 1789237554.0,
+          "end_t": 1789237712.0
         }
-      ]
+      ],
+      "maxSpeedTrail": "Lomo Vetado",
+      "bestJump": {
+        "score": 173,
+        "hangTime": 0.792,
+        "speed": 37.8,
+        "distance": 8.31
+      }
     },
     {
       "activityId": 24249945743,
@@ -208,38 +228,47 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 14.220000267028809
       },
-      "bestJump": {
-        "score": 155,
-        "hangTime": 0.632,
-        "speed": 45.1,
-        "distance": 7.91
-      },
       "segments": [
         {
           "name": "Gringo Durazno",
           "seconds": 370.0,
           "passes": 1,
-          "dist_m": 2387
+          "dist_m": 2387,
+          "start_t": 1788542746.0,
+          "end_t": 1788543116.0
         },
         {
           "name": "Lomo Vetado",
           "seconds": 350.0,
           "passes": 1,
-          "dist_m": 2743
+          "dist_m": 2743,
+          "start_t": 1788545427.0,
+          "end_t": 1788545777.0
         },
         {
           "name": "Los Saltos",
           "seconds": 100.0,
           "passes": 1,
-          "dist_m": 403
+          "dist_m": 403,
+          "start_t": 1788545779.0,
+          "end_t": 1788546359.0
         },
         {
           "name": "Parecero",
           "seconds": 91.0,
           "passes": 1,
-          "dist_m": 673
+          "dist_m": 673,
+          "start_t": 1788546410.0,
+          "end_t": 1788546501.0
         }
-      ]
+      ],
+      "maxSpeedTrail": "Lomo Vetado",
+      "bestJump": {
+        "score": 155,
+        "hangTime": 0.632,
+        "speed": 45.1,
+        "distance": 7.91
+      }
     },
     {
       "activityId": 24174944463,
@@ -273,38 +302,47 @@
         "locationName": "Lo Barnechea",
         "maxSpeed": 13.9399995803833
       },
-      "bestJump": {
-        "score": 154,
-        "hangTime": 0.712,
-        "speed": 36.6,
-        "distance": 7.23
-      },
       "segments": [
         {
           "name": "Gringo Durazno",
           "seconds": 369.0,
           "passes": 1,
-          "dist_m": 2387
+          "dist_m": 2387,
+          "start_t": 1788119500.0,
+          "end_t": 1788119937.0
         },
         {
           "name": "Lomo Vetado",
           "seconds": 356.0,
           "passes": 1,
-          "dist_m": 2743
+          "dist_m": 2743,
+          "start_t": 1788115779.0,
+          "end_t": 1788116135.0
         },
         {
           "name": "Los Saltos",
           "seconds": 84.0,
           "passes": 1,
-          "dist_m": 403
+          "dist_m": 403,
+          "start_t": 1788120437.0,
+          "end_t": 1788120706.0
         },
         {
           "name": "Parecero",
           "seconds": 99.0,
           "passes": 1,
-          "dist_m": 673
+          "dist_m": 673,
+          "start_t": 1788120746.0,
+          "end_t": 1788120958.0
         }
-      ]
+      ],
+      "maxSpeedTrail": "Lomo Vetado",
+      "bestJump": {
+        "score": 154,
+        "hangTime": 0.712,
+        "speed": 36.6,
+        "distance": 7.23
+      }
     },
     {
       "activityId": 24151109770,
