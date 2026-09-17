@@ -68,16 +68,24 @@ def process_one(client, trails, act):
             act['maxSpeedTrail'] = tn
             changed = True
 
+    FIT_EPOCH = 631065600  # 1989-12-31T00:00:00Z -> unix epoch
+
+    def jump_epoch(d):
+        ts = d.get('timestamp')
+        if ts is not None:
+            return ts.timestamp()
+        raw = d.get('unknown_253')
+        return (raw + FIT_EPOCH) if raw is not None else None
+
     jump_records = []
     for record in fit.get_messages('unknown_285'):
         d = {f.name: f.value for f in record}
-        score = d.get('unknown_7')
+        speed_raw = d.get('unknown_4')   # el mismo campo que garmin_sync.py usa como 'score'
         dist_raw = d.get('unknown_3')
-        jts = d.get('timestamp')
-        if score is None or dist_raw is None:
+        if speed_raw is None or dist_raw is None:
             continue
-        jump_records.append({'score': round(score) if score else 0,
-                              'trail': trail_at(jts.timestamp() if jts else None)})
+        jump_records.append({'score': round(speed_raw),
+                              'trail': trail_at(jump_epoch(d))})
     if jump_records:
         best = max(jump_records, key=lambda j: j['score'])
         if best.get('trail') and act.get('bestJump'):

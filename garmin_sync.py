@@ -232,6 +232,18 @@ def main():
                     if tn:
                         summary['maxSpeedTrail'] = tn
 
+                FIT_EPOCH = 631065600  # 1989-12-31T00:00:00Z -> unix epoch
+
+                def jump_epoch(d):
+                    """El mensaje de salto (unknown_285) no trae 'timestamp' decodificado por
+                    fitparse — llega crudo como unknown_253 (campo FIT estándar #253),
+                    en el reloj de FIT (segundos desde 1989-12-31), no en Unix."""
+                    ts = d.get('timestamp')
+                    if ts is not None:
+                        return ts.timestamp()
+                    raw = d.get('unknown_253')
+                    return (raw + FIT_EPOCH) if raw is not None else None
+
                 # ── Saltos: extraer y, si cae dentro de un sendero, marcarlo ──
                 jump_records = []
                 for record in fit.get_messages('unknown_285'):
@@ -240,14 +252,14 @@ def main():
                     speed_raw = d.get('unknown_4')
                     score = d.get('unknown_7')
                     dist_raw = d.get('unknown_3')
-                    jts = d.get('timestamp')
+                    jts = jump_epoch(d)
                     if score is not None and dist_raw is not None:
                         dist = round(hang_time, 2) if hang_time else 0
                         ht = round(dist_raw, 3) if dist_raw else 0
                         spd = round((hang_time / dist_raw) * 3.6, 1) if hang_time and dist_raw > 0 else 0
                         sc = round(speed_raw) if speed_raw else 0
                         jr = {'score': sc, 'hangTime': ht, 'speed': spd, 'distance': dist}
-                        tn = trail_at(jts.timestamp() if jts else None)
+                        tn = trail_at(jts)
                         if tn:
                             jr['trail'] = tn
                         jump_records.append(jr)
