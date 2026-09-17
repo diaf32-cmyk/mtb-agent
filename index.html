@@ -812,26 +812,36 @@ function updateRecords() {
   const nowY = new Date().getFullYear(), nowM = new Date().getMonth();
   const all = STATE.garminData.activities;
   const thisMonth = all.filter(a => { if (!a.startTimeLocal) return false; const d = new Date(a.startTimeLocal); return d.getMonth() === nowM && d.getFullYear() === nowY; });
-  const best = (arr, fn) => arr.reduce((b, a) => { const v = fn(a); return v > b.val ? { val: v, date: a.startTimeLocal } : b; }, { val: 0, date: null });
-  const bestAll = (arr, fn) => arr.reduce((b, a) => { const v = fn(a); return v > b ? v : b; }, 0);
+  const locOf = a => a.locationName || a.activityName || null;
+  const best = (arr, fn) => arr.reduce((b, a) => { const v = fn(a); return v > b.val ? { val: v, date: a.startTimeLocal, loc: locOf(a) } : b; }, { val: 0, date: null, loc: null });
+  const bestLow = (arr, fn) => arr.reduce((b, a) => { const v = fn(a); if (!(v > 0)) return b; return v < b.val ? { val: v, date: a.startTimeLocal, loc: locOf(a) } : b; }, { val: Infinity, date: null, loc: null });
 
   // Vel máxima
   const mxSpd = best(thisMonth, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
-  const axSpd = bestAll(all, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
-  if (mxSpd.val > 0) { document.getElementById('rec-maxspeed').innerHTML = mxSpd.val.toFixed(1) + '<span class="record-unit"> km/h</span>'; document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL'); document.getElementById('rec-maxspeed-pr').textContent = 'PR histórico: ' + axSpd.toFixed(1) + ' km/h'; }
+  const axSpd = best(all, a => a.maxSpeed ? a.maxSpeed * 3.6 : 0);
+  if (mxSpd.val > 0) {
+    document.getElementById('rec-maxspeed').innerHTML = mxSpd.val.toFixed(1) + '<span class="record-unit"> km/h</span>';
+    document.getElementById('rec-maxspeed-date').textContent = new Date(mxSpd.date).toLocaleDateString('es-CL') + (mxSpd.loc ? ' · ' + mxSpd.loc : '');
+    document.getElementById('rec-maxspeed-pr').textContent = 'PR histórico: ' + axSpd.val.toFixed(1) + ' km/h' + (axSpd.loc ? ' (' + axSpd.loc + ')' : '');
+  }
   // Jumps
   const mxJmp = best(thisMonth, a => a.bestJump?.distance || 0);
   if (mxJmp.val > 0) {
     const bj = thisMonth.find(a => a.startTimeLocal === mxJmp.date)?.bestJump;
     document.getElementById('rec-jump').innerHTML = (bj?.distance || '—') + '<span class="record-unit"> m</span>';
-    document.getElementById('rec-jump-date').textContent = new Date(mxJmp.date).toLocaleDateString('es-CL') + ' · score ' + (bj?.score || '—');
-    const bjAll = all.reduce((b, a) => (a.bestJump?.distance || 0) > (b?.distance || 0) ? a.bestJump : b, null);
-    document.getElementById('rec-jump-pr').textContent = 'PR histórico: ' + (bjAll?.distance || '—') + 'm · score ' + (bjAll?.score || '—');
+    document.getElementById('rec-jump-date').textContent = new Date(mxJmp.date).toLocaleDateString('es-CL') + ' · score ' + (bj?.score || '—') + (mxJmp.loc ? ' · ' + mxJmp.loc : '');
+    const axJmp = best(all, a => a.bestJump?.distance || 0);
+    const bjAll = all.find(a => a.startTimeLocal === axJmp.date)?.bestJump;
+    document.getElementById('rec-jump-pr').textContent = 'PR histórico: ' + (bjAll?.distance || '—') + 'm · score ' + (bjAll?.score || '—') + (axJmp.loc ? ' (' + axJmp.loc + ')' : '');
   }
   // Flow (menor = mejor)
-  const mxFlw = thisMonth.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => { const v = a.mtbDynamics.avgFlow; return v < b.val ? { val: v, date: a.startTimeLocal } : b; }, { val: Infinity, date: null });
-  const axFlw = all.filter(a => a.mtbDynamics?.avgFlow > 0).reduce((b, a) => a.mtbDynamics.avgFlow < b ? a.mtbDynamics.avgFlow : b, Infinity);
-  if (mxFlw.val < Infinity) { document.getElementById('rec-flow').innerHTML = mxFlw.val.toFixed(2); document.getElementById('rec-flow-date').textContent = new Date(mxFlw.date).toLocaleDateString('es-CL'); document.getElementById('rec-flow-pr').textContent = 'PR histórico: ' + axFlw.toFixed(2); }
+  const mxFlw = bestLow(thisMonth, a => a.mtbDynamics?.avgFlow || 0);
+  const axFlw = bestLow(all, a => a.mtbDynamics?.avgFlow || 0);
+  if (mxFlw.val < Infinity) {
+    document.getElementById('rec-flow').innerHTML = mxFlw.val.toFixed(2);
+    document.getElementById('rec-flow-date').textContent = new Date(mxFlw.date).toLocaleDateString('es-CL') + (mxFlw.loc ? ' · ' + mxFlw.loc : '');
+    document.getElementById('rec-flow-pr').textContent = 'PR histórico: ' + axFlw.val.toFixed(2) + (axFlw.loc ? ' (' + axFlw.loc + ')' : '');
+  }
 
   renderTrailRecords();
   renderPistasFrecuentes();
