@@ -1,6 +1,65 @@
 {
-  "lastSync": "2026-09-16T18:42:31.509187",
+  "lastSync": "2026-09-17T13:24:09.412680",
   "activities": [
+    {
+      "activityId": 24396977860,
+      "activityName": "Manquehue",
+      "startTimeLocal": "2026-09-17T11:03:34.0",
+      "distance": 9162.53,
+      "duration": 3535.608,
+      "movingDuration": 2550.0,
+      "elevationGain": 298.0,
+      "elevationLoss": 586.0,
+      "avgSpeed": 2.5920000076293945,
+      "maxSpeed": 10.609000205993652,
+      "avgHR": 135.0,
+      "maxHR": 174.0,
+      "calories": 563.0,
+      "avgTemperature": 27.63342061643451,
+      "locationName": "Vitacura",
+      "mtbDynamics": {
+        "grit": 34.26093673706055,
+        "avgFlow": 6.878079891204834,
+        "jumpCount": 3,
+        "waterEstimated": 806.0,
+        "avgRespirationRate": 28.3799991607666,
+        "trainingEffect": 3.5,
+        "anaerobicTrainingEffect": 2.700000047683716,
+        "trainingEffectLabel": "TEMPO",
+        "activityTrainingLoad": 163.8661346435547,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 32,
+        "eBikeBatteryRemaining": 39,
+        "locationName": "Vitacura",
+        "maxSpeed": 10.609000205993652
+      },
+      "bestJump": {
+        "score": 96,
+        "hangTime": 0.488,
+        "speed": 29.1,
+        "distance": 3.94
+      },
+      "segments": [
+        {
+          "name": "DH Cl\u00e1sico",
+          "seconds": 891.0,
+          "passes": 1,
+          "dist_m": 4049
+        },
+        {
+          "name": "La Cruz",
+          "seconds": 153.0,
+          "passes": 1,
+          "dist_m": 684
+        },
+        {
+          "name": "Pink Floyd",
+          "seconds": 152.0,
+          "passes": 1,
+          "dist_m": 699
+        }
+      ]
+    },
     {
       "activityId": 24335598842,
       "activityName": "\ud83c\udf51",
@@ -251,18 +310,8 @@
       "activityId": 24151109770,
       "activityName": "Guay guay barro",
       "startTimeLocal": "2026-08-28T09:58:16.0",
-      "distance": 19147.45,
-      "duration": 8592.065,
-      "movingDuration": 5742.0,
+      "distance": 19147.44921875,
       "elevationGain": 1015.0,
-      "elevationLoss": 907.0,
-      "avgSpeed": 2.2290000915527344,
-      "maxSpeed": 14.519000053405762,
-      "avgHR": 137.0,
-      "maxHR": 175.0,
-      "calories": 1198.0,
-      "avgTemperature": 16.459441592780493,
-      "locationName": "Colina",
       "mtbDynamics": {
         "grit": 98.95780944824219,
         "avgFlow": 5.237313270568848,
@@ -279,12 +328,6 @@
         "locationName": "Colina",
         "maxSpeed": 14.519000053405762
       },
-      "bestJump": {
-        "score": 133,
-        "hangTime": 0.592,
-        "speed": 38.3,
-        "distance": 6.3
-      },
       "segments": [
         {
           "name": "Minero",
@@ -292,7 +335,23 @@
           "passes": 3,
           "dist_m": 1090
         }
-      ]
+      ],
+      "maxSpeed": 14.519000053405762,
+      "avgSpeed": 2.2290000915527344,
+      "elevationLoss": 907.0,
+      "duration": 8592.065,
+      "movingDuration": 5742.0,
+      "avgHR": 137.0,
+      "maxHR": 175.0,
+      "calories": 1198.0,
+      "avgTemperature": 16.459441592780493,
+      "locationName": "Colina",
+      "bestJump": {
+        "score": 133,
+        "hangTime": 0.592,
+        "speed": 38.3,
+        "distance": 6.3
+      }
     },
     {
       "activityId": 24075040423,
@@ -1700,19 +1759,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 99.9281234741211,
-    "avgFlow": 4.824453830718994,
-    "jumpCount": 97,
-    "waterEstimated": 1000.0,
-    "avgRespirationRate": 23.799999237060547,
-    "trainingEffect": 2.5999999046325684,
-    "anaerobicTrainingEffect": 1.399999976158142,
-    "trainingEffectLabel": "AEROBIC_BASE",
-    "activityTrainingLoad": 64.77911376953125,
+    "grit": 34.26093673706055,
+    "avgFlow": 6.878079891204834,
+    "jumpCount": 3,
+    "waterEstimated": 806.0,
+    "avgRespirationRate": 28.3799991607666,
+    "trainingEffect": 3.5,
+    "anaerobicTrainingEffect": 2.700000047683716,
+    "trainingEffectLabel": "TEMPO",
+    "activityTrainingLoad": 163.8661346435547,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 54,
-    "eBikeBatteryRemaining": 45,
-    "locationName": "Lo Barnechea",
-    "maxSpeed": 14.519000053405762
+    "eBikeBatteryUsage": 32,
+    "eBikeBatteryRemaining": 39,
+    "locationName": "Vitacura",
+    "maxSpeed": 10.609000205993652
   }
 }
