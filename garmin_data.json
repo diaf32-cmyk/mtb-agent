@@ -1,6 +1,72 @@
 {
-  "lastSync": "2026-09-17T14:04:37.916714",
+  "lastSync": "2026-09-24T20:02:08.493341",
   "activities": [
+    {
+      "activityId": 24469713013,
+      "activityName": "\ud83c\udf51",
+      "startTimeLocal": "2026-09-23T08:27:55.0",
+      "distance": 20002.15,
+      "duration": 9542.876,
+      "movingDuration": 5900.0,
+      "elevationGain": 899.0,
+      "elevationLoss": 912.0,
+      "avgSpeed": 2.0959999561309814,
+      "maxSpeed": 12.857999801635742,
+      "avgHR": 120.0,
+      "maxHR": 162.0,
+      "calories": 982.0,
+      "avgTemperature": 13.73861109043463,
+      "locationName": "Lo Barnechea",
+      "mtbDynamics": {
+        "grit": 97.02656555175781,
+        "avgFlow": 4.635427474975586,
+        "jumpCount": 21,
+        "waterEstimated": 1238.0,
+        "avgRespirationRate": 24.959999084472656,
+        "trainingEffect": 3.299999952316284,
+        "anaerobicTrainingEffect": 2.200000047683716,
+        "trainingEffectLabel": "AEROBIC_BASE",
+        "activityTrainingLoad": 117.4112548828125,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 58,
+        "eBikeBatteryRemaining": 41,
+        "locationName": "Lo Barnechea",
+        "maxSpeed": 12.857999801635742
+      },
+      "segments": [
+        {
+          "name": "Mampato Durazno",
+          "seconds": 123.0,
+          "passes": 1,
+          "dist_m": 796,
+          "start_t": 1790182401.0,
+          "end_t": 1790182642.0
+        },
+        {
+          "name": "Rock and roll",
+          "seconds": 140.0,
+          "passes": 1,
+          "dist_m": 998,
+          "start_t": 1790177281.0,
+          "end_t": 1790177421.0
+        },
+        {
+          "name": "Starwars",
+          "seconds": 613.0,
+          "passes": 1,
+          "dist_m": 3137,
+          "start_t": 1790181509.0,
+          "end_t": 1790182247.0
+        }
+      ],
+      "maxSpeedTrail": "Mampato Durazno",
+      "bestJump": {
+        "score": 150,
+        "hangTime": 0.664,
+        "speed": 39.2,
+        "distance": 7.22
+      }
+    },
     {
       "activityId": 24396977860,
       "activityName": "Manquehue",
@@ -194,8 +260,7 @@
         "hangTime": 0.344,
         "speed": 22.1,
         "distance": 2.11
-      },
-      "segments": []
+      }
     },
     {
       "activityId": 24236384580,
@@ -275,18 +340,8 @@
       "activityId": 24174944463,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-08-30T10:07:48.0",
-      "distance": 17145.29,
-      "duration": 7874.875,
-      "movingDuration": 4780.0,
+      "distance": 17145.2890625,
       "elevationGain": 827.0,
-      "elevationLoss": 792.0,
-      "avgSpeed": 2.177000045776367,
-      "maxSpeed": 13.9399995803833,
-      "avgHR": 114.0,
-      "maxHR": 152.0,
-      "calories": 835.0,
-      "avgTemperature": 17.475360821656803,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 89.33906555175781,
         "avgFlow": 4.810601711273193,
@@ -337,7 +392,16 @@
           "end_t": 1788120958.0
         }
       ],
-      "maxSpeedTrail": "Lomo Vetado",
+      "maxSpeed": 13.9399995803833,
+      "avgSpeed": 2.177000045776367,
+      "elevationLoss": 792.0,
+      "duration": 7874.875,
+      "movingDuration": 4780.0,
+      "avgHR": 114.0,
+      "maxHR": 152.0,
+      "calories": 835.0,
+      "avgTemperature": 17.475360821656803,
+      "locationName": "Lo Barnechea",
       "bestJump": {
         "score": 154,
         "hangTime": 0.712,
@@ -473,8 +537,7 @@
         "hangTime": 0.696,
         "speed": 40.3,
         "distance": 7.79
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 24062479125,
@@ -555,8 +618,7 @@
         "hangTime": 0.736,
         "speed": 37.3,
         "distance": 7.62
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 23888526484,
@@ -686,8 +748,7 @@
         "hangTime": 0.664,
         "speed": 42.2,
         "distance": 7.78
-      },
-      "maxSpeedTrail": "Gringo Durazno"
+      }
     },
     {
       "activityId": 23572668554,
@@ -783,8 +844,7 @@
         "hangTime": 0.608,
         "speed": 43.1,
         "distance": 7.28
-      },
-      "segments": []
+      }
     },
     {
       "activityId": 23454959546,
@@ -823,8 +883,7 @@
         "hangTime": 0.88,
         "speed": 25.8,
         "distance": 6.31
-      },
-      "segments": []
+      }
     },
     {
       "activityId": 23398724203,
@@ -905,8 +964,7 @@
         "hangTime": 0.832,
         "speed": 38.9,
         "distance": 8.99
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 23366568095,
@@ -969,8 +1027,7 @@
         "hangTime": 0.76,
         "speed": 38.0,
         "distance": 8.02
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 23308084733,
@@ -1035,8 +1092,7 @@
         "hangTime": 0.824,
         "speed": 39.9,
         "distance": 9.13
-      },
-      "maxSpeedTrail": "Gringo Durazno"
+      }
     },
     {
       "activityId": 23236804622,
@@ -1099,8 +1155,7 @@
         "hangTime": 0.536,
         "speed": 39.8,
         "distance": 5.92
-      },
-      "maxSpeedTrail": "Don Julio"
+      }
     },
     {
       "activityId": 23166208308,
@@ -1181,8 +1236,7 @@
         "hangTime": 0.68,
         "speed": 46.2,
         "distance": 8.72
-      },
-      "maxSpeedTrail": "Mampato Durazno"
+      }
     },
     {
       "activityId": 23129728878,
@@ -2161,19 +2215,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 34.26093673706055,
-    "avgFlow": 6.878079891204834,
-    "jumpCount": 3,
-    "waterEstimated": 806.0,
-    "avgRespirationRate": 28.3799991607666,
-    "trainingEffect": 3.5,
-    "anaerobicTrainingEffect": 2.700000047683716,
-    "trainingEffectLabel": "TEMPO",
-    "activityTrainingLoad": 163.8661346435547,
+    "grit": 97.02656555175781,
+    "avgFlow": 4.635427474975586,
+    "jumpCount": 21,
+    "waterEstimated": 1238.0,
+    "avgRespirationRate": 24.959999084472656,
+    "trainingEffect": 3.299999952316284,
+    "anaerobicTrainingEffect": 2.200000047683716,
+    "trainingEffectLabel": "AEROBIC_BASE",
+    "activityTrainingLoad": 117.4112548828125,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 32,
-    "eBikeBatteryRemaining": 39,
-    "locationName": "Vitacura",
-    "maxSpeed": 10.609000205993652
+    "eBikeBatteryUsage": 58,
+    "eBikeBatteryRemaining": 41,
+    "locationName": "Lo Barnechea",
+    "maxSpeed": 12.857999801635742
   }
 }
