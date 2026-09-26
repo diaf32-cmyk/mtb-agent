@@ -1,6 +1,45 @@
 {
-  "lastSync": "2026-09-24T20:28:15.326919",
+  "lastSync": "2026-09-26T13:10:29.902712",
   "activities": [
+    {
+      "activityId": 24506605463,
+      "activityName": "Sancri ",
+      "startTimeLocal": "2026-09-26T10:45:28.0",
+      "distance": 14049.28,
+      "duration": 4224.965,
+      "movingDuration": 3813.0,
+      "elevationGain": 349.0,
+      "elevationLoss": 339.0,
+      "avgSpeed": 3.325000047683716,
+      "maxSpeed": 12.157999992370607,
+      "avgHR": 116.0,
+      "maxHR": 150.0,
+      "calories": 484.0,
+      "avgTemperature": 18.0,
+      "locationName": "Vitacura",
+      "mtbDynamics": {
+        "grit": 36.65156173706055,
+        "avgFlow": 3.866849660873413,
+        "jumpCount": 6,
+        "waterEstimated": 598.0,
+        "avgRespirationRate": 24.56999969482422,
+        "trainingEffect": 2.4000000953674316,
+        "anaerobicTrainingEffect": 0.4000000059604645,
+        "trainingEffectLabel": "AEROBIC_BASE",
+        "activityTrainingLoad": 37.90718078613281,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 21,
+        "eBikeBatteryRemaining": 10,
+        "locationName": "Vitacura",
+        "maxSpeed": 12.157999992370607
+      },
+      "bestJump": {
+        "score": 94,
+        "hangTime": 0.48,
+        "speed": 28.5,
+        "distance": 3.8
+      }
+    },
     {
       "activityId": 24469713013,
       "activityName": "\ud83c\udf51",
@@ -274,18 +313,8 @@
       "activityId": 24236384580,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-09-04T08:18:43.0",
-      "distance": 18321.81,
-      "duration": 8292.081,
-      "movingDuration": 5474.0,
+      "distance": 18321.810546875,
       "elevationGain": 823.0,
-      "elevationLoss": 819.0,
-      "avgSpeed": 2.2100000381469727,
-      "maxSpeed": 14.220000267028809,
-      "avgHR": 121.0,
-      "maxHR": 164.0,
-      "calories": 890.0,
-      "avgTemperature": 13.08019531442556,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 90.7828140258789,
         "avgFlow": 4.687167644500732,
@@ -336,7 +365,16 @@
           "end_t": 1788546501.0
         }
       ],
-      "maxSpeedTrail": "Lomo Vetado",
+      "maxSpeed": 14.220000267028809,
+      "avgSpeed": 2.2100000381469727,
+      "elevationLoss": 819.0,
+      "duration": 8292.081,
+      "movingDuration": 5474.0,
+      "avgHR": 121.0,
+      "maxHR": 164.0,
+      "calories": 890.0,
+      "avgTemperature": 13.08019531442556,
+      "locationName": "Lo Barnechea",
       "bestJump": {
         "score": 155,
         "hangTime": 0.632,
@@ -2223,19 +2261,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 97.02656555175781,
-    "avgFlow": 4.635427474975586,
-    "jumpCount": 21,
-    "waterEstimated": 1238.0,
-    "avgRespirationRate": 24.959999084472656,
-    "trainingEffect": 3.299999952316284,
-    "anaerobicTrainingEffect": 2.200000047683716,
+    "grit": 36.65156173706055,
+    "avgFlow": 3.866849660873413,
+    "jumpCount": 6,
+    "waterEstimated": 598.0,
+    "avgRespirationRate": 24.56999969482422,
+    "trainingEffect": 2.4000000953674316,
+    "anaerobicTrainingEffect": 0.4000000059604645,
     "trainingEffectLabel": "AEROBIC_BASE",
-    "activityTrainingLoad": 117.4112548828125,
+    "activityTrainingLoad": 37.90718078613281,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 58,
-    "eBikeBatteryRemaining": 41,
-    "locationName": "Lo Barnechea",
-    "maxSpeed": 12.857999801635742
+    "eBikeBatteryUsage": 21,
+    "eBikeBatteryRemaining": 10,
+    "locationName": "Vitacura",
+    "maxSpeed": 12.157999992370607
   }
 }
