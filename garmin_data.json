@@ -1,6 +1,72 @@
 {
-  "lastSync": "2026-10-06T14:24:39.806435",
+  "lastSync": "2026-10-11T13:27:26.922283",
   "activities": [
+    {
+      "activityId": 24688029871,
+      "activityName": "\ud83c\udf51",
+      "startTimeLocal": "2026-10-11T10:04:55.0",
+      "distance": 13441.17,
+      "duration": 4468.444,
+      "movingDuration": 3550.0,
+      "elevationGain": 515.0,
+      "elevationLoss": 515.0,
+      "avgSpeed": 3.007999897003174,
+      "maxSpeed": 11.942999839782715,
+      "avgHR": 128.0,
+      "maxHR": 158.0,
+      "calories": 606.0,
+      "avgTemperature": 20.337755146809382,
+      "locationName": "Lo Barnechea",
+      "mtbDynamics": {
+        "grit": 61.298439025878906,
+        "avgFlow": 3.96657133102417,
+        "jumpCount": 22,
+        "waterEstimated": 726.0,
+        "avgRespirationRate": 26.959999084472656,
+        "trainingEffect": 3.299999952316284,
+        "anaerobicTrainingEffect": 2.4000000953674316,
+        "trainingEffectLabel": "AEROBIC_BASE",
+        "activityTrainingLoad": 111.81509399414062,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 49,
+        "eBikeBatteryRemaining": 49,
+        "locationName": "Lo Barnechea",
+        "maxSpeed": 11.942999839782715
+      },
+      "segments": [
+        {
+          "name": "Papaya",
+          "seconds": 113.0,
+          "passes": 2,
+          "dist_m": 749,
+          "start_t": 1791738942.0,
+          "end_t": 1791739055.0
+        },
+        {
+          "name": "Parecero",
+          "seconds": 102.0,
+          "passes": 1,
+          "dist_m": 673,
+          "start_t": 1791738320.0,
+          "end_t": 1791738472.0
+        },
+        {
+          "name": "La Virgen",
+          "seconds": 523.0,
+          "passes": 1,
+          "dist_m": 3356,
+          "start_t": 1791736828.0,
+          "end_t": 1791737560.0
+        }
+      ],
+      "maxSpeedTrail": "La Virgen",
+      "bestJump": {
+        "score": 153,
+        "hangTime": 0.688,
+        "speed": 38.6,
+        "distance": 7.38
+      }
+    },
     {
       "activityId": 24591014585,
       "activityName": "Lo Barnechea Bicicleta el\u00e9ctrica",
@@ -242,18 +308,8 @@
       "activityId": 24335598842,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-09-12T10:20:28.0",
-      "distance": 20972.54,
-      "duration": 7804.508,
-      "movingDuration": 5600.0,
+      "distance": 20972.5390625,
       "elevationGain": 964.0,
-      "elevationLoss": 954.0,
-      "avgSpeed": 2.687000036239624,
-      "maxSpeed": 14.519000053405762,
-      "avgHR": 113.0,
-      "maxHR": 162.0,
-      "calories": 815.0,
-      "avgTemperature": 15.653706434593426,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 99.9281234741211,
         "avgFlow": 4.824453830718994,
@@ -320,7 +376,16 @@
           "end_t": 1789237712.0
         }
       ],
-      "maxSpeedTrail": "Lomo Vetado",
+      "maxSpeed": 14.519000053405762,
+      "avgSpeed": 2.687000036239624,
+      "elevationLoss": 954.0,
+      "duration": 7804.508,
+      "movingDuration": 5600.0,
+      "avgHR": 113.0,
+      "maxHR": 162.0,
+      "calories": 815.0,
+      "avgTemperature": 15.653706434593426,
+      "locationName": "Lo Barnechea",
       "bestJump": {
         "score": 173,
         "hangTime": 0.792,
@@ -2319,19 +2384,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 57.900001525878906,
-    "avgFlow": 4.821540832519531,
-    "jumpCount": 18,
-    "waterEstimated": 354.0,
-    "avgRespirationRate": 23.649999618530273,
-    "trainingEffect": 2.0999999046325684,
-    "anaerobicTrainingEffect": 0.10000000149011612,
+    "grit": 61.298439025878906,
+    "avgFlow": 3.96657133102417,
+    "jumpCount": 22,
+    "waterEstimated": 726.0,
+    "avgRespirationRate": 26.959999084472656,
+    "trainingEffect": 3.299999952316284,
+    "anaerobicTrainingEffect": 2.4000000953674316,
     "trainingEffectLabel": "AEROBIC_BASE",
-    "activityTrainingLoad": 23.62225341796875,
+    "activityTrainingLoad": 111.81509399414062,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 28,
-    "eBikeBatteryRemaining": 71,
+    "eBikeBatteryUsage": 49,
+    "eBikeBatteryRemaining": 49,
     "locationName": "Lo Barnechea",
-    "maxSpeed": 11.970999717712402
+    "maxSpeed": 11.942999839782715
   }
 }
