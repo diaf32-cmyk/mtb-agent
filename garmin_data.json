@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-10-13T12:08:49.495786",
+  "lastSync": "2026-10-13T13:19:36.443017",
   "activities": [
     {
       "activityId": 24698040602,
@@ -36,17 +36,17 @@
       "segments": [
         {
           "name": "Torre 5",
-          "seconds": 174.0,
+          "seconds": 173.0,
           "passes": 1,
-          "dist_m": 1046,
+          "dist_m": 1045,
           "start_t": 1791826948.0,
-          "end_t": 1791827151.0
+          "end_t": 1791827150.0
         },
         {
           "name": "Ciruelo Line",
           "seconds": 69.0,
           "passes": 1,
-          "dist_m": 274,
+          "dist_m": 267,
           "start_t": 1791827627.0,
           "end_t": 1791827723.0
         },
@@ -54,7 +54,7 @@
           "name": "RockGarden Piramide",
           "seconds": 151.0,
           "passes": 1,
-          "dist_m": 612,
+          "dist_m": 610,
           "start_t": 1791828716.0,
           "end_t": 1791828930.0
         }
@@ -228,7 +228,7 @@
           "name": "Torre 5",
           "seconds": 208.0,
           "passes": 1,
-          "dist_m": 1046,
+          "dist_m": 1045,
           "start_t": 1790442797.0,
           "end_t": 1790443021.0
         },
@@ -236,17 +236,17 @@
           "name": "Ciruelo Line",
           "seconds": 95.0,
           "passes": 1,
-          "dist_m": 274,
+          "dist_m": 267,
           "start_t": 1790443801.0,
           "end_t": 1790443896.0
         },
         {
           "name": "RockGarden Piramide",
-          "seconds": 182.0,
+          "seconds": 181.0,
           "passes": 1,
-          "dist_m": 612,
+          "dist_m": 610,
           "start_t": 1790445089.0,
-          "end_t": 1790445315.0
+          "end_t": 1790445314.0
         }
       ],
       "maxSpeedTrail": "Torre 5",
