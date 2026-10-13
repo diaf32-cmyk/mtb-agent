@@ -356,27 +356,27 @@
       "segments": [
         {
           "name": "DH Cl\u00e1sico",
-          "seconds": 891.0,
+          "seconds": 878.0,
           "passes": 1,
           "dist_m": 4049,
-          "start_t": 1789666962.0,
-          "end_t": 1789668028.0
+          "start_t": 1789666966.0,
+          "end_t": 1789668019.0
         },
         {
           "name": "La Cruz",
-          "seconds": 153.0,
+          "seconds": 125.0,
           "passes": 1,
           "dist_m": 684,
-          "start_t": 1789667705.0,
-          "end_t": 1789667858.0
+          "start_t": 1789667711.0,
+          "end_t": 1789667836.0
         },
         {
           "name": "Pink Floyd",
-          "seconds": 152.0,
+          "seconds": 139.0,
           "passes": 1,
           "dist_m": 699,
-          "start_t": 1789665642.0,
-          "end_t": 1789665794.0
+          "start_t": 1789665645.0,
+          "end_t": 1789665784.0
         }
       ],
       "maxSpeed": 10.609000205993652,
@@ -394,7 +394,8 @@
         "hangTime": 0.488,
         "speed": 29.1,
         "distance": 3.94
-      }
+      },
+      "maxSpeedTrail": "Pink Floyd"
     },
     {
       "activityId": 24335598842,
@@ -421,51 +422,51 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 122.0,
+          "seconds": 105.0,
           "passes": 1,
           "dist_m": 681,
-          "start_t": 1789236669.0,
-          "end_t": 1789236806.0
+          "start_t": 1789236684.0,
+          "end_t": 1789236804.0
         },
         {
           "name": "Gringo Durazno",
-          "seconds": 355.0,
+          "seconds": 339.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1789233777.0,
-          "end_t": 1789234176.0
+          "start_t": 1789233831.0,
+          "end_t": 1789234170.0
         },
         {
           "name": "La Bala",
-          "seconds": 133.0,
+          "seconds": 92.0,
           "passes": 1,
           "dist_m": 718,
-          "start_t": 1789236893.0,
-          "end_t": 1789237307.0
+          "start_t": 1789237204.0,
+          "end_t": 1789237296.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 352.0,
+          "seconds": 344.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1789236149.0,
-          "end_t": 1789236501.0
+          "start_t": 1789236154.0,
+          "end_t": 1789236498.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 84.0,
+          "seconds": 56.0,
           "passes": 3,
           "dist_m": 403,
-          "start_t": 1789236503.0,
-          "end_t": 1789236673.0
+          "start_t": 1789231109.0,
+          "end_t": 1789231165.0
         },
         {
           "name": "Parecero",
-          "seconds": 158.0,
+          "seconds": 81.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1789237554.0,
-          "end_t": 1789237712.0
+          "start_t": 1789237628.0,
+          "end_t": 1789237709.0
         }
       ],
       "maxSpeed": 14.519000053405762,
@@ -483,7 +484,8 @@
         "hangTime": 0.792,
         "speed": 37.8,
         "distance": 8.31
-      }
+      },
+      "maxSpeedTrail": "Lomo Vetado"
     },
     {
       "activityId": 24249945743,
@@ -522,7 +524,8 @@
         "hangTime": 0.344,
         "speed": 22.1,
         "distance": 2.11
-      }
+      },
+      "segments": []
     },
     {
       "activityId": 24236384580,
@@ -549,35 +552,35 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 370.0,
+          "seconds": 354.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1788542746.0,
-          "end_t": 1788543116.0
+          "start_t": 1788542755.0,
+          "end_t": 1788543109.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 350.0,
+          "seconds": 340.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1788545427.0,
-          "end_t": 1788545777.0
+          "start_t": 1788545434.0,
+          "end_t": 1788545774.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 100.0,
+          "seconds": 68.0,
           "passes": 1,
           "dist_m": 403,
-          "start_t": 1788545779.0,
-          "end_t": 1788546359.0
+          "start_t": 1788546281.0,
+          "end_t": 1788546349.0
         },
         {
           "name": "Parecero",
-          "seconds": 91.0,
+          "seconds": 80.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1788546410.0,
-          "end_t": 1788546501.0
+          "start_t": 1788546418.0,
+          "end_t": 1788546498.0
         }
       ],
       "maxSpeed": 14.220000267028809,
@@ -595,7 +598,8 @@
         "hangTime": 0.632,
         "speed": 45.1,
         "distance": 7.91
-      }
+      },
+      "maxSpeedTrail": "Lomo Vetado"
     },
     {
       "activityId": 24174944463,
@@ -622,35 +626,35 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 369.0,
+          "seconds": 348.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1788119500.0,
-          "end_t": 1788119937.0
+          "start_t": 1788119564.0,
+          "end_t": 1788119930.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 356.0,
+          "seconds": 347.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1788115779.0,
-          "end_t": 1788116135.0
+          "start_t": 1788115785.0,
+          "end_t": 1788116132.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 84.0,
+          "seconds": 62.0,
           "passes": 1,
           "dist_m": 403,
-          "start_t": 1788120437.0,
-          "end_t": 1788120706.0
+          "start_t": 1788120635.0,
+          "end_t": 1788120697.0
         },
         {
           "name": "Parecero",
-          "seconds": 99.0,
+          "seconds": 85.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1788120746.0,
-          "end_t": 1788120958.0
+          "start_t": 1788120867.0,
+          "end_t": 1788120952.0
         }
       ],
       "maxSpeed": 13.9399995803833,
@@ -668,7 +672,8 @@
         "hangTime": 0.712,
         "speed": 36.6,
         "distance": 7.23
-      }
+      },
+      "maxSpeedTrail": "Lomo Vetado"
     },
     {
       "activityId": 24151109770,
@@ -695,11 +700,11 @@
       "segments": [
         {
           "name": "Minero",
-          "seconds": 147.0,
+          "seconds": 130.0,
           "passes": 3,
           "dist_m": 1090,
-          "start_t": 1787948242.0,
-          "end_t": 1787948720.0
+          "start_t": 1787948586.0,
+          "end_t": 1787948716.0
         }
       ],
       "maxSpeed": 14.519000053405762,
@@ -744,43 +749,43 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 364.0,
+          "seconds": 350.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1787424830.0,
-          "end_t": 1787425194.0
+          "start_t": 1787424838.0,
+          "end_t": 1787425188.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 356.0,
+          "seconds": 349.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1787427380.0,
-          "end_t": 1787427736.0
+          "start_t": 1787427384.0,
+          "end_t": 1787427733.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 94.0,
+          "seconds": 74.0,
           "passes": 1,
           "dist_m": 403,
-          "start_t": 1787427738.0,
-          "end_t": 1787427988.0
+          "start_t": 1787427904.0,
+          "end_t": 1787427978.0
         },
         {
           "name": "Papaya",
-          "seconds": 111.0,
+          "seconds": 103.0,
           "passes": 1,
           "dist_m": 749,
-          "start_t": 1787428668.0,
-          "end_t": 1787428779.0
+          "start_t": 1787428672.0,
+          "end_t": 1787428775.0
         },
         {
           "name": "Parecero",
-          "seconds": 98.0,
+          "seconds": 89.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1787428021.0,
-          "end_t": 1787428119.0
+          "start_t": 1787428025.0,
+          "end_t": 1787428114.0
         }
       ],
       "maxSpeed": 13.82800006866455,
@@ -798,7 +803,8 @@
         "hangTime": 0.696,
         "speed": 40.3,
         "distance": 7.79
-      }
+      },
+      "maxSpeedTrail": "Lomo Vetado"
     },
     {
       "activityId": 24062479125,
@@ -825,43 +831,43 @@
       "segments": [
         {
           "name": "Lomo Vetado",
-          "seconds": 349.0,
+          "seconds": 340.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1787339405.0,
-          "end_t": 1787339754.0
+          "start_t": 1787339411.0,
+          "end_t": 1787339751.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 79.0,
+          "seconds": 58.0,
           "passes": 1,
           "dist_m": 403,
-          "start_t": 1787339756.0,
-          "end_t": 1787340083.0
+          "start_t": 1787340018.0,
+          "end_t": 1787340076.0
         },
         {
           "name": "Papaya",
-          "seconds": 110.0,
+          "seconds": 98.0,
           "passes": 2,
           "dist_m": 749,
-          "start_t": 1787340988.0,
-          "end_t": 1787341098.0
+          "start_t": 1787340993.0,
+          "end_t": 1787341091.0
         },
         {
           "name": "Parecero",
-          "seconds": 176.0,
+          "seconds": 82.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1787340457.0,
-          "end_t": 1787340661.0
+          "start_t": 1787340575.0,
+          "end_t": 1787340657.0
         },
         {
           "name": "La Virgen",
-          "seconds": 542.0,
+          "seconds": 459.0,
           "passes": 1,
           "dist_m": 3356,
-          "start_t": 1787337380.0,
-          "end_t": 1787338177.0
+          "start_t": 1787337443.0,
+          "end_t": 1787337902.0
         }
       ],
       "maxSpeed": 13.54800033569336,
@@ -879,7 +885,8 @@
         "hangTime": 0.736,
         "speed": 37.3,
         "distance": 7.62
-      }
+      },
+      "maxSpeedTrail": "Lomo Vetado"
     },
     {
       "activityId": 23888526484,
@@ -906,19 +913,19 @@
       "segments": [
         {
           "name": "\u00c1guila",
-          "seconds": 559.0,
+          "seconds": 538.0,
           "passes": 1,
           "dist_m": 2223,
-          "start_t": 1786128883.0,
-          "end_t": 1786129875.0
+          "start_t": 1786128888.0,
+          "end_t": 1786129585.0
         },
         {
           "name": "Lomaech\u00e1",
-          "seconds": 334.0,
+          "seconds": 309.0,
           "passes": 1,
           "dist_m": 1467,
-          "start_t": 1786127056.0,
-          "end_t": 1786127390.0
+          "start_t": 1786127064.0,
+          "end_t": 1786127373.0
         }
       ],
       "maxSpeed": 11.663000106811522,
@@ -963,35 +970,35 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 379.0,
+          "seconds": 364.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1785439164.0,
-          "end_t": 1785439543.0
+          "start_t": 1785439173.0,
+          "end_t": 1785439537.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 290.0,
+          "seconds": 141.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1785441496.0,
-          "end_t": 1785441825.0
+          "start_t": 1785441646.0,
+          "end_t": 1785441818.0
         },
         {
           "name": "Papaya",
-          "seconds": 135.0,
+          "seconds": 107.0,
           "passes": 1,
           "dist_m": 749,
-          "start_t": 1785442057.0,
-          "end_t": 1785442192.0
+          "start_t": 1785442080.0,
+          "end_t": 1785442187.0
         },
         {
           "name": "Parecero",
-          "seconds": 110.0,
+          "seconds": 83.0,
           "passes": 2,
           "dist_m": 673,
-          "start_t": 1785442568.0,
-          "end_t": 1785442922.0
+          "start_t": 1785443458.0,
+          "end_t": 1785443541.0
         }
       ],
       "maxSpeed": 13.800000190734863,
@@ -1009,7 +1016,8 @@
         "hangTime": 0.664,
         "speed": 42.2,
         "distance": 7.78
-      }
+      },
+      "maxSpeedTrail": "Gringo Durazno"
     },
     {
       "activityId": 23572668554,
@@ -1036,19 +1044,27 @@
       "segments": [
         {
           "name": "Papaya",
-          "seconds": 113.0,
+          "seconds": 103.0,
           "passes": 1,
           "dist_m": 749,
-          "start_t": 1783886479.0,
-          "end_t": 1783886592.0
+          "start_t": 1783886483.0,
+          "end_t": 1783886586.0
         },
         {
           "name": "Rock and roll",
-          "seconds": 143.0,
+          "seconds": 139.0,
           "passes": 1,
           "dist_m": 998,
-          "start_t": 1783883652.0,
+          "start_t": 1783883656.0,
           "end_t": 1783883795.0
+        },
+        {
+          "name": "XL",
+          "seconds": 521.0,
+          "passes": 1,
+          "dist_m": 3085,
+          "start_t": 1783883614.0,
+          "end_t": 1783884179.0
         }
       ],
       "maxSpeed": 12.942000389099121,
@@ -1066,7 +1082,8 @@
         "hangTime": 0.528,
         "speed": 34.9,
         "distance": 5.11
-      }
+      },
+      "maxSpeedTrail": "XL"
     },
     {
       "activityId": 23469810507,
@@ -1105,7 +1122,8 @@
         "hangTime": 0.608,
         "speed": 43.1,
         "distance": 7.28
-      }
+      },
+      "segments": []
     },
     {
       "activityId": 23454959546,
@@ -1144,7 +1162,8 @@
         "hangTime": 0.88,
         "speed": 25.8,
         "distance": 6.31
-      }
+      },
+      "segments": []
     },
     {
       "activityId": 23398724203,
@@ -1171,43 +1190,43 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 152.0,
+          "seconds": 133.0,
           "passes": 2,
           "dist_m": 681,
-          "start_t": 1782591769.0,
-          "end_t": 1782591970.0
+          "start_t": 1782591786.0,
+          "end_t": 1782591968.0
         },
         {
           "name": "La Bala",
-          "seconds": 125.0,
+          "seconds": 84.0,
           "passes": 2,
           "dist_m": 718,
-          "start_t": 1782590340.0,
-          "end_t": 1782590720.0
+          "start_t": 1782590609.0,
+          "end_t": 1782590693.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 373.0,
+          "seconds": 363.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1782589062.0,
-          "end_t": 1782589477.0
+          "start_t": 1782589069.0,
+          "end_t": 1782589474.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 93.0,
+          "seconds": 65.0,
           "passes": 2,
           "dist_m": 403,
-          "start_t": 1782589479.0,
-          "end_t": 1782590072.0
+          "start_t": 1782589998.0,
+          "end_t": 1782590063.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 195.0,
+          "seconds": 102.0,
           "passes": 2,
           "dist_m": 796,
-          "start_t": 1782592505.0,
-          "end_t": 1782592763.0
+          "start_t": 1782590994.0,
+          "end_t": 1782591096.0
         }
       ],
       "maxSpeed": 14.052000045776367,
@@ -1225,7 +1244,8 @@
         "hangTime": 0.832,
         "speed": 38.9,
         "distance": 8.99
-      }
+      },
+      "maxSpeedTrail": "Lomo Vetado"
     },
     {
       "activityId": 23366568095,
@@ -1252,27 +1272,27 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 362.0,
+          "seconds": 347.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1782333603.0,
-          "end_t": 1782333965.0
+          "start_t": 1782333612.0,
+          "end_t": 1782333959.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 362.0,
+          "seconds": 353.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1782336098.0,
-          "end_t": 1782336460.0
+          "start_t": 1782336104.0,
+          "end_t": 1782336457.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 126.0,
+          "seconds": 100.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1782336636.0,
-          "end_t": 1782336775.0
+          "start_t": 1782336672.0,
+          "end_t": 1782336772.0
         }
       ],
       "maxSpeed": 14.659000396728516,
@@ -1288,7 +1308,8 @@
         "hangTime": 0.76,
         "speed": 38.0,
         "distance": 8.02
-      }
+      },
+      "maxSpeedTrail": "Lomo Vetado"
     },
     {
       "activityId": 23308084733,
@@ -1315,27 +1336,27 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 370.0,
+          "seconds": 353.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1781897342.0,
-          "end_t": 1781897712.0
+          "start_t": 1781897352.0,
+          "end_t": 1781897705.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 359.0,
+          "seconds": 350.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1781899851.0,
-          "end_t": 1781900210.0
+          "start_t": 1781899858.0,
+          "end_t": 1781900208.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 121.0,
+          "seconds": 96.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1781900353.0,
-          "end_t": 1781900695.0
+          "start_t": 1781900596.0,
+          "end_t": 1781900692.0
         }
       ],
       "maxSpeed": 13.996000289916992,
@@ -1353,7 +1374,8 @@
         "hangTime": 0.824,
         "speed": 39.9,
         "distance": 9.13
-      }
+      },
+      "maxSpeedTrail": "Gringo Durazno"
     },
     {
       "activityId": 23236804622,
@@ -1380,27 +1402,27 @@
       "segments": [
         {
           "name": "Bosque Grande",
-          "seconds": 178.0,
+          "seconds": 157.0,
           "passes": 1,
           "dist_m": 1243,
-          "start_t": 1781380119.0,
-          "end_t": 1781380725.0
+          "start_t": 1781380520.0,
+          "end_t": 1781380677.0
         },
         {
           "name": "Don Julio",
-          "seconds": 318.0,
+          "seconds": 250.0,
           "passes": 1,
           "dist_m": 1729,
-          "start_t": 1781375754.0,
-          "end_t": 1781376843.0
+          "start_t": 1781376402.0,
+          "end_t": 1781376652.0
         },
         {
           "name": "Litre",
-          "seconds": 288.0,
+          "seconds": 225.0,
           "passes": 1,
           "dist_m": 1632,
-          "start_t": 1781378186.0,
-          "end_t": 1781379092.0
+          "start_t": 1781378725.0,
+          "end_t": 1781378950.0
         }
       ],
       "maxSpeed": 12.88599967956543,
@@ -1416,7 +1438,8 @@
         "hangTime": 0.536,
         "speed": 39.8,
         "distance": 5.92
-      }
+      },
+      "maxSpeedTrail": "Don Julio"
     },
     {
       "activityId": 23166208308,
@@ -1443,43 +1466,43 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 134.0,
+          "seconds": 118.0,
           "passes": 1,
           "dist_m": 681,
-          "start_t": 1780859865.0,
-          "end_t": 1780860015.0
+          "start_t": 1780859878.0,
+          "end_t": 1780860012.0
         },
         {
           "name": "La Bala",
-          "seconds": 141.0,
+          "seconds": 83.0,
           "passes": 1,
           "dist_m": 718,
-          "start_t": 1780860149.0,
-          "end_t": 1780860364.0
+          "start_t": 1780860274.0,
+          "end_t": 1780860357.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 365.0,
+          "seconds": 356.0,
           "passes": 2,
           "dist_m": 2743,
-          "start_t": 1780862134.0,
-          "end_t": 1780862499.0
+          "start_t": 1780862140.0,
+          "end_t": 1780862496.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 75.0,
+          "seconds": 53.0,
           "passes": 2,
           "dist_m": 403,
-          "start_t": 1780862500.0,
-          "end_t": 1780862649.0
+          "start_t": 1780859806.0,
+          "end_t": 1780859859.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 111.0,
+          "seconds": 99.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1780862673.0,
-          "end_t": 1780862784.0
+          "start_t": 1780862681.0,
+          "end_t": 1780862780.0
         }
       ],
       "maxSpeed": 13.687999725341797,
@@ -1497,7 +1520,8 @@
         "hangTime": 0.68,
         "speed": 46.2,
         "distance": 8.72
-      }
+      },
+      "maxSpeedTrail": "Mampato Durazno"
     },
     {
       "activityId": 23129728878,
@@ -1524,27 +1548,27 @@
       "segments": [
         {
           "name": "Lomo Vetado",
-          "seconds": 366.0,
+          "seconds": 358.0,
           "passes": 2,
           "dist_m": 2743,
-          "start_t": 1780601199.0,
-          "end_t": 1780601565.0
+          "start_t": 1780597801.0,
+          "end_t": 1780598159.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 128.0,
+          "seconds": 98.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1780601687.0,
-          "end_t": 1780602179.0
+          "start_t": 1780602077.0,
+          "end_t": 1780602175.0
         },
         {
           "name": "Papaya",
-          "seconds": 152.0,
+          "seconds": 99.0,
           "passes": 1,
           "dist_m": 749,
-          "start_t": 1780602363.0,
-          "end_t": 1780602515.0
+          "start_t": 1780602412.0,
+          "end_t": 1780602511.0
         }
       ],
       "maxSpeed": 13.9399995803833,
@@ -1562,7 +1586,8 @@
         "hangTime": 0.688,
         "speed": 39.7,
         "distance": 7.58
-      }
+      },
+      "maxSpeedTrail": "Lomo Vetado"
     },
     {
       "activityId": 23070007352,
@@ -1589,51 +1614,51 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 151.0,
+          "seconds": 133.0,
           "passes": 1,
           "dist_m": 681,
-          "start_t": 1780169527.0,
-          "end_t": 1780169678.0
+          "start_t": 1780169542.0,
+          "end_t": 1780169675.0
         },
         {
           "name": "La Bala",
-          "seconds": 131.0,
+          "seconds": 83.0,
           "passes": 2,
           "dist_m": 718,
-          "start_t": 1780169807.0,
-          "end_t": 1780170483.0
+          "start_t": 1780164625.0,
+          "end_t": 1780164708.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 400.0,
+          "seconds": 380.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1780168463.0,
-          "end_t": 1780168954.0
+          "start_t": 1780168559.0,
+          "end_t": 1780168951.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 92.0,
+          "seconds": 55.0,
           "passes": 1,
           "dist_m": 403,
-          "start_t": 1780168957.0,
-          "end_t": 1780169530.0
+          "start_t": 1780169466.0,
+          "end_t": 1780169521.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 225.0,
+          "seconds": 102.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1780164893.0,
-          "end_t": 1780165163.0
+          "start_t": 1780165057.0,
+          "end_t": 1780165159.0
         },
         {
           "name": "Parecero",
-          "seconds": 124.0,
+          "seconds": 82.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1780170687.0,
-          "end_t": 1780170862.0
+          "start_t": 1780170776.0,
+          "end_t": 1780170858.0
         }
       ],
       "maxSpeed": 13.352000236511232,
@@ -1679,35 +1704,35 @@
       "segments": [
         {
           "name": "Gringo Durazno",
-          "seconds": 389.0,
+          "seconds": 366.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1779995520.0,
-          "end_t": 1779995947.0
+          "start_t": 1779995573.0,
+          "end_t": 1779995939.0
         },
         {
           "name": "La Bala",
-          "seconds": 127.0,
+          "seconds": 84.0,
           "passes": 1,
           "dist_m": 718,
-          "start_t": 1779996382.0,
-          "end_t": 1779996753.0
+          "start_t": 1779996606.0,
+          "end_t": 1779996741.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 133.0,
+          "seconds": 101.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1780000840.0,
-          "end_t": 1780001202.0
+          "start_t": 1780001097.0,
+          "end_t": 1780001198.0
         },
         {
           "name": "Starwars",
-          "seconds": 615.0,
+          "seconds": 602.0,
           "passes": 1,
           "dist_m": 3137,
-          "start_t": 1779999998.0,
-          "end_t": 1780000670.0
+          "start_t": 1780000006.0,
+          "end_t": 1780000665.0
         }
       ],
       "maxSpeed": 13.109999656677246,
@@ -1753,51 +1778,51 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 132.0,
+          "seconds": 124.0,
           "passes": 1,
           "dist_m": 681,
-          "start_t": 1779648429.0,
-          "end_t": 1779648561.0
+          "start_t": 1779648434.0,
+          "end_t": 1779648558.0
         },
         {
           "name": "La Bala",
-          "seconds": 117.0,
+          "seconds": 85.0,
           "passes": 1,
           "dist_m": 718,
-          "start_t": 1779648684.0,
-          "end_t": 1779648929.0
+          "start_t": 1779648838.0,
+          "end_t": 1779648923.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 114.0,
+          "seconds": 98.0,
           "passes": 2,
           "dist_m": 796,
-          "start_t": 1779650844.0,
-          "end_t": 1779651138.0
+          "start_t": 1779651036.0,
+          "end_t": 1779651134.0
         },
         {
           "name": "Papaya",
-          "seconds": 160.0,
+          "seconds": 97.0,
           "passes": 1,
           "dist_m": 749,
-          "start_t": 1779650322.0,
-          "end_t": 1779650519.0
+          "start_t": 1779650416.0,
+          "end_t": 1779650513.0
         },
         {
           "name": "Parecero",
-          "seconds": 158.0,
+          "seconds": 84.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1779649808.0,
-          "end_t": 1779650083.0
+          "start_t": 1779649954.0,
+          "end_t": 1779650038.0
         },
         {
           "name": "La Virgen",
-          "seconds": 464.0,
+          "seconds": 453.0,
           "passes": 1,
           "dist_m": 3356,
-          "start_t": 1779647690.0,
-          "end_t": 1779648154.0
+          "start_t": 1779647696.0,
+          "end_t": 1779648149.0
         }
       ],
       "maxSpeed": 12.465999603271484,
@@ -1859,43 +1884,43 @@
       "segments": [
         {
           "name": "Bosque Grande",
-          "seconds": 191.0,
+          "seconds": 162.0,
           "passes": 2,
           "dist_m": 1243,
-          "start_t": 1779392180.0,
-          "end_t": 1779392502.0
+          "start_t": 1779396231.0,
+          "end_t": 1779396393.0
         },
         {
           "name": "Don Julio",
-          "seconds": 319.0,
+          "seconds": 256.0,
           "passes": 1,
           "dist_m": 1729,
-          "start_t": 1779390996.0,
-          "end_t": 1779391475.0
+          "start_t": 1779391204.0,
+          "end_t": 1779391460.0
         },
         {
           "name": "La Vaca",
-          "seconds": 211.0,
+          "seconds": 156.0,
           "passes": 1,
           "dist_m": 1201,
-          "start_t": 1779388029.0,
-          "end_t": 1779388371.0
+          "start_t": 1779388191.0,
+          "end_t": 1779388347.0
         },
         {
           "name": "Minero",
-          "seconds": 180.0,
+          "seconds": 153.0,
           "passes": 1,
           "dist_m": 1090,
-          "start_t": 1779394799.0,
-          "end_t": 1779395058.0
+          "start_t": 1779394872.0,
+          "end_t": 1779395045.0
         },
         {
           "name": "Monolito",
-          "seconds": 262.0,
+          "seconds": 230.0,
           "passes": 1,
           "dist_m": 1767,
-          "start_t": 1779393899.0,
-          "end_t": 1779394578.0
+          "start_t": 1779394334.0,
+          "end_t": 1779394564.0
         }
       ],
       "maxSpeedTrail": "Minero"
@@ -1925,19 +1950,19 @@
       "segments": [
         {
           "name": "\u00c1guila",
-          "seconds": 602.0,
+          "seconds": 580.0,
           "passes": 1,
           "dist_m": 2223,
-          "start_t": 1778961785.0,
-          "end_t": 1778963267.0
+          "start_t": 1778961792.0,
+          "end_t": 1778962997.0
         },
         {
           "name": "Lomaech\u00e1",
-          "seconds": 384.0,
+          "seconds": 353.0,
           "passes": 1,
           "dist_m": 1467,
-          "start_t": 1778959004.0,
-          "end_t": 1778959788.0
+          "start_t": 1778959013.0,
+          "end_t": 1778959766.0
         }
       ],
       "maxSpeed": 11.243000030517578,
@@ -1983,27 +2008,27 @@
       "segments": [
         {
           "name": "Mampato Durazno",
-          "seconds": 336.0,
+          "seconds": 104.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1778781403.0,
-          "end_t": 1778781802.0
+          "start_t": 1778781695.0,
+          "end_t": 1778781799.0
         },
         {
           "name": "Papaya",
-          "seconds": 197.0,
+          "seconds": 107.0,
           "passes": 1,
           "dist_m": 749,
-          "start_t": 1778782099.0,
-          "end_t": 1778782305.0
+          "start_t": 1778782194.0,
+          "end_t": 1778782301.0
         },
         {
           "name": "Parecero",
-          "seconds": 159.0,
+          "seconds": 86.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1778782538.0,
-          "end_t": 1778782697.0
+          "start_t": 1778782608.0,
+          "end_t": 1778782694.0
         }
       ],
       "maxSpeed": 12.26099967956543,
@@ -2043,35 +2068,35 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 132.0,
+          "seconds": 122.0,
           "passes": 1,
           "dist_m": 681,
-          "start_t": 1778779683.0,
-          "end_t": 1778779850.0
+          "start_t": 1778779689.0,
+          "end_t": 1778779846.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 353.0,
+          "seconds": 345.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1778779274.0,
-          "end_t": 1778779627.0
+          "start_t": 1778779280.0,
+          "end_t": 1778779625.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 55.0,
+          "seconds": 47.0,
           "passes": 1,
           "dist_m": 403,
-          "start_t": 1778779629.0,
-          "end_t": 1778779684.0
+          "start_t": 1778779633.0,
+          "end_t": 1778779680.0
         },
         {
           "name": "Papaya",
-          "seconds": 173.0,
+          "seconds": 99.0,
           "passes": 1,
           "dist_m": 749,
-          "start_t": 1778776617.0,
-          "end_t": 1778776812.0
+          "start_t": 1778776694.0,
+          "end_t": 1778776793.0
         }
       ],
       "maxSpeed": 13.800000190734863,
@@ -2117,43 +2142,43 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 166.0,
+          "seconds": 143.0,
           "passes": 1,
           "dist_m": 681,
-          "start_t": 1778354228.0,
-          "end_t": 1778355037.0
+          "start_t": 1778354248.0,
+          "end_t": 1778355034.0
         },
         {
           "name": "Gringo Durazno",
-          "seconds": 387.0,
+          "seconds": 368.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1778352950.0,
-          "end_t": 1778353574.0
+          "start_t": 1778352961.0,
+          "end_t": 1778353566.0
         },
         {
           "name": "La Bala",
-          "seconds": 122.0,
+          "seconds": 88.0,
           "passes": 1,
           "dist_m": 718,
-          "start_t": 1778355186.0,
-          "end_t": 1778355510.0
+          "start_t": 1778355375.0,
+          "end_t": 1778355502.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 87.0,
+          "seconds": 60.0,
           "passes": 1,
           "dist_m": 403,
-          "start_t": 1778353862.0,
-          "end_t": 1778354232.0
+          "start_t": 1778354155.0,
+          "end_t": 1778354221.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 197.0,
+          "seconds": 96.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1778355706.0,
-          "end_t": 1778355975.0
+          "start_t": 1778355875.0,
+          "end_t": 1778355971.0
         }
       ],
       "maxSpeed": 13.54800033569336,
@@ -2199,51 +2224,51 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 127.0,
+          "seconds": 117.0,
           "passes": 1,
           "dist_m": 681,
-          "start_t": 1778270643.0,
-          "end_t": 1778270770.0
+          "start_t": 1778270650.0,
+          "end_t": 1778270767.0
         },
         {
           "name": "La Bala",
-          "seconds": 143.0,
+          "seconds": 79.0,
           "passes": 1,
           "dist_m": 718,
-          "start_t": 1778270912.0,
-          "end_t": 1778271949.0
+          "start_t": 1778271842.0,
+          "end_t": 1778271921.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 363.0,
+          "seconds": 356.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1778270224.0,
-          "end_t": 1778270587.0
+          "start_t": 1778270228.0,
+          "end_t": 1778270584.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 55.0,
+          "seconds": 47.0,
           "passes": 1,
           "dist_m": 403,
-          "start_t": 1778270589.0,
-          "end_t": 1778270644.0
+          "start_t": 1778270593.0,
+          "end_t": 1778270640.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 134.0,
+          "seconds": 102.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1778274983.0,
-          "end_t": 1778275117.0
+          "start_t": 1778275011.0,
+          "end_t": 1778275113.0
         },
         {
           "name": "La Virgen",
-          "seconds": 499.0,
+          "seconds": 479.0,
           "passes": 1,
           "dist_m": 3356,
-          "start_t": 1778274320.0,
-          "end_t": 1778274835.0
+          "start_t": 1778274328.0,
+          "end_t": 1778274807.0
         }
       ],
       "maxSpeed": 13.295999526977539,
@@ -2305,59 +2330,59 @@
       "segments": [
         {
           "name": "Cebolla Trail",
-          "seconds": 134.0,
+          "seconds": 110.0,
           "passes": 1,
           "dist_m": 681,
-          "start_t": 1777578289.0,
-          "end_t": 1777578433.0
+          "start_t": 1777578299.0,
+          "end_t": 1777578409.0
         },
         {
           "name": "Gringo Durazno",
-          "seconds": 394.0,
+          "seconds": 372.0,
           "passes": 1,
           "dist_m": 2387,
-          "start_t": 1777574162.0,
-          "end_t": 1777574556.0
+          "start_t": 1777574173.0,
+          "end_t": 1777574545.0
         },
         {
           "name": "La Bala",
-          "seconds": 122.0,
+          "seconds": 83.0,
           "passes": 1,
           "dist_m": 718,
-          "start_t": 1777574984.0,
-          "end_t": 1777575520.0
+          "start_t": 1777575428.0,
+          "end_t": 1777575511.0
         },
         {
           "name": "Lomo Vetado",
-          "seconds": 373.0,
+          "seconds": 364.0,
           "passes": 1,
           "dist_m": 2743,
-          "start_t": 1777577698.0,
-          "end_t": 1777578071.0
+          "start_t": 1777577704.0,
+          "end_t": 1777578068.0
         },
         {
           "name": "Los Saltos",
-          "seconds": 97.0,
+          "seconds": 57.0,
           "passes": 1,
           "dist_m": 403,
-          "start_t": 1777578073.0,
-          "end_t": 1777578292.0
+          "start_t": 1777578225.0,
+          "end_t": 1777578282.0
         },
         {
           "name": "Mampato Durazno",
-          "seconds": 238.0,
+          "seconds": 99.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1777578443.0,
-          "end_t": 1777578681.0
+          "start_t": 1777578578.0,
+          "end_t": 1777578677.0
         },
         {
           "name": "Parecero",
-          "seconds": 124.0,
+          "seconds": 82.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1777578873.0,
-          "end_t": 1777579016.0
+          "start_t": 1777578930.0,
+          "end_t": 1777579012.0
         }
       ],
       "maxSpeedTrail": "Gringo Durazno"
