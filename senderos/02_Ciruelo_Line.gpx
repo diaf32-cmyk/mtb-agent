@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="MTB Agent" xmlns="http://www.topografix.com/GPX/1/1">
+ <trk><name>Ciruelo Line</name><trkseg>
+  <trkpt lat="-33.411740" lon="-70.617183"><ele>719.6</ele></trkpt>
+  <trkpt lat="-33.411787" lon="-70.617159"><ele>719.6</ele></trkpt>
+  <trkpt lat="-33.411820" lon="-70.617162"><ele>719.6</ele></trkpt>
+  <trkpt lat="-33.411859" lon="-70.617179"><ele>719.6</ele></trkpt>
+  <trkpt lat="-33.411899" lon="-70.617200"><ele>719.6</ele></trkpt>
+  <trkpt lat="-33.411939" lon="-70.617214"><ele>719.6</ele></trkpt>
+  <trkpt lat="-33.411979" lon="-70.617215"><ele>719.0</ele></trkpt>
+  <trkpt lat="-33.412015" lon="-70.617206"><ele>718.8</ele></trkpt>
+  <trkpt lat="-33.412050" lon="-70.617162"><ele>717.8</ele></trkpt>
+  <trkpt lat="-33.412077" lon="-70.617115"><ele>716.4</ele></trkpt>
+  <trkpt lat="-33.412101" lon="-70.617060"><ele>715.4</ele></trkpt>
+  <trkpt lat="-33.412129" lon="-70.616989"><ele>713.4</ele></trkpt>
+  <trkpt lat="-33.412169" lon="-70.616904"><ele>712.8</ele></trkpt>
+  <trkpt lat="-33.412212" lon="-70.616810"><ele>711.0</ele></trkpt>
+  <trkpt lat="-33.412242" lon="-70.616722"><ele>710.2</ele></trkpt>
+  <trkpt lat="-33.412269" lon="-70.616634"><ele>709.0</ele></trkpt>
+  <trkpt lat="-33.412306" lon="-70.616547"><ele>707.6</ele></trkpt>
+  <trkpt lat="-33.412338" lon="-70.616474"><ele>707.0</ele></trkpt>
+  <trkpt lat="-33.412373" lon="-70.616414"><ele>705.4</ele></trkpt>
+  <trkpt lat="-33.412404" lon="-70.616355"><ele>704.8</ele></trkpt>
+  <trkpt lat="-33.412434" lon="-70.616289"><ele>704.0</ele></trkpt>
+  <trkpt lat="-33.412463" lon="-70.616218"><ele>703.6</ele></trkpt>
+  <trkpt lat="-33.412487" lon="-70.616151"><ele>702.6</ele></trkpt>
+  <trkpt lat="-33.412509" lon="-70.616082"><ele>701.8</ele></trkpt>
+  <trkpt lat="-33.412533" lon="-70.616005"><ele>701.0</ele></trkpt>
+  <trkpt lat="-33.412559" lon="-70.615933"><ele>699.2</ele></trkpt>
+  <trkpt lat="-33.412586" lon="-70.615877"><ele>697.8</ele></trkpt>
+  <trkpt lat="-33.412618" lon="-70.615832"><ele>696.2</ele></trkpt>
+  <trkpt lat="-33.412655" lon="-70.615790"><ele>695.2</ele></trkpt>
+  <trkpt lat="-33.412693" lon="-70.615739"><ele>693.4</ele></trkpt>
+  <trkpt lat="-33.412735" lon="-70.615676"><ele>691.0</ele></trkpt>
+  <trkpt lat="-33.412776" lon="-70.615610"><ele>690.0</ele></trkpt>
+  <trkpt lat="-33.412818" lon="-70.615552"><ele>688.6</ele></trkpt>
+  <trkpt lat="-33.412861" lon="-70.615506"><ele>688.0</ele></trkpt>
+  <trkpt lat="-33.412898" lon="-70.615487"><ele>686.6</ele></trkpt>
+  <trkpt lat="-33.412937" lon="-70.615485"><ele>685.4</ele></trkpt>
+  <trkpt lat="-33.412980" lon="-70.615487"><ele>683.6</ele></trkpt>
+  <trkpt lat="-33.413026" lon="-70.615504"><ele>682.2</ele></trkpt>
+  <trkpt lat="-33.413052" lon="-70.615526"><ele>681.8</ele></trkpt>
+  <trkpt lat="-33.413078" lon="-70.615577"><ele>680.6</ele></trkpt>
+  <trkpt lat="-33.413081" lon="-70.615611"><ele>679.6</ele></trkpt>
+  <trkpt lat="-33.413069" lon="-70.615641"><ele>679.2</ele></trkpt>
+  <trkpt lat="-33.413048" lon="-70.615666"><ele>678.4</ele></trkpt>
+  <trkpt lat="-33.413025" lon="-70.615687"><ele>677.8</ele></trkpt>
+  <trkpt lat="-33.413001" lon="-70.615742"><ele>677.2</ele></trkpt>
+  <trkpt lat="-33.413001" lon="-70.615777"><ele>677.2</ele></trkpt>
+  <trkpt lat="-33.413001" lon="-70.615814"><ele>677.0</ele></trkpt>
+  <trkpt lat="-33.413001" lon="-70.615853"><ele>677.0</ele></trkpt>
+ </trkseg></trk>
+</gpx>

@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-10-13T11:42:28.480052",
+  "lastSync": "2026-10-13T12:08:49.495786",
   "activities": [
     {
       "activityId": 24698040602,
@@ -33,6 +33,33 @@
         "locationName": "Vitacura",
         "maxSpeed": 10.048999786376953
       },
+      "segments": [
+        {
+          "name": "Torre 5",
+          "seconds": 174.0,
+          "passes": 1,
+          "dist_m": 1046,
+          "start_t": 1791826948.0,
+          "end_t": 1791827151.0
+        },
+        {
+          "name": "Ciruelo Line",
+          "seconds": 69.0,
+          "passes": 1,
+          "dist_m": 274,
+          "start_t": 1791827627.0,
+          "end_t": 1791827723.0
+        },
+        {
+          "name": "RockGarden Piramide",
+          "seconds": 151.0,
+          "passes": 1,
+          "dist_m": 612,
+          "start_t": 1791828716.0,
+          "end_t": 1791828930.0
+        }
+      ],
+      "maxSpeedTrail": "Torre 5",
       "bestJump": {
         "score": 88,
         "hangTime": 0.424,
@@ -196,6 +223,33 @@
         "locationName": "Vitacura",
         "maxSpeed": 12.157999992370607
       },
+      "segments": [
+        {
+          "name": "Torre 5",
+          "seconds": 208.0,
+          "passes": 1,
+          "dist_m": 1046,
+          "start_t": 1790442797.0,
+          "end_t": 1790443021.0
+        },
+        {
+          "name": "Ciruelo Line",
+          "seconds": 95.0,
+          "passes": 1,
+          "dist_m": 274,
+          "start_t": 1790443801.0,
+          "end_t": 1790443896.0
+        },
+        {
+          "name": "RockGarden Piramide",
+          "seconds": 182.0,
+          "passes": 1,
+          "dist_m": 612,
+          "start_t": 1790445089.0,
+          "end_t": 1790445315.0
+        }
+      ],
+      "maxSpeedTrail": "Torre 5",
       "bestJump": {
         "score": 94,
         "hangTime": 0.48,
