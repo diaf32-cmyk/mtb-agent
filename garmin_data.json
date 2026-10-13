@@ -1,6 +1,45 @@
 {
-  "lastSync": "2026-10-11T13:27:26.922283",
+  "lastSync": "2026-10-13T11:42:28.480052",
   "activities": [
+    {
+      "activityId": 24698040602,
+      "activityName": "SanCri ",
+      "startTimeLocal": "2026-10-12T11:35:40.0",
+      "distance": 10042.41,
+      "duration": 2496.416,
+      "movingDuration": 2285.0,
+      "elevationGain": 240.0,
+      "elevationLoss": 238.0,
+      "avgSpeed": 4.0229997634887695,
+      "maxSpeed": 10.048999786376953,
+      "avgHR": null,
+      "maxHR": null,
+      "calories": 471.0,
+      "avgTemperature": 13.731277554149894,
+      "locationName": "Vitacura",
+      "mtbDynamics": {
+        "grit": 23.746875762939453,
+        "avgFlow": 3.7316062450408936,
+        "jumpCount": 5,
+        "waterEstimated": 610.0,
+        "avgRespirationRate": null,
+        "trainingEffect": 0.0,
+        "anaerobicTrainingEffect": 0.0,
+        "trainingEffectLabel": "UNKNOWN",
+        "activityTrainingLoad": 0.3488006591796875,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 23,
+        "eBikeBatteryRemaining": 67,
+        "locationName": "Vitacura",
+        "maxSpeed": 10.048999786376953
+      },
+      "bestJump": {
+        "score": 88,
+        "hangTime": 0.424,
+        "speed": 31.5,
+        "distance": 3.71
+      }
+    },
     {
       "activityId": 24688029871,
       "activityName": "\ud83c\udf51",
@@ -242,18 +281,8 @@
       "activityId": 24396977860,
       "activityName": "Manquehue",
       "startTimeLocal": "2026-09-17T11:03:34.0",
-      "distance": 9162.53,
-      "duration": 3535.608,
-      "movingDuration": 2550.0,
+      "distance": 9162.5302734375,
       "elevationGain": 298.0,
-      "elevationLoss": 586.0,
-      "avgSpeed": 2.5920000076293945,
-      "maxSpeed": 10.609000205993652,
-      "avgHR": 135.0,
-      "maxHR": 174.0,
-      "calories": 563.0,
-      "avgTemperature": 27.63342061643451,
-      "locationName": "Vitacura",
       "mtbDynamics": {
         "grit": 34.26093673706055,
         "avgFlow": 6.878079891204834,
@@ -296,7 +325,16 @@
           "end_t": 1789665794.0
         }
       ],
-      "maxSpeedTrail": "Pink Floyd",
+      "maxSpeed": 10.609000205993652,
+      "avgSpeed": 2.5920000076293945,
+      "elevationLoss": 586.0,
+      "duration": 3535.608,
+      "movingDuration": 2550.0,
+      "avgHR": 135.0,
+      "maxHR": 174.0,
+      "calories": 563.0,
+      "avgTemperature": 27.63342061643451,
+      "locationName": "Vitacura",
       "bestJump": {
         "score": 96,
         "hangTime": 0.488,
@@ -2384,19 +2422,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 61.298439025878906,
-    "avgFlow": 3.96657133102417,
-    "jumpCount": 22,
-    "waterEstimated": 726.0,
-    "avgRespirationRate": 26.959999084472656,
-    "trainingEffect": 3.299999952316284,
-    "anaerobicTrainingEffect": 2.4000000953674316,
-    "trainingEffectLabel": "AEROBIC_BASE",
-    "activityTrainingLoad": 111.81509399414062,
+    "grit": 23.746875762939453,
+    "avgFlow": 3.7316062450408936,
+    "jumpCount": 5,
+    "waterEstimated": 610.0,
+    "avgRespirationRate": null,
+    "trainingEffect": 0.0,
+    "anaerobicTrainingEffect": 0.0,
+    "trainingEffectLabel": "UNKNOWN",
+    "activityTrainingLoad": 0.3488006591796875,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 49,
-    "eBikeBatteryRemaining": 49,
-    "locationName": "Lo Barnechea",
-    "maxSpeed": 11.942999839782715
+    "eBikeBatteryUsage": 23,
+    "eBikeBatteryRemaining": 67,
+    "locationName": "Vitacura",
+    "maxSpeed": 10.048999786376953
   }
 }
