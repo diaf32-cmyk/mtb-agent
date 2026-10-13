@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-10-13T13:23:59.713368",
+  "lastSync": "2026-10-13T13:26:53.142318",
   "activities": [
     {
       "activityId": 24698040602,
@@ -36,27 +36,27 @@
       "segments": [
         {
           "name": "Torre 5",
-          "seconds": 173.0,
+          "seconds": 154.0,
           "passes": 1,
           "dist_m": 1045,
-          "start_t": 1791826948.0,
-          "end_t": 1791827150.0
+          "start_t": 1791826989.0,
+          "end_t": 1791827143.0
         },
         {
           "name": "Ciruelo Line",
-          "seconds": 69.0,
+          "seconds": 46.0,
           "passes": 1,
           "dist_m": 267,
-          "start_t": 1791827627.0,
-          "end_t": 1791827723.0
+          "start_t": 1791827668.0,
+          "end_t": 1791827714.0
         },
         {
           "name": "RockGarden Piramide",
-          "seconds": 151.0,
+          "seconds": 129.0,
           "passes": 1,
           "dist_m": 610,
-          "start_t": 1791828716.0,
-          "end_t": 1791828930.0
+          "start_t": 1791828720.0,
+          "end_t": 1791828849.0
         }
       ],
       "maxSpeedTrail": "Torre 5",
@@ -102,27 +102,27 @@
       "segments": [
         {
           "name": "Papaya",
-          "seconds": 113.0,
+          "seconds": 104.0,
           "passes": 2,
           "dist_m": 749,
-          "start_t": 1791738942.0,
-          "end_t": 1791739055.0
+          "start_t": 1791738947.0,
+          "end_t": 1791739051.0
         },
         {
           "name": "Parecero",
-          "seconds": 102.0,
+          "seconds": 89.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1791738320.0,
-          "end_t": 1791738472.0
+          "start_t": 1791738379.0,
+          "end_t": 1791738468.0
         },
         {
           "name": "La Virgen",
-          "seconds": 523.0,
+          "seconds": 503.0,
           "passes": 1,
           "dist_m": 3356,
-          "start_t": 1791736828.0,
-          "end_t": 1791737560.0
+          "start_t": 1791737049.0,
+          "end_t": 1791737552.0
         }
       ],
       "maxSpeedTrail": "La Virgen",
@@ -168,18 +168,18 @@
       "segments": [
         {
           "name": "Parecero",
-          "seconds": 113.0,
+          "seconds": 82.0,
           "passes": 1,
           "dist_m": 673,
-          "start_t": 1791046715.0,
-          "end_t": 1791046848.0
+          "start_t": 1791046763.0,
+          "end_t": 1791046845.0
         },
         {
           "name": "Rock and roll",
-          "seconds": 144.0,
+          "seconds": 141.0,
           "passes": 1,
           "dist_m": 998,
-          "start_t": 1791044905.0,
+          "start_t": 1791044908.0,
           "end_t": 1791045491.0
         }
       ],
@@ -226,27 +226,27 @@
       "segments": [
         {
           "name": "Torre 5",
-          "seconds": 208.0,
+          "seconds": 158.0,
           "passes": 1,
           "dist_m": 1045,
-          "start_t": 1790442797.0,
-          "end_t": 1790443021.0
+          "start_t": 1790442839.0,
+          "end_t": 1790443013.0
         },
         {
           "name": "Ciruelo Line",
-          "seconds": 95.0,
+          "seconds": 46.0,
           "passes": 1,
           "dist_m": 267,
-          "start_t": 1790443801.0,
-          "end_t": 1790443896.0
+          "start_t": 1790443838.0,
+          "end_t": 1790443884.0
         },
         {
           "name": "RockGarden Piramide",
-          "seconds": 181.0,
+          "seconds": 119.0,
           "passes": 1,
           "dist_m": 610,
-          "start_t": 1790445089.0,
-          "end_t": 1790445314.0
+          "start_t": 1790445144.0,
+          "end_t": 1790445263.0
         }
       ],
       "maxSpeedTrail": "Torre 5",
@@ -292,35 +292,35 @@
       "segments": [
         {
           "name": "Mampato Durazno",
-          "seconds": 123.0,
+          "seconds": 98.0,
           "passes": 1,
           "dist_m": 796,
-          "start_t": 1790182401.0,
-          "end_t": 1790182642.0
+          "start_t": 1790182541.0,
+          "end_t": 1790182639.0
         },
         {
           "name": "Rock and roll",
-          "seconds": 140.0,
+          "seconds": 136.0,
           "passes": 1,
           "dist_m": 998,
-          "start_t": 1790177281.0,
+          "start_t": 1790177285.0,
           "end_t": 1790177421.0
         },
         {
           "name": "Starwars",
-          "seconds": 613.0,
+          "seconds": 579.0,
           "passes": 1,
           "dist_m": 3137,
-          "start_t": 1790181509.0,
-          "end_t": 1790182247.0
+          "start_t": 1790181584.0,
+          "end_t": 1790182243.0
         },
         {
           "name": "XL",
-          "seconds": 562.0,
+          "seconds": 554.0,
           "passes": 1,
           "dist_m": 3085,
-          "start_t": 1790177237.0,
-          "end_t": 1790177808.0
+          "start_t": 1790177244.0,
+          "end_t": 1790177807.0
         }
       ],
       "maxSpeedTrail": "Mampato Durazno",
