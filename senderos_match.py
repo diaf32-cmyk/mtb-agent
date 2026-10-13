@@ -182,6 +182,29 @@ def _run_coverage(ride_pts, a, b, ref, tol_m):
             hit += 1
     return hit / len(ref) if ref else 0.0
 
+def _trim_run(ride_pts, a, b, ref, trim_m=5.0):
+    """Ajusta [a, b] al sendero real. El tramo bruto parte cuando pasas a
+    <=tol_m de CUALQUIER punto del sendero, así que incluye aproximación,
+    vueltas/calentamiento y paradas cerca de la partida. Aquí:
+      - inicio = ultima vez que estuviste en la partida antes de bajar
+      - fin    = primera vez que llegaste a la meta
+    (a <= trim_m metros de lo mejor que te acercaste). Si no se puede
+    acotar con seguridad, devuelve [a, b] sin cambios."""
+    p0, pn = ref[0], ref[-1]
+    d0 = [haversine(ride_pts[i][0], ride_pts[i][1], p0[0], p0[1]) for i in range(a, b + 1)]
+    dn = [haversine(ride_pts[i][0], ride_pts[i][1], pn[0], pn[1]) for i in range(a, b + 1)]
+    ie = min(range(len(dn)), key=lambda k: dn[k])          # punto mas cercano a la meta
+    if ie < 1:
+        return a, b
+    min_d0 = min(d0[:ie + 1])
+    thr0 = min_d0 + trim_m
+    ks = max(k for k in range(ie + 1) if d0[k] <= thr0)    # ultima vez en la partida
+    thrn = min(dn[ks:]) + trim_m
+    ke = next(k for k in range(ks, len(dn)) if dn[k] <= thrn)  # primera vez en la meta
+    if ke <= ks:
+        return a, b
+    return a + ks, a + ke
+
 def _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts):
     """Encuentra bajadas válidas del track sobre 'ref' (en el sentido dado).
     Devuelve lista de (cobertura, segundos) de cada tramo válido."""
@@ -222,10 +245,11 @@ def _scan_runs(ride_pts, ref, tol_m, coverage, max_gap_pts):
             continue
         if (r['last'] - r['first']) < 0.5 * n:   # debe avanzar >½ del sendero
             continue
-        dur = _moving_seconds(ride_pts, r['a'], r['b'])   # tiempo de rodada, sin paradas
+        ta, tb = _trim_run(ride_pts, r['a'], r['b'], ref)  # acota a partida->meta reales
+        dur = _moving_seconds(ride_pts, ta, tb)   # tiempo de rodada, sin paradas
         if dur <= 0:
             continue
-        qual.append((cov, dur, r['a'], r['b']))
+        qual.append((cov, dur, ta, tb))
     return qual
 
 
