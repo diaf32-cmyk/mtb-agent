@@ -175,6 +175,28 @@
   .sbar-fill { height: 100%; border-radius: 2px; transition: width 0.9s ease; }
   .sbar-val { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text2); width: 32px; text-align: right; flex-shrink: 0; }
 
+  /* TALLER */
+  .taller-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .taller-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); cursor: pointer; transition: all 0.2s; border-left: 3px solid var(--accent2); text-align: left; font-family: 'Inter', sans-serif; color: var(--text); }
+  .taller-item:hover { border-left-color: var(--accent); transform: translateY(-1px); }
+  .taller-item-icon { font-size: 1.5rem; margin-bottom: 6px; }
+  .taller-item-title { font-size: 0.92rem; font-weight: 600; margin-bottom: 3px; }
+  .taller-item-sub { font-size: 0.74rem; color: var(--muted); line-height: 1.5; }
+  .taller-item-last { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--accent3); margin-top: 8px; }
+  .taller-back { background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-bottom: 14px; padding: 0; }
+  .taller-back:hover { color: var(--accent2); }
+  .taller-title { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .taller-desc { font-size: 0.82rem; color: var(--text2); margin-bottom: 14px; line-height: 1.6; }
+  .video-wrap { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: var(--radius); overflow: hidden; background: #000; box-shadow: var(--shadow); border: 1px solid var(--border); }
+  .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .taller-link { display: inline-block; margin-top: 10px; font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--accent); text-decoration: none; }
+  .taller-link:hover { text-decoration: underline; }
+  .taller-log { margin-top: 16px; }
+  .taller-log-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .taller-date { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--text); outline: none; }
+  .taller-notes { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 0.82rem; color: var(--text); outline: none; resize: vertical; min-height: 70px; margin: 10px 0; }
+  .taller-notes:focus, .taller-date:focus { border-color: var(--accent); }
+
   /* SETUP */
   .setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .setup-section-title { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--accent); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
@@ -265,6 +287,7 @@
   <button class="tab-btn active" onclick="switchTab('session',this)">📊 Sesión</button>
   <button class="tab-btn" onclick="switchTab('records',this)">🏆 Records</button>
   <button class="tab-btn" onclick="switchTab('setup',this)">🔧 Setup Bici</button>
+  <button class="tab-btn" onclick="switchTab('taller',this)">🛠 Taller</button>
   <button class="tab-btn" onclick="switchTab('recs',this)">💡 Recomendaciones</button>
 </nav>
 
@@ -410,6 +433,15 @@
       <div class="setup-row"><span class="setup-param">Calipers</span><span class="setup-val" style="font-size:0.7rem;">Magura MT5 eStop</span></div>
     </div>
   </div>
+</div>
+
+<!-- ═══════════ TALLER ═══════════ -->
+<div class="tab-panel" id="tab-taller">
+  <div id="taller-home">
+    <div class="section-title" style="margin-top:0;">🛠 Mantenciones</div>
+    <div class="taller-list" id="taller-list"></div>
+  </div>
+  <div id="taller-detail" style="display:none;"></div>
 </div>
 
 <!-- ═══════════ RECOMENDACIONES ═══════════ -->
@@ -575,6 +607,7 @@ function effectiveRecord(canon, detMap) {
 
 document.addEventListener('DOMContentLoaded', () => {
   loadSetup();
+  renderTallerList();
   updateRecordsMonth();
   renderTrailRecords();   // muestra tus records base al instante
   syncAll();
@@ -586,6 +619,7 @@ function switchTab(id, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
+  if (id !== 'taller' && document.getElementById('taller-detail')?.innerHTML) closeTaller();  // pausa el video al salir
 }
 
 /* ══════════════════════════════════════════════
@@ -1167,6 +1201,83 @@ function generateAnalysis() {
   cards.push({ type: '', title: 'Posición de ataque', body: 'Codos afuera, rodillas flexionadas, peso equilibrado. En grit alto baja el centro de gravedad para mejorar control.', src: 'Técnica enduro' });
   document.getElementById('tech-cards').innerHTML = cards.map(c => `<div class="tech-card ${c.type}"><div class="tech-title">${c.title}</div><div class="tech-body">${c.body}</div><div class="tech-source">${c.src}</div></div>`).join('');
   document.getElementById('rec-analysis-container').style.display = 'block';
+}
+
+/* ══════════════════════════════════════════════
+   TALLER — mantenciones con tutoriales
+   Para agregar otra mantención, suma un objeto a TALLER_ITEMS.
+══════════════════════════════════════════════ */
+const TALLER_ITEMS = [
+  {
+    id: 'sangrado-frenos',
+    icon: '🩸',
+    title: 'Sangrado de frenos',
+    sub: 'Tutorial en video paso a paso.',
+    desc: 'Tutorial de sangrado de frenos. Registra abajo cuándo lo hiciste para llevar el control.',
+    videoId: 'k-X5BS3ywhM',
+    videoUrl: 'https://www.youtube.com/watch?v=k-X5BS3ywhM'
+  }
+];
+
+function tallerLog() { try { return JSON.parse(localStorage.getItem('mtb_taller_v1') || '{}'); } catch (e) { return {}; } }
+function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+function renderTallerList() {
+  const log = tallerLog();
+  document.getElementById('taller-list').innerHTML = TALLER_ITEMS.map(it => {
+    const last = log[it.id]?.date;
+    const lastTxt = last ? 'Última vez: ' + new Date(last + 'T12:00:00').toLocaleDateString('es-CL') : 'Sin registro aún';
+    return `<button class="taller-item" onclick="openTaller('${it.id}')">
+      <div class="taller-item-icon">${it.icon}</div>
+      <div class="taller-item-title">${it.title}</div>
+      <div class="taller-item-sub">${it.sub}</div>
+      <div class="taller-item-last">${lastTxt}</div>
+    </button>`;
+  }).join('');
+}
+
+function openTaller(id) {
+  const it = TALLER_ITEMS.find(x => x.id === id);
+  if (!it) return;
+  const entry = tallerLog()[id] || {};
+  document.getElementById('taller-detail').innerHTML = `
+    <button class="taller-back" onclick="closeTaller()">← Volver al taller</button>
+    <div class="taller-title">${it.icon} ${it.title}</div>
+    <div class="taller-desc">${it.desc}</div>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube-nocookie.com/embed/${it.videoId}" title="${esc(it.title)}" loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <a class="taller-link" href="${it.videoUrl}" target="_blank" rel="noopener">↗ Abrir en YouTube</a>
+    <div class="card taller-log">
+      <div class="card-title">Registro de mantención</div>
+      <div class="taller-log-row">
+        <span class="setup-param">Fecha realizada</span>
+        <input type="date" class="taller-date" id="taller-date" value="${esc(entry.date)}">
+      </div>
+      <textarea class="taller-notes" id="taller-notes" placeholder="Notas: fluido usado, qué freno, observaciones...">${esc(entry.notes)}</textarea>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn-save" onclick="saveTaller('${it.id}')">💾 Guardar registro</button>
+        <span style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);" id="taller-saved">${entry.saved ? 'Guardado: ' + new Date(entry.saved).toLocaleString('es-CL') : '—'}</span>
+      </div>
+    </div>`;
+  document.getElementById('taller-home').style.display = 'none';
+  document.getElementById('taller-detail').style.display = 'block';
+  window.scrollTo({ top: 0 });
+}
+
+function closeTaller() {
+  document.getElementById('taller-detail').style.display = 'none';
+  document.getElementById('taller-detail').innerHTML = '';   // detiene el video
+  document.getElementById('taller-home').style.display = 'block';
+  renderTallerList();
+}
+
+function saveTaller(id) {
+  const log = tallerLog();
+  log[id] = { date: document.getElementById('taller-date').value, notes: document.getElementById('taller-notes').value, saved: new Date().toISOString() };
+  try { localStorage.setItem('mtb_taller_v1', JSON.stringify(log)); } catch (e) {}
+  document.getElementById('taller-saved').textContent = 'Guardado: ' + new Date().toLocaleString('es-CL');
 }
 
 /* ── SETUP ── */
