@@ -1,6 +1,71 @@
 {
-  "lastSync": "2026-10-13T13:26:53.142318",
+  "lastSync": "2026-10-16T16:45:00.125980",
   "activities": [
+    {
+      "activityId": 24745925351,
+      "activityName": "Sancri ",
+      "startTimeLocal": "2026-10-16T09:29:33.0",
+      "distance": 27065.28,
+      "duration": 8138.77,
+      "movingDuration": 6399.0,
+      "elevationGain": 702.0,
+      "elevationLoss": 685.0,
+      "avgSpeed": 3.325000047683716,
+      "maxSpeed": 12.381999969482422,
+      "avgHR": 111.0,
+      "maxHR": 162.0,
+      "calories": 771.0,
+      "avgTemperature": 14.572900576663175,
+      "locationName": "Vitacura",
+      "mtbDynamics": {
+        "grit": 71.31562805175781,
+        "avgFlow": 3.42073392868042,
+        "jumpCount": 11,
+        "waterEstimated": 987.0,
+        "avgRespirationRate": 23.600000381469727,
+        "trainingEffect": 3.0999999046325684,
+        "anaerobicTrainingEffect": 1.600000023841858,
+        "trainingEffectLabel": "AEROBIC_BASE",
+        "activityTrainingLoad": 78.79879760742188,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 69,
+        "eBikeBatteryRemaining": 22,
+        "locationName": "Vitacura",
+        "maxSpeed": 12.381999969482422
+      },
+      "segments": [
+        {
+          "name": "Torre 5",
+          "seconds": 150.0,
+          "passes": 2,
+          "dist_m": 1045,
+          "start_t": 1792171033.0,
+          "end_t": 1792171183.0
+        },
+        {
+          "name": "Ciruelo Line",
+          "seconds": 56.0,
+          "passes": 2,
+          "dist_m": 267,
+          "start_t": 1792167128.0,
+          "end_t": 1792167184.0
+        },
+        {
+          "name": "RockGarden Piramide",
+          "seconds": 117.0,
+          "passes": 2,
+          "dist_m": 610,
+          "start_t": 1792165213.0,
+          "end_t": 1792165330.0
+        }
+      ],
+      "bestJump": {
+        "score": 97,
+        "hangTime": 0.472,
+        "speed": 31.5,
+        "distance": 4.13
+      }
+    },
     {
       "activityId": 24698040602,
       "activityName": "SanCri ",
@@ -261,18 +326,8 @@
       "activityId": 24469713013,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-09-23T08:27:55.0",
-      "distance": 20002.15,
-      "duration": 9542.876,
-      "movingDuration": 5900.0,
+      "distance": 20002.150390625,
       "elevationGain": 899.0,
-      "elevationLoss": 912.0,
-      "avgSpeed": 2.0959999561309814,
-      "maxSpeed": 12.857999801635742,
-      "avgHR": 120.0,
-      "maxHR": 162.0,
-      "calories": 982.0,
-      "avgTemperature": 13.73861109043463,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 97.02656555175781,
         "avgFlow": 4.635427474975586,
@@ -323,7 +378,16 @@
           "end_t": 1790177807.0
         }
       ],
-      "maxSpeedTrail": "Mampato Durazno",
+      "maxSpeed": 12.857999801635742,
+      "avgSpeed": 2.0959999561309814,
+      "elevationLoss": 912.0,
+      "duration": 9542.876,
+      "movingDuration": 5900.0,
+      "avgHR": 120.0,
+      "maxHR": 162.0,
+      "calories": 982.0,
+      "avgTemperature": 13.73861109043463,
+      "locationName": "Lo Barnechea",
       "bestJump": {
         "score": 150,
         "hangTime": 0.664,
@@ -394,8 +458,7 @@
         "hangTime": 0.488,
         "speed": 29.1,
         "distance": 3.94
-      },
-      "maxSpeedTrail": "Pink Floyd"
+      }
     },
     {
       "activityId": 24335598842,
@@ -484,8 +547,7 @@
         "hangTime": 0.792,
         "speed": 37.8,
         "distance": 8.31
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 24249945743,
@@ -524,8 +586,7 @@
         "hangTime": 0.344,
         "speed": 22.1,
         "distance": 2.11
-      },
-      "segments": []
+      }
     },
     {
       "activityId": 24236384580,
@@ -598,8 +659,7 @@
         "hangTime": 0.632,
         "speed": 45.1,
         "distance": 7.91
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 24174944463,
@@ -672,8 +732,7 @@
         "hangTime": 0.712,
         "speed": 36.6,
         "distance": 7.23
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 24151109770,
@@ -803,8 +862,7 @@
         "hangTime": 0.696,
         "speed": 40.3,
         "distance": 7.79
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 24062479125,
@@ -885,8 +943,7 @@
         "hangTime": 0.736,
         "speed": 37.3,
         "distance": 7.62
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 23888526484,
@@ -1016,8 +1073,7 @@
         "hangTime": 0.664,
         "speed": 42.2,
         "distance": 7.78
-      },
-      "maxSpeedTrail": "Gringo Durazno"
+      }
     },
     {
       "activityId": 23572668554,
@@ -1082,8 +1138,7 @@
         "hangTime": 0.528,
         "speed": 34.9,
         "distance": 5.11
-      },
-      "maxSpeedTrail": "XL"
+      }
     },
     {
       "activityId": 23469810507,
@@ -1122,8 +1177,7 @@
         "hangTime": 0.608,
         "speed": 43.1,
         "distance": 7.28
-      },
-      "segments": []
+      }
     },
     {
       "activityId": 23454959546,
@@ -1162,8 +1216,7 @@
         "hangTime": 0.88,
         "speed": 25.8,
         "distance": 6.31
-      },
-      "segments": []
+      }
     },
     {
       "activityId": 23398724203,
@@ -1244,8 +1297,7 @@
         "hangTime": 0.832,
         "speed": 38.9,
         "distance": 8.99
-      },
-      "maxSpeedTrail": "Lomo Vetado"
+      }
     },
     {
       "activityId": 23366568095,
@@ -2501,19 +2553,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 23.746875762939453,
-    "avgFlow": 3.7316062450408936,
-    "jumpCount": 5,
-    "waterEstimated": 610.0,
-    "avgRespirationRate": null,
-    "trainingEffect": 0.0,
-    "anaerobicTrainingEffect": 0.0,
-    "trainingEffectLabel": "UNKNOWN",
-    "activityTrainingLoad": 0.3488006591796875,
+    "grit": 71.31562805175781,
+    "avgFlow": 3.42073392868042,
+    "jumpCount": 11,
+    "waterEstimated": 987.0,
+    "avgRespirationRate": 23.600000381469727,
+    "trainingEffect": 3.0999999046325684,
+    "anaerobicTrainingEffect": 1.600000023841858,
+    "trainingEffectLabel": "AEROBIC_BASE",
+    "activityTrainingLoad": 78.79879760742188,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 23,
-    "eBikeBatteryRemaining": 67,
+    "eBikeBatteryUsage": 69,
+    "eBikeBatteryRemaining": 22,
     "locationName": "Vitacura",
-    "maxSpeed": 10.048999786376953
+    "maxSpeed": 12.381999969482422
   }
 }
