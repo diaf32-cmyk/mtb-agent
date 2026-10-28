@@ -1,6 +1,72 @@
 {
-  "lastSync": "2026-10-24T13:55:10.797981",
+  "lastSync": "2026-10-28T13:16:51.540714",
   "activities": [
+    {
+      "activityId": 24882056055,
+      "activityName": "Guay guay ",
+      "startTimeLocal": "2026-10-28T08:23:26.0",
+      "distance": 29624.9,
+      "duration": 11103.382,
+      "movingDuration": 8579.0,
+      "elevationGain": 1372.0,
+      "elevationLoss": 1375.0,
+      "avgSpeed": 2.6679999828338623,
+      "maxSpeed": 13.744000434875488,
+      "avgHR": 133.0,
+      "maxHR": 163.0,
+      "calories": 1468.0,
+      "avgTemperature": 22.34647041980112,
+      "locationName": "Colina",
+      "mtbDynamics": {
+        "grit": 143.7234344482422,
+        "avgFlow": 4.146451950073242,
+        "jumpCount": 35,
+        "waterEstimated": 2055.0,
+        "avgRespirationRate": 28.729999542236328,
+        "trainingEffect": 4.800000190734863,
+        "anaerobicTrainingEffect": 2.4000000953674316,
+        "trainingEffectLabel": "TEMPO",
+        "activityTrainingLoad": 210.82940673828125,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 78,
+        "eBikeBatteryRemaining": 22,
+        "locationName": "Colina",
+        "maxSpeed": 13.744000434875488
+      },
+      "segments": [
+        {
+          "name": "Bosque Grande",
+          "seconds": 162.0,
+          "passes": 2,
+          "dist_m": 1243,
+          "start_t": 1793202552.0,
+          "end_t": 1793202714.0
+        },
+        {
+          "name": "La Vaca",
+          "seconds": 149.0,
+          "passes": 1,
+          "dist_m": 1201,
+          "start_t": 1793206160.0,
+          "end_t": 1793206309.0
+        },
+        {
+          "name": "Minero",
+          "seconds": 162.0,
+          "passes": 1,
+          "dist_m": 1090,
+          "start_t": 1793207008.0,
+          "end_t": 1793207170.0
+        }
+      ],
+      "maxSpeedTrail": "Minero",
+      "bestJump": {
+        "score": 121,
+        "hangTime": 0.552,
+        "speed": 36.5,
+        "distance": 5.59
+      }
+    },
     {
       "activityId": 24837493787,
       "activityName": "Sancri ",
@@ -216,18 +282,8 @@
       "activityId": 24688029871,
       "activityName": "\ud83c\udf51",
       "startTimeLocal": "2026-10-11T10:04:55.0",
-      "distance": 13441.17,
-      "duration": 4468.444,
-      "movingDuration": 3550.0,
+      "distance": 13441.169921875,
       "elevationGain": 515.0,
-      "elevationLoss": 515.0,
-      "avgSpeed": 3.007999897003174,
-      "maxSpeed": 11.942999839782715,
-      "avgHR": 128.0,
-      "maxHR": 158.0,
-      "calories": 606.0,
-      "avgTemperature": 20.337755146809382,
-      "locationName": "Lo Barnechea",
       "mtbDynamics": {
         "grit": 61.298439025878906,
         "avgFlow": 3.96657133102417,
@@ -270,7 +326,16 @@
           "end_t": 1791737552.0
         }
       ],
-      "maxSpeedTrail": "La Virgen",
+      "maxSpeed": 11.942999839782715,
+      "avgSpeed": 3.007999897003174,
+      "elevationLoss": 515.0,
+      "duration": 4468.444,
+      "movingDuration": 3550.0,
+      "avgHR": 128.0,
+      "maxHR": 158.0,
+      "calories": 606.0,
+      "avgTemperature": 20.337755146809382,
+      "locationName": "Lo Barnechea",
       "bestJump": {
         "score": 153,
         "hangTime": 0.688,
@@ -2631,19 +2696,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 56.88984298706055,
-    "avgFlow": 4.820536136627197,
-    "jumpCount": 20,
-    "waterEstimated": 937.0,
-    "avgRespirationRate": 26.200000762939453,
-    "trainingEffect": 3.0999999046325684,
-    "anaerobicTrainingEffect": 1.5,
-    "trainingEffectLabel": "AEROBIC_BASE",
-    "activityTrainingLoad": 76.17427062988281,
+    "grit": 143.7234344482422,
+    "avgFlow": 4.146451950073242,
+    "jumpCount": 35,
+    "waterEstimated": 2055.0,
+    "avgRespirationRate": 28.729999542236328,
+    "trainingEffect": 4.800000190734863,
+    "anaerobicTrainingEffect": 2.4000000953674316,
+    "trainingEffectLabel": "TEMPO",
+    "activityTrainingLoad": 210.82940673828125,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 33,
-    "eBikeBatteryRemaining": 60,
-    "locationName": "Vitacura",
-    "maxSpeed": 10.133000373840332
+    "eBikeBatteryUsage": 78,
+    "eBikeBatteryRemaining": 22,
+    "locationName": "Colina",
+    "maxSpeed": 13.744000434875488
   }
 }
