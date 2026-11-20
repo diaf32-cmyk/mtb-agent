@@ -1,6 +1,80 @@
 {
-  "lastSync": "2026-11-14T13:54:53.873244",
+  "lastSync": "2026-11-20T14:52:35.171269",
   "activities": [
+    {
+      "activityId": 25142860669,
+      "activityName": "\ud83c\udf51",
+      "startTimeLocal": "2026-11-20T09:42:23.0",
+      "distance": 18445.18,
+      "duration": 9630.676,
+      "movingDuration": 5026.0,
+      "elevationGain": 817.0,
+      "elevationLoss": 836.0,
+      "avgSpeed": 1.9149999618530273,
+      "maxSpeed": 12.998000144958496,
+      "avgHR": 119.0,
+      "maxHR": 164.0,
+      "calories": 1008.0,
+      "avgTemperature": 23.396974709148598,
+      "locationName": "Lo Barnechea",
+      "mtbDynamics": {
+        "grit": 87.7734375,
+        "avgFlow": 4.439182758331299,
+        "jumpCount": 61,
+        "waterEstimated": 1629.0,
+        "avgRespirationRate": 24.93000030517578,
+        "trainingEffect": 3.200000047683716,
+        "anaerobicTrainingEffect": 2.200000047683716,
+        "trainingEffectLabel": "AEROBIC_BASE",
+        "activityTrainingLoad": 92.73777770996094,
+        "avgEbikeAssistLevelPercent": 0.0,
+        "eBikeBatteryUsage": 45,
+        "eBikeBatteryRemaining": 53,
+        "locationName": "Lo Barnechea",
+        "maxSpeed": 12.998000144958496
+      },
+      "segments": [
+        {
+          "name": "Gringo Durazno",
+          "seconds": 342.0,
+          "passes": 1,
+          "dist_m": 2387,
+          "start_t": 1795192723.0,
+          "end_t": 1795193065.0
+        },
+        {
+          "name": "Mampato Durazno",
+          "seconds": 96.0,
+          "passes": 1,
+          "dist_m": 796,
+          "start_t": 1795197103.0,
+          "end_t": 1795197199.0
+        },
+        {
+          "name": "Parecero",
+          "seconds": 80.0,
+          "passes": 1,
+          "dist_m": 673,
+          "start_t": 1795197577.0,
+          "end_t": 1795197657.0
+        },
+        {
+          "name": "La Virgen",
+          "seconds": 450.0,
+          "passes": 1,
+          "dist_m": 3356,
+          "start_t": 1795196259.0,
+          "end_t": 1795196709.0
+        }
+      ],
+      "maxSpeedTrail": "Gringo Durazno",
+      "bestJump": {
+        "score": 155,
+        "hangTime": 0.704,
+        "speed": 37.9,
+        "distance": 7.41
+      }
+    },
     {
       "activityId": 25078565496,
       "activityName": "\ud83c\udf51",
@@ -2824,19 +2898,19 @@
     }
   ],
   "latestDynamics": {
-    "grit": 87.8531265258789,
-    "avgFlow": 4.425032138824463,
-    "jumpCount": 62,
-    "waterEstimated": 1784.0,
-    "avgRespirationRate": 27.709999084472656,
-    "trainingEffect": 4.300000190734863,
-    "anaerobicTrainingEffect": 2.700000047683716,
-    "trainingEffectLabel": "TEMPO",
-    "activityTrainingLoad": 187.81578063964844,
+    "grit": 87.7734375,
+    "avgFlow": 4.439182758331299,
+    "jumpCount": 61,
+    "waterEstimated": 1629.0,
+    "avgRespirationRate": 24.93000030517578,
+    "trainingEffect": 3.200000047683716,
+    "anaerobicTrainingEffect": 2.200000047683716,
+    "trainingEffectLabel": "AEROBIC_BASE",
+    "activityTrainingLoad": 92.73777770996094,
     "avgEbikeAssistLevelPercent": 0.0,
-    "eBikeBatteryUsage": 78,
-    "eBikeBatteryRemaining": 20,
+    "eBikeBatteryUsage": 45,
+    "eBikeBatteryRemaining": 53,
     "locationName": "Lo Barnechea",
-    "maxSpeed": 13.9399995803833
+    "maxSpeed": 12.998000144958496
   }
 }
